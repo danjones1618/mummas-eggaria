@@ -23,14 +23,10 @@ class StartupScene extends Phaser.Scene
 
     create()
     {
-        var graphics = this.add.graphics()
-        graphics.fillStyle(0xccf5ff, 1)
-        graphics.fillRect(0, 0, this.game.config.width, this.game.config.height)
+        //var graphics = this.add.graphics()
+        //graphics.fillStyle(0xccf5ff, 1)
+        //graphics.fillRect(0, 0, this.game.config.width, this.game.config.height)
 
-        this.scene.add("OrderScene", OrderScene)
-        this.scene.add("PlatingScene", PlatingScene)
-        this.scene.add("CookingScene", CookingScene)
-
-        this.scene.start("OrderScene", this.state)
+        this.scene.launch("OrderScene", this.state)
     }
 }

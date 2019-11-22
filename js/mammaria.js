@@ -22,8 +22,8 @@ var config =
             }
         }
     },
-    scene: StartupScene,
-    disableContextMenu: true,
+    scene: [StartupScene, OrderScene, PlatingScene, CookingScene],
+    disableContextMenu: true
 }
 
 var game = new Phaser.Game(config)

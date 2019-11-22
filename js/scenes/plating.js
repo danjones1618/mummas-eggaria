@@ -6,6 +6,11 @@ class PlatingScene extends Phaser.Scene
         super({ key: "PlatingScene" , active: true})
     }
 
+    init(state)
+    {
+        this.state = state
+    }
+
     preload()
     {
         

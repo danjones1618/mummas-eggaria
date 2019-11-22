@@ -6,6 +6,11 @@ class CookingScene extends Phaser.Scene
         super({ key: "CookingScene" , active: true})
     }
 
+    init(state)
+    {
+        this.state = state
+    }
+
     preload()
     {
         
