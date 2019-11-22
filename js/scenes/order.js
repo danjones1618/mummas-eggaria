@@ -8,23 +8,34 @@ class OrderScene extends Phaser.Scene
 
     init(state)
     {
+        console.log("order::init")
         this.state = state
-        createOrderSprites()
     }
 
     preload()
     {
-        //this.load.image("order-scene-background-res", "/res/order_scene.png")
+        console.log("order::init")
+        this.load.image("main_background", "/res/scenes/main_scene.png")
+        //this.cameras.default
     }
 
     create()
     {
-        var graphics = this.add.graphics()
-        graphics.fillStyle(0xaaccff, 1)
-        graphics.fillRect(0, 0, this.game.config.width, this.game.config.height)
-        graphics.fillStyle(0x663300, 1)
-        var orderMenuHeight = this.game.config.height / 3
-        graphics.fillRect(0, this.game.config.height - orderMenuHeight, this.game.config.width, orderMenuHeight)
+        console.log("order::init")
+        //this.physics.startSystem(Phaser.Physics.ARCADE)
+        //var backgroundImage = this.cache.getImage("main_background")
+        this.background = this.add.tileSprite(
+            0, 0, //x, y
+            640, 480*3, //w, h
+            "main_background"
+        )
+        this.cameras.default.scrollY = 0.5
+    }
+
+    // called every frame
+    update()
+    {
+        
     }
 
     createOrderSprites()

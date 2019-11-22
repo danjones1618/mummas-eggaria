@@ -18,11 +18,12 @@ var config =
         {
             gravity:
             {
-                y: 0
+                y: 0,
+                x: 0
             }
         }
     },
-    scene: [StartupScene, OrderScene, PlatingScene, CookingScene],
+    scene: OrderScene,
     disableContextMenu: true
 }
 

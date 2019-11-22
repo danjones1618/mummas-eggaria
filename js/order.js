@@ -12,7 +12,7 @@ const EggType =
     OMELETTE: 2,
     SCRAMBLED: 3,
     // ALL is used when generating random ones
-    ALL: [EggType.FRIED, EggType.OMELETTE, EggType.SCRAMBLED]
+    //ALL: [EggType.FRIED, EggType.OMELETTE, EggType.SCRAMBLED]
 }
 
 const Toppings =
@@ -23,7 +23,7 @@ const Toppings =
     TOMATOES: 4,
     SLICED_BREAD: 5,
     KETCHUP: 6,
-    ALL: [Toppings.LETTUCE, Toppings.RED_ONION, Toppings.PEPPERS, Toppings.TOMATOES, Toppings.SLICED_BREAD, Toppings.KETCHUP]
+    //ALL: [Toppings.LETTUCE, Toppings.RED_ONION, Toppings.PEPPERS, Toppings.TOMATOES, Toppings.SLICED_BREAD, Toppings.KETCHUP]
 }
 
 class Order

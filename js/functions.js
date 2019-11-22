@@ -1,11 +1,11 @@
 // all functions which don't have their own places live here
-getRandomElementFromArray(array)
+function getRandomElementFromArray(array)
 {
     return array[Math.floor(Math.random() * array.length)]
 }
 
 // function to create a new order from a new customer
-createNewOrder()
+function createNewOrder()
 {
     // get a random type
     type = getRandomElementFromArray(EggType)
