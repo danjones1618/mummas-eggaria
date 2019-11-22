@@ -29,11 +29,11 @@ class OrderScene extends Phaser.Scene
         //this.physics.startSystem(Phaser.Physics.ARCADE)
         //var backgroundImage = this.cache.getImage("main_background")
         this.background = this.add.sprite(
-            this.worldWidth / 2, this.worldHeight / 2, //x, y
+            0, 0, //x, y
             "main_background"
-        )
+        ).setOrigin(0)
 
-        this.cameras.default.setViewport(0, 0, 640, 480*3)
+        this.cameras.main.setBounds(0, 0, this.worldWidth, this.worldHeight)
 
         this.createNavButtons()
     }
@@ -43,7 +43,29 @@ class OrderScene extends Phaser.Scene
         this.navArrowScale = 2
         this.arrowsClicked = [false, false, false, false]
 
-        this.createNavArrow(0, 180, this.viewportWidth - 40, this.viewportHeight - 40, this.switchToPrep)
+        this.createNavArrow(0, 180,
+            this.viewportWidth - 40,
+            this.viewportHeight - 40,
+            "switchToPrep"
+        )
+
+        this.createNavArrow(1, 0,
+            this.viewportWidth - 40,
+            this.viewportHeight + 40,
+            "switchToOrder"
+        )
+
+        this.createNavArrow(2, 180,
+            this.viewportWidth - 40,
+            this.viewportHeight * 2 - 40,
+            "switchToCook"
+        )
+
+        this.createNavArrow(3, 0,
+            this.viewportWidth - 40,
+            this.viewportHeight * 2 + 40,
+            "switchToPrep"
+        )
     }
 
     createNavArrow(index, rotation, x, y, f)
@@ -63,7 +85,7 @@ class OrderScene extends Phaser.Scene
             if (this.arrowsClicked[index]) {
                 this.arrowsClicked[index] = false
                 arrow.setScale(this.navArrowScale)
-                f()
+                this[f]()
             }
         }).on("onpointerout", () => {
             if (this.arrowsClicked[index]) {
@@ -78,22 +100,24 @@ class OrderScene extends Phaser.Scene
     switchToOrder()
     {
         console.log("order::switchToOrder")
-        //this.cameras.default.setViewport(0, this.viewportHeight * 2, this.viewportWidth, this.viewportHeight)
-        this.cameras.default.scrollY = 500
+        this.cameras.main.setScroll(0, this.viewportHeight * 0)
     }
 
     switchToPrep()
     {
         console.log("order::switchToPrep")
+        //this.cameras.default.setViewport(0, this.viewportHeight * 2, this.viewportWidth, this.viewportHeight)
+        this.cameras.main.setScroll(0, this.viewportHeight * 1)
     }
 
     switchToCook()
     {
         console.log("order::switchToCook")
+        this.cameras.main.setScroll(0, this.viewportHeight * 2)
     }
 
     // called every frame
-    update()
+    update(time, delta)
     {
         //this.cameras.default.scrollY = 0.05
     }
