@@ -69,7 +69,9 @@ class OrderScene extends Phaser.Scene {
             "nav_arrow"
         )
 
-        arrow.setInteractive().setScale(this.navArrowScale).setAngle(rotation)
+        arrow.setInteractive({ useHandCursor: true })
+        .setScale(this.navArrowScale)
+        .setAngle(rotation)
         .on("pointerdown", () => {
             // clicked
             this.arrowsClicked[index] = true
