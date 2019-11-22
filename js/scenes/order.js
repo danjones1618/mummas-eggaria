@@ -1,4 +1,42 @@
 // order scene
+const OrderState =
+{
+    COMPLETE: 1,
+    COOKING: 2,
+    PLATING: 3,
+    NOT_STARTED: 4
+}
+
+const EggType =
+{
+    FRIED: 1,
+    OMELETTE: 2,
+    SCRAMBLED: 3,
+    // ALL is used when generating random ones
+    //ALL: [EggType.FRIED, EggType.OMELETTE, EggType.SCRAMBLED]
+}
+
+const Toppings = {
+	PEPPERS: 1,
+	HAM: 2,
+	CHEESE: 3,
+	RED_ONION: 4,
+	TOMATOES: 5,
+	MUSHROOM: 6,
+	//ALL: [Toppings.PEPPERS, Toppings.HAM, Toppings.CHEESE, Toppings.RED_ONION, Toppings.TOMATOES, Toppings.MUSHROOM]
+}
+
+const Salads =
+{
+    LETTUCE: 1,
+    RED_ONION: 2,
+    PEPPERS: 3,
+    TOMATOES: 4,
+    SLICED_BREAD: 5,
+    KETCHUP: 6,
+    //ALL: [Salads.LETTUCE, Salads.RED_ONION, Salads.PEPPERS, Salads.TOMATOES, Salads.SLICED_BREAD, Salads.KETCHUP]
+}
+
 class OrderScene extends Phaser.Scene {
     constructor() {
         super({ key: "OrderScene" })
@@ -116,5 +154,30 @@ class OrderScene extends Phaser.Scene {
 
     createOrderSprites() {
         // create sprites for all the orders
+    }
+
+    getRandomElementFromArray(array)
+    {
+        return array[Math.floor(Math.random() * array.length)]
+    }
+
+    // function to create a new order from a new customer
+    createNewOrder()
+    {
+        // get a random type
+        type = getRandomElementFromArray(EggType)
+        toppings = []
+        salads = []
+        // add 1-3 random toppings
+        for (var i = 0, r = Math.floor(Math.random() * 3 + 1); i < r; i++) {
+            toppings.push(getRandomElementFromArray(Toppings))
+        }
+        // add 1-3 random salads
+        for (var i = 0, r = Math.floor(Math.random() * 3 + 1); i < r; i++) {
+            salads.push(getRandomElementFromArray(Salads))
+        }
+
+        order = new Order(type, toppings, salads)
+        return order
     }
 }
