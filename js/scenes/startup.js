@@ -34,8 +34,8 @@ class StartupScene extends Phaser.Scene
         //To keep track of our pressed state
         var isPressed = false;
 
-        var title = this.add.sprite(this.game.config.width/2, this.game.config.height/2 - 64, 'splash')
-        var spr = this.add.sprite(this.game.config.width/2, this.game.config.height/2 + 64, 'defaultTexture').setInteractive();
+        var title = this.add.image(this.game.config.width/2, this.game.config.height/2 - 64, 'splash')
+        var spr = this.add.image(this.game.config.width/2, this.game.config.height/2 + 64, 'defaultTexture').setInteractive();
         spr.setScale(5)
         title.setScale(0.49)
 

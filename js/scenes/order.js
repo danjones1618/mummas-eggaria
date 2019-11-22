@@ -52,7 +52,7 @@ class OrderScene extends Phaser.Scene {
         // Create hob
         for (var x = startX; x <= startX + (32*3*this.hobScale); x+=(32*this.hobScale)) {
             for (var y = startY + startX; y <= startY + startX + (32*3*this.hobScale); y += (32*this.hobScale)){
-                this.add.sprite(x,y, "stove_off").setScale(2)
+                this.add.image(x,y, "stove_off").setScale(2)
                 this.createPan(x,y)
             }
         }
