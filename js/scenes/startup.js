@@ -27,7 +27,7 @@ class StartupScene extends Phaser.Scene
     create()
     {
         var graphics = this.add.graphics()
-        graphics.fillStyle(0xffa781, 1)
+        graphics.fillStyle(0xfa5353, 1)
         graphics.fillRect(0, 0, this.game.config.width, this.game.config.height)
 
         //this.scene.launch("OrderScene", this.state)
@@ -37,7 +37,7 @@ class StartupScene extends Phaser.Scene
         var title = this.add.sprite(this.game.config.width/2, this.game.config.height/2 - 64, 'splash')
         var spr = this.add.sprite(this.game.config.width/2, this.game.config.height/2 + 64, 'defaultTexture').setInteractive();
         spr.setScale(5)
-        title.setScale(0.45)
+        title.setScale(0.49)
 
         //Make the button change image when pressed
         spr.on('pointerdown', () => {
