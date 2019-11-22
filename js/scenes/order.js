@@ -9,6 +9,7 @@ class OrderScene extends Phaser.Scene
     init(state)
     {
         this.state = state
+        createOrderSprites()
     }
 
     preload()
@@ -24,5 +25,10 @@ class OrderScene extends Phaser.Scene
         graphics.fillStyle(0x663300, 1)
         var orderMenuHeight = this.game.config.height / 3
         graphics.fillRect(0, this.game.config.height - orderMenuHeight, this.game.config.width, orderMenuHeight)
+    }
+
+    createOrderSprites()
+    {
+        // create sprites for all the orders
     }
 }
