@@ -26,6 +26,41 @@ class OrderScene extends Phaser.Scene {
 
     preload() {
         console.log("order::init")
+
+        // create a progress bar
+        var width = 300
+        var height = 40
+        var margin = 5
+
+        var startX = this.viewportWidth / 2 - width / 2
+        var startY = this.viewportHeight / 2 - height / 2
+        var progressBox = this.add.graphics()
+        var progressBar = this.add.graphics()
+
+        progressBox.fillStyle(0x0000cc)
+        progressBar.fillStyle(0x4db8ff)
+        progressBox.fillRect(
+            startX, startY,
+            width, height
+        )
+
+        this.load.on("progress", (val) => {
+            // val is a percentage
+            progressBar.clear()
+            progressBar.fillStyle(0x4db8ff)
+            progressBar.fillRect(
+                startX + margin, startY + margin,
+                (width - (margin * 2)) * val, height - (margin * 2)
+            )
+            //console.log("loading::progress(" + val + ")")
+        })
+
+        this.load.on("complete", () => {
+            progressBar.destroy()
+            progressBox.destroy()
+            console.log("loading::complete")
+        })
+
         this.load.image("image_main_background", "/res/scenes/main_scene.png")
         this.load.image("image_nav_arrow", "/res/props/arrow.png")
         this.load.image("image_stove_off", "/res/props/hob_off.png")
@@ -120,7 +155,8 @@ class OrderScene extends Phaser.Scene {
     }
 
     createNavButtons() {
-        this.arrowsClicked = [false, false, false, false]
+        this.arrows = {}
+        this.arrows.arrowsClicked = [false, false, false, false]
 
         this.createNavArrow(0, 180,
             this.viewportWidth - 40,
@@ -159,17 +195,17 @@ class OrderScene extends Phaser.Scene {
         .setAngle(rotation)
         .on("pointerdown", () => {
             // clicked
-            this.arrowsClicked[index] = true
+            this.arrows.arrowsClicked[index] = true
             arrow.setScale(this.navArrowScale * 1.1)
         }).on("pointerup", () => {
-            if (this.arrowsClicked[index]) {
-                this.arrowsClicked[index] = false
+            if (this.arrows.arrowsClicked[index]) {
+                this.arrows.arrowsClicked[index] = false
                 arrow.setScale(this.navArrowScale)
                 this[f]()
             }
         }).on("onpointerout", () => {
-            if (this.arrowsClicked[index]) {
-                this.arrowsClicked[index] = false
+            if (this.arrows.arrowsClicked[index]) {
+                this.arrows.arrowsClicked[index] = false
                 arrow.setScale(this.navArrowScale)
             }
         })
@@ -205,7 +241,10 @@ class OrderScene extends Phaser.Scene {
 
         // create the sprite group
         group = this.add.group()
-        background = this.add.image()
+        background = this.add.image(
+            0, 0,
+            "image_order"
+        )
     }
 
     getRandomElementFromArray(array) {
