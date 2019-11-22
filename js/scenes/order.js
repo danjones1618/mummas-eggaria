@@ -3,7 +3,7 @@ class OrderScene extends Phaser.Scene
 {
     constructor()
     {
-        super({ key: "OrderScene" , active: true})
+        super({ key: "OrderScene" })
     }
 
     init(state)
@@ -24,18 +24,17 @@ class OrderScene extends Phaser.Scene
         console.log("order::init")
         //this.physics.startSystem(Phaser.Physics.ARCADE)
         //var backgroundImage = this.cache.getImage("main_background")
-        this.background = this.add.tileSprite(
+        this.background = this.add.sprite(
             0, 0, //x, y
-            640, 480*3, //w, h
             "main_background"
         )
-        this.cameras.default.scrollY = 0.5
     }
 
     // called every frame
     update()
     {
         
+        this.cameras.default.scrollY = 0.05
     }
 
     createOrderSprites()
