@@ -3,7 +3,7 @@ class PlatingScene extends Phaser.Scene
 {
     constructor()
     {
-        super()
+        super({ key: "PlatingScene" , active: true})
     }
 
     preload()
