@@ -10,12 +10,17 @@ function createNewOrder()
     // get a random type
     type = getRandomElementFromArray(EggType)
     toppings = []
+	salads = []
     // add 1-3 random toppings
     for (var i = 0, r = Math.floor(Math.random() * 3 + 1); i < r; i++) {
         toppings.push(getRandomElementFromArray(Toppings))
     }
+	// add 1-3 random salads
+    for (var i = 0, r = Math.floor(Math.random() * 3 + 1); i < r; i++) {
+        salads.push(getRandomElementFromArray(Salads))
+    }
 
-    order = new Order(type, toppings)
+    order = new Order(type, toppings, salads)
     return order
 }
 
