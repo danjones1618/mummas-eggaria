@@ -8,7 +8,7 @@ class OrderScene extends Phaser.Scene
 
     preload()
     {
-        
+        this.load.image("order-scene-background", "/res/order_scene.png")
     }
 
     create()
@@ -16,5 +16,18 @@ class OrderScene extends Phaser.Scene
         var graphics = this.add.graphics()
         graphics.fillStyle(0xccf5ff, 1)
         graphics.fillRect(0, 0, this.game.config.width, this.game.config.height)
+        graphics.fillStyle(0x663300, 1)
+        var orderMenuHeight = this.game.config.height / 3
+        graphics.fillRect(0, this.game.config.height - orderMenuHeight, this.game.config.width, orderMenuHeight)
+    }
+
+    renderOrders()
+    {
+
+    }
+
+    createOrder()
+    {
+
     }
 }
