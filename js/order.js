@@ -1,4 +1,4 @@
-var OrderState =
+const OrderState =
 {
     COMPLETE: 1,
     COOKING: 2,
@@ -6,28 +6,30 @@ var OrderState =
     NOT_STARTED: 4
 }
 
-var EggType =
+const EggType =
 {
     FRIED: 1,
     OMELETTE: 2,
-    SCRAMBLED: 3
+    SCRAMBLED: 3,
+    // ALL is used when generating random ones
+    ALL: [EggType.FRIED, EggType.OMELETTE, EggType.SCRAMBLED]
 }
 
-var Toppings =
+const Toppings =
 {
     LETTUCE: 1,
     RED_ONION: 2,
     PEPPERS: 3,
     TOMATOES: 4,
     SLICED_BREAD: 5,
-    KETCHUP: 6
+    KETCHUP: 6,
+    ALL: [Toppings.LETTUCE, Toppings.RED_ONION, Toppings.PEPPERS, Toppings.TOMATOES, Toppings.SLICED_BREAD, Toppings.KETCHUP]
 }
 
 class Order
 {
-    constructor(customer, type, toppings)
+    constructor(type, toppings)
     {
-        this.customer = customer
         this.type = type
         this.toppings = toppings
     }
