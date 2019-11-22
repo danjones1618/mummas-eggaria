@@ -3,7 +3,7 @@ class CookingScene extends Phaser.Scene
 {
     constructor()
     {
-        super()
+        super({ key: "CookingScene" , active: true})
     }
 
     preload()
