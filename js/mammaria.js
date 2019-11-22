@@ -4,8 +4,8 @@ var config =
 {
     type: Phaser.AUTO,
     parent: "content",
-    width: 1280,
-    height: 720,
+    width: 640,
+    height: 480,
     pixelArt: true,
     physics: {
         default: "arcade",
@@ -16,7 +16,10 @@ var config =
         }
     },
     scene: [
-        StartupScene
+        StartupScene,
+        OrderScene,
+        CookingScene,
+        PlatingScene
     ]
 }
 
