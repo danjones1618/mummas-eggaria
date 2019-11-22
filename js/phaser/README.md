@@ -1,0 +1,1 @@
+License for phaser.js is found in LICENSE.md
