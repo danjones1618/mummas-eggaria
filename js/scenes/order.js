@@ -17,6 +17,7 @@ class OrderScene extends Phaser.Scene
     {
         console.log("order::init")
         this.load.image("main_background", "/res/scenes/main_scene.png")
+        this.load.image("nav_arrow", "/res/props/arrow.png")
         //this.cameras.default
     }
 
@@ -31,12 +32,65 @@ class OrderScene extends Phaser.Scene
         )
 
         this.cameras.default.setViewport(0, 0, 640, 480*3)
+
+        this.createNavButtons()
+    }
+
+    createNavButtons()
+    {
+        this.navArrowScale = 2
+        this.arrowsClicked = [false, false, false, false]
+
+        this.createNavArrow(0, 180, this.worldWidth - 40, 40, this.switchToPrep)
+    }
+
+    createNavArrow(index, rotation, x, y, f)
+    {
+        // top arrow
+        var arrow = this.add.sprite(
+            x, y,
+            "nav_arrow"
+        )
+
+        arrow.setInteractive().setScale(this.navArrowScale).setAngle(rotation)
+        .on("pointerdown", () => {
+            // clicked
+            this.arrowsClicked[index] = true
+            arrow.setScale(this.navArrowScale * 1.1)
+        }).on("pointerup", () => {
+            if (this.arrowsClicked[index]) {
+                this.arrowsClicked[index] = false
+                arrow.setScale(this.navArrowScale)
+                f()
+            }
+        }).on("onpointerout", () => {
+            if (this.arrowsClicked[index]) {
+                this.arrowsClicked[index] = false
+                arrow.setScale(this.navArrowScale)
+            }
+        })
+
+        return arrow
+    }
+
+    switchToOrder()
+    {
+        console.log("order::switchToOrder")
+    }
+
+    switchToPrep()
+    {
+        console.log("order::switchToPrep")
+    }
+
+    switchToCook()
+    {
+        console.log("order::switchToCook")
     }
 
     // called every frame
     update()
     {
-        
         //this.cameras.default.scrollY = 0.05
     }
 
