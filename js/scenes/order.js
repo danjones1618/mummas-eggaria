@@ -6,10 +6,11 @@ class OrderScene extends Phaser.Scene
         super({ key: "OrderScene" })
     }
 
-    init(state)
+    init()
     {
         console.log("order::init")
-        this.state = state
+        this.worldWidth = 640
+        this.worldHeight = 480*3
     }
 
     preload()
@@ -25,16 +26,18 @@ class OrderScene extends Phaser.Scene
         //this.physics.startSystem(Phaser.Physics.ARCADE)
         //var backgroundImage = this.cache.getImage("main_background")
         this.background = this.add.sprite(
-            0, 0, //x, y
+            this.worldWidth / 2, this.worldHeight / 2, //x, y
             "main_background"
         )
+
+        this.cameras.default.setViewport(0, 0, 640, 480*3)
     }
 
     // called every frame
     update()
     {
         
-        this.cameras.default.scrollY = 0.05
+        //this.cameras.default.scrollY = 0.05
     }
 
     createOrderSprites()
