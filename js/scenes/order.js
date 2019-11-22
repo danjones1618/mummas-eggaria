@@ -1,41 +1,11 @@
 // order scene
-const OrderState =
-{
-    COMPLETE: 1,
-    COOKING: 2,
-    PLATING: 3,
-    NOT_STARTED: 4
-}
-
-const EggType =
-{
-    FRIED: 1,
-    OMELETTE: 2,
-    SCRAMBLED: 3,
-    // ALL is used when generating random ones
+const OrderState = {COMPLETE: 1, COOKING: 2, PLATING: 3, NOT_STARTED: 4,}
+const EggType ={FRIED: 1, OMELETTE: 2, SCRAMBLED: 3,}
+const Toppings = {PEPPERS: 1,HAM: 2,CHEESE: 3,RED_ONION: 4,TOMATOES: 5,MUSHROOM: 6,}
+const Salads = {LETTUCE: 1,RED_ONION: 2,PEPPERS: 3,TOMATOES: 4,SLICED_BREAD: 5,KETCHUP: 6,}
     //ALL: [EggType.FRIED, EggType.OMELETTE, EggType.SCRAMBLED]
-}
-
-const Toppings = {
-	PEPPERS: 1,
-	HAM: 2,
-	CHEESE: 3,
-	RED_ONION: 4,
-	TOMATOES: 5,
-	MUSHROOM: 6,
 	//ALL: [Toppings.PEPPERS, Toppings.HAM, Toppings.CHEESE, Toppings.RED_ONION, Toppings.TOMATOES, Toppings.MUSHROOM]
-}
-
-const Salads =
-{
-    LETTUCE: 1,
-    RED_ONION: 2,
-    PEPPERS: 3,
-    TOMATOES: 4,
-    SLICED_BREAD: 5,
-    KETCHUP: 6,
     //ALL: [Salads.LETTUCE, Salads.RED_ONION, Salads.PEPPERS, Salads.TOMATOES, Salads.SLICED_BREAD, Salads.KETCHUP]
-}
 
 class OrderScene extends Phaser.Scene {
     constructor() {
@@ -164,8 +134,7 @@ class OrderScene extends Phaser.Scene {
     }
 
     // called every frame
-    update(time, delta)
-    {
+    update(time, delta) {
         //this.cameras.default.scrollY = 0.05
     }
 
@@ -173,14 +142,12 @@ class OrderScene extends Phaser.Scene {
         // create sprites for all the orders
     }
 
-    getRandomElementFromArray(array)
-    {
+    getRandomElementFromArray(array) {
         return array[Math.floor(Math.random() * array.length)]
     }
 
     // function to create a new order from a new customer
-    createNewOrder()
-    {
+    createNewOrder() {
         // get a random type
         type = getRandomElementFromArray(EggType)
         toppings = []
