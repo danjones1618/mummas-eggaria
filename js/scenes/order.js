@@ -48,6 +48,8 @@ class OrderScene extends Phaser.Scene {
         this.worldHeight = 480*3
         this.viewportWidth = 640
         this.viewportHeight = 480
+        this.hobScale = 2
+        this.navArrowScale = 2
     }
 
     preload() {
@@ -78,9 +80,8 @@ class OrderScene extends Phaser.Scene {
         var startX = 100
         var startY = this.viewportHeight*2
         // Create hob
-        var hobScale = 2
-        for (var x = startX; x <= startX + (32*3*hobScale); x+=(32*hobScale)) {
-            for (var y = startY + startX; y <= startY + startX + (32*3*hobScale); y+= (32*hobScale)){
+        for (var x = startX; x <= startX + (32*3*this.hobScale); x+=(32*this.hobScale)) {
+            for (var y = startY + startX; y <= startY + startX + (32*3*this.hobScale); y += (32*this.hobScale)){
                 this.add.sprite(x,y, "stove_off").setScale(2)
                 this.createPan(x,y)
             }
@@ -93,7 +94,6 @@ class OrderScene extends Phaser.Scene {
     }
 
     createNavButtons() {
-        this.navArrowScale = 2
         this.arrowsClicked = [false, false, false, false]
 
         this.createNavArrow(0, 180,
