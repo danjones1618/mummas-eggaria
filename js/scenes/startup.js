@@ -27,6 +27,6 @@ class StartupScene extends Phaser.Scene
         //graphics.fillStyle(0xccf5ff, 1)
         //graphics.fillRect(0, 0, this.game.config.width, this.game.config.height)
 
-        this.scene.launch("OrderScene", this.state)
+        this.scene.start("OrderScene")
     }
 }
