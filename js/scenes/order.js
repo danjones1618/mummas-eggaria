@@ -27,30 +27,37 @@ class OrderScene extends Phaser.Scene {
         console.log("order::init")
 
         // create a progress bar
-        var progressBar = this.add.graphics()
-        var progressBox = this.add.graphics()
+        var width = 300
+        var height = 40
+        var margin = 5
 
-        progressBox.fillStyle(0xeeeeee)
-        progressBar.fillStyle(0xcccccc)
-        var width = 200
-        var height = 20
+        var startX = this.viewportWidth / 2 - width / 2
+        var startY = this.viewportHeight / 2 - height / 2
+        var progressBox = this.add.graphics()
+        var progressBar = this.add.graphics()
+
+        progressBox.fillStyle(0x0000cc)
+        progressBar.fillStyle(0x4db8ff)
         progressBox.fillRect(
-            this.viewportWidth / 2 - width / 2, this.viewportHeight / 2 - height / 2,
+            startX, startY,
             width, height
         )
 
         this.load.on("progress", (val) => {
             // val is a percentage
-            progressBox.clear()
-            progressBox.fillRect(
-                this.viewportHeight / 2 - width / 2 + 2, this.viewportHeight / 2 - height / 2 + 2,
-                (width - 4) * val, height - 4
+            progressBar.clear()
+            progressBar.fillStyle(0x4db8ff)
+            progressBar.fillRect(
+                startX + margin, startY + margin,
+                (width - (margin * 2)) * val, height - (margin * 2)
             )
+            //console.log("loading::progress(" + val + ")")
         })
 
         this.load.on("complete", () => {
-            progressBar.clear()
-            progressBox.clear()
+            progressBar.destroy()
+            progressBox.destroy()
+            console.log("loading::complete")
         })
 
         this.load.image("image_main_background", "/res/scenes/main_scene.png")
