@@ -53,6 +53,7 @@ class OrderScene extends Phaser.Scene {
         this.load.image("image_pan_scrambled", "/res/props/Pan_scrambled.gif")
         this.load.image("image_pan", "/res/props/Pan.gif")
         this.load.image("image_plate", "/res/props/plate.png")
+        //this.cameras.default
     }
 
     create() {
@@ -68,10 +69,18 @@ class OrderScene extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, this.worldWidth, this.worldHeight)
 
         this.createCookButtons()
+		this.createSaladButtons()
         this.createNavButtons()
-
-        this.initOrders()
+		
+		this.initOrders()
     }
+	
+	createSaladButtons(){
+		var plateRadius = 128
+		var startX = plateRadius + 100
+		var startY = this.viewportHeight + plateRadius + 100
+		this.add.image(startX, startY, "image_plate")
+	}
 
     createCookButtons(){
         var startX = 100
@@ -86,6 +95,7 @@ class OrderScene extends Phaser.Scene {
     }
 
     createPan(x, y){
+        this.pans = 
         this.add.sprite(x,y, "image_pan").setScale(this.hobSizeScale)
     }
 
