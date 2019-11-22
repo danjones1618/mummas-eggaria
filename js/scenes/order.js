@@ -1,13 +1,10 @@
 // order scene
-class OrderScene extends Phaser.Scene
-{
-    constructor()
-    {
+class OrderScene extends Phaser.Scene {
+    constructor() {
         super({ key: "OrderScene" })
     }
 
-    init()
-    {
+    init() {
         console.log("order::init")
         this.worldWidth = 640
         this.worldHeight = 480*3
@@ -15,16 +12,14 @@ class OrderScene extends Phaser.Scene
         this.viewportHeight = 480
     }
 
-    preload()
-    {
+    preload() {
         console.log("order::init")
         this.load.image("main_background", "/res/scenes/main_scene.png")
         this.load.image("nav_arrow", "/res/props/arrow.png")
         //this.cameras.default
     }
 
-    create()
-    {
+    create() {
         console.log("order::init")
         //this.physics.startSystem(Phaser.Physics.ARCADE)
         //var backgroundImage = this.cache.getImage("main_background")
@@ -38,16 +33,14 @@ class OrderScene extends Phaser.Scene
         this.createNavButtons()
     }
 
-    createNavButtons()
-    {
+    createNavButtons() {
         this.navArrowScale = 2
         this.arrowsClicked = [false, false, false, false]
 
         this.createNavArrow(0, 180, this.viewportWidth - 40, this.viewportHeight - 40, this.switchToPrep)
     }
 
-    createNavArrow(index, rotation, x, y, f)
-    {
+    createNavArrow(index, rotation, x, y, f) {
         // top arrow
         var arrow = this.add.sprite(
             x, y,
@@ -75,31 +68,26 @@ class OrderScene extends Phaser.Scene
         return arrow
     }
 
-    switchToOrder()
-    {
+    switchToOrder() {
         console.log("order::switchToOrder")
         //this.cameras.default.setViewport(0, this.viewportHeight * 2, this.viewportWidth, this.viewportHeight)
         this.cameras.default.scrollY = 500
     }
 
-    switchToPrep()
-    {
+    switchToPrep() {
         console.log("order::switchToPrep")
     }
 
-    switchToCook()
-    {
+    switchToCook() {
         console.log("order::switchToCook")
     }
 
     // called every frame
-    update()
-    {
+    update() {
         //this.cameras.default.scrollY = 0.05
     }
 
-    createOrderSprites()
-    {
+    createOrderSprites() {
         // create sprites for all the orders
     }
 }
