@@ -1,6 +1,6 @@
-body {
+  body {
     background-color:rgb(94, 137, 174);
-}
+  }
   
   h1 {
     color: white;
@@ -20,13 +20,20 @@ body {
   }
 
   canvas {
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: auto;
-    margin-right: auto;
+    padding: 0;
+    margin: auto;
     display: block;
+<<<<<<< HEAD
 }
 
 .content{
   margin-top: 100px;
 }
+=======
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+>>>>>>> 2044b2e791f96210200929372b14d99c7f3517eb

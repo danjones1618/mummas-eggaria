@@ -11,16 +11,26 @@ class StartupScene extends Phaser.Scene
         //this.load.image("startup-logo", "/res/")
     }
 
+    init()
+    {
+        // this is the global game "state"
+        this.state =
+        {
+            orders: [],
+            customers: []
+        }
+    }
+
     create()
     {
         var graphics = this.add.graphics()
         graphics.fillStyle(0xccf5ff, 1)
         graphics.fillRect(0, 0, this.game.config.width, this.game.config.height)
 
-        this.scene.add("OrderScene", OrderScene, true)
-        this.scene.add("PlatingScene", PlatingScene, true)
-        this.scene.add("CookingScene", CookingScene, true)
+        this.scene.add("OrderScene", OrderScene)
+        this.scene.add("PlatingScene", PlatingScene)
+        this.scene.add("CookingScene", CookingScene)
 
-        this.scene.launch("OrderScene")
+        this.scene.start("OrderScene", this.state)
     }
 }
