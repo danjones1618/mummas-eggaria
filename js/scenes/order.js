@@ -14,7 +14,7 @@ class OrderScene extends Phaser.Scene
     create()
     {
         var graphics = this.add.graphics()
-        graphics.fillStyle(0xccf5ff, 1)
+        graphics.fillStyle(0xaaccff, 1)
         graphics.fillRect(0, 0, this.game.config.width, this.game.config.height)
         graphics.fillStyle(0x663300, 1)
         var orderMenuHeight = this.game.config.height / 3
