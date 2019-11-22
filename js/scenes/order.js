@@ -16,6 +16,8 @@ class OrderScene extends Phaser.Scene {
         console.log("order::init")
         this.load.image("main_background", "/res/scenes/main_scene.png")
         this.load.image("nav_arrow", "/res/props/arrow.png")
+        this.load.image("stove_off", "/res/props/hob_off.png")
+        this.load.image("pan", "/res/props/Pan.gif")
         //this.cameras.default
     }
 
@@ -30,7 +32,26 @@ class OrderScene extends Phaser.Scene {
 
         this.cameras.main.setBounds(0, 0, this.worldWidth, this.worldHeight)
 
+        this.createCookButtons()
         this.createNavButtons()
+    }
+
+    createCookButtons(){
+        var startX = 100
+        var startY = this.viewportHeight*2
+        // Create hob
+        var hobScale = 2
+        for (var x = startX; x <= startX + (32*3*hobScale); x+=(32*hobScale)) {
+            for (var y = startY + startX; y <= startY + startX + (32*3*hobScale); y+= (32*hobScale)){
+                this.add.sprite(x,y, "stove_off").setScale(2)
+                this.createPan(x,y)
+            }
+        }
+    }
+
+    createPan(x, y){
+        this.pans = 
+        this.add.sprite(x,y, "pan").setScale(2)
     }
 
     createNavButtons() {
@@ -91,18 +112,14 @@ class OrderScene extends Phaser.Scene {
     }
 
     switchToOrder() {
-        console.log("order::switchToOrder")
         this.cameras.main.setScroll(0, this.viewportHeight * 0)
     }
 
     switchToPrep() {
-        console.log("order::switchToPrep")
-        //this.cameras.default.setViewport(0, this.viewportHeight * 2, this.viewportWidth, this.viewportHeight)
         this.cameras.main.setScroll(0, this.viewportHeight * 1)
     }
 
     switchToCook() {
-        console.log("order::switchToCook")
         this.cameras.main.setScroll(0, this.viewportHeight * 2)
     }
 
