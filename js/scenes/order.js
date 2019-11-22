@@ -3,7 +3,7 @@ class OrderScene extends Phaser.Scene
 {
     constructor()
     {
-        super()
+        super({ key: "OrderScene" , active: true})
     }
 
     preload()
