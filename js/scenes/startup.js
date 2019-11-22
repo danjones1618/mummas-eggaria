@@ -30,7 +30,6 @@ class StartupScene extends Phaser.Scene
         graphics.fillStyle(0xffa781, 1)
         graphics.fillRect(0, 0, this.game.config.width, this.game.config.height)
 
-<<<<<<< HEAD
         //this.scene.launch("OrderScene", this.state)
         //To keep track of our pressed state
         var isPressed = false;
@@ -62,17 +61,14 @@ class StartupScene extends Phaser.Scene
         * Assuming "this" is the context of the current scene.
         */ 
         this.input.on('pointerup', () => {
-            // if(!isPressed)
-            //     //this.scene.start("OrderScene", this.state)
-            // else {
-            //     isPressed = false;
-            //     spr.setTexture('defaultTexture');
-            // }
+            if(isPressed)
+                this.scene.start("OrderScene", this.state)
+            else {
+                isPressed = false;
+                spr.setTexture('defaultTexture');
+            }
         });
                 
             
-=======
-        this.scene.start("OrderScene")
->>>>>>> 793d7e4a778ebb47fd289e474cbdf9d71df0b8cd
     }
 }
