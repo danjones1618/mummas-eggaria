@@ -14,8 +14,8 @@ class StartupScene extends Phaser.Scene
     create()
     {
         var graphics = this.add.graphics()
-        graphics.fillStyle(0xeef5ff, 1)
-        graphics.fillRect(0, 0, this.game.world.width, this.game.world.height)
+        graphics.fillStyle(0xccf5ff, 1)
+        graphics.fillRect(0, 0, this.game.config.width, this.game.config.height)
 
         this.scene.add("OrderScene", OrderScene, true)
         this.scene.add("PlatingScene", PlatingScene, true)
