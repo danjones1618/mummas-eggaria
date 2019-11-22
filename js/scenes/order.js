@@ -25,26 +25,52 @@ class OrderScene extends Phaser.Scene {
 
     preload() {
         console.log("order::init")
-        this.load.image("main_background", "/res/scenes/main_scene.png")
-        this.load.image("nav_arrow", "/res/props/arrow.png")
-        this.load.image("stove_off", "/res/props/hob_off.png")
-        this.load.image("pan", "/res/props/Pan.gif")
-        //this.cameras.default
+        this.load.image("image_main_background", "/res/scenes/main_scene.png")
+        this.load.image("image_nav_arrow", "/res/props/arrow.png")
+        this.load.image("image_stove_off", "/res/props/hob_off.png")
+        this.load.image("image_pan", "/res/props/Pan.gif")
+        this.load.image("image_spatula", "/res/props/Spatula.gif")
+        this.load.image("image_whisk", "/res/cursors/Whisk.gif")
+        this.load.image("image_spatula", "/res/cursors/Spatula.gif")
+        this.load.image("image_bread", "/res/ingredients/Bread.gif")
+        this.load.image("image_cheese", "/res/ingredients/Cheese.gif")
+        this.load.image("image_egg", "/res/ingredients/egg.png")
+        this.load.image("image_ham", "/res/ingredients/Ham.gif")
+        this.load.image("image_ketchup", "/res/ingredients/Ketchup.gif")
+        this.load.image("image_lettuce", "/res/ingredients/Lettuce.gif")
+        this.load.image("image_mushrooms", "/res/ingredients/Mushrooms.gif")
+        this.load.image("image_peppers", "/res/ingredients/Peppers.gif")
+        this.load.image("image_onion", "/res/ingredients/Red_onion.gif")
+        this.load.image("image_tomato", "/res/ingredients/Tomato_slice.gif")
+        this.load.image("image_egg_fried", "/res/props/Egg_fried.gif")
+        this.load.image("image_egg_omelette", "/res/props/Egg_omlette.gif")
+        this.load.image("image_egg_scrambled_piece", "/res/props/Egg_scrambled_piece.gif")
+        this.load.image("image_egg_scrambled_plate", "/res/props/Egg_scrambled_plate.gif")
+        this.load.image("image_hob_on", "/res/props/hob_on.png")
+        this.load.image("image_hob_off", "/res/props/hob_off.png")
+        this.load.image("image_order", "/res/props/Order.gif")
+        this.load.image("image_pan_omelette", "/res/props/Pan_omlette.gif")
+        this.load.image("image_pan_scrambled", "/res/props/Pan_scrambled.gif")
+        this.load.image("image_pan", "/res/props/Pan.gif")
+        this.load.image("image_plate", "/res/props/plate.png")
     }
 
     create() {
         console.log("order::init")
         //this.physics.startSystem(Phaser.Physics.ARCADE)
         //var backgroundImage = this.cache.getImage("main_background")
-        this.background = this.add.sprite(
+        this.res = {}
+        this.res.background = this.add.sprite(
             0, 0, //x, y
-            "main_background"
+            "image_main_background"
         ).setOrigin(0)
 
         this.cameras.main.setBounds(0, 0, this.worldWidth, this.worldHeight)
 
         this.createCookButtons()
         this.createNavButtons()
+
+        this.initOrders()
     }
 
     createCookButtons(){
@@ -53,15 +79,14 @@ class OrderScene extends Phaser.Scene {
         // Create hob
         for (var x = 1; x <= 3; x++) {
             for (var y = 1; y <= 3; y++){
-                this.add.image(startX + x * this.hobScale, startY + y * this.hobScale, "stove_off").setScale(this.hobSizeScale)
+                this.add.image(startX + x * this.hobScale, startY + y * this.hobScale, "image_stove_off").setScale(this.hobSizeScale)
                 this.createPan(startX + x * this.hobScale, startY + y * this.hobScale)
             }
         }
     }
 
     createPan(x, y){
-        this.pans = 
-        this.add.sprite(x,y, "pan").setScale(this.hobSizeScale)
+        this.add.sprite(x,y, "image_pan").setScale(this.hobSizeScale)
     }
 
     createNavButtons() {
@@ -94,9 +119,9 @@ class OrderScene extends Phaser.Scene {
 
     createNavArrow(index, rotation, x, y, f) {
         // top arrow
-        var arrow = this.add.sprite(
+        var arrow = this.add.image(
             x, y,
-            "nav_arrow"
+            "image_nav_arrow"
         )
 
         arrow.setInteractive({ useHandCursor: true })
@@ -139,8 +164,18 @@ class OrderScene extends Phaser.Scene {
         //this.cameras.default.scrollY = 0.05
     }
 
-    createOrderSprites() {
-        // create sprites for all the orders
+    initOrders()
+    {
+        this.orders = []
+    }
+
+    onOrderCreated(order)
+    {
+        this.orders.push(order)
+
+        // create the sprite group
+        group = this.add.group()
+        background = this.add.image()
     }
 
     getRandomElementFromArray(array) {
@@ -163,6 +198,6 @@ class OrderScene extends Phaser.Scene {
         }
 
         order = new Order(type, toppings, salads)
-        return order
+        this.onOrderCreated(order)
     }
 }
