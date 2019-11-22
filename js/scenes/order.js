@@ -20,6 +20,7 @@ class OrderScene extends Phaser.Scene {
         this.viewportHeight = 480
         this.hobScale = 3 * 32
         this.hobSizeScale = 3
+		this.saladScale = 3
         this.navArrowScale = 2
     }
 
@@ -79,7 +80,26 @@ class OrderScene extends Phaser.Scene {
 		var plateRadius = 128
 		var startX = plateRadius + 100
 		var startY = this.viewportHeight + plateRadius + 100
+		var saladXOffset = 100
+		var saladYOffset = 75
 		this.add.image(startX, startY, "image_plate")
+		//this.add.image(saladOffset, )
+		const saladImages = [
+			"image_lettuce",
+			"image_onion",
+			"image_peppers",
+			"image_tomato",
+			"image_bread",
+			"image_ketchup"
+		]
+		for (var i = 0; i < saladImages.length; i++){
+			this.add.image((plateRadius * 2) + 25 + (saladXOffset * ((i %2) + 1)),
+			this.viewportHeight + (saladYOffset * ((i % 3) + 1)),
+			saladImages[i])
+			.setScale(this.saladScale)
+		}
+		
+		
 	}
 
     createCookButtons(){
