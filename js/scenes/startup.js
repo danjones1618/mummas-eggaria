@@ -8,11 +8,11 @@ class StartupScene extends Phaser.Scene
 
     preload()
     {
-
+        //this.load.image("startup-logo", "/res/")
     }
 
     create()
     {
-        
+        this.scene.start("OrderScene")
     }
 }
