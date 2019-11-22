@@ -6,7 +6,10 @@ var config =
     parent: "content",
     width: 640,
     height: 480,
-    pixelArt: true,
+    render: {
+        pixelArt: true,
+        powerPreference: "high-performance"
+    },
     physics: {
         default: "arcade",
         arcade: {
@@ -15,9 +18,8 @@ var config =
             }
         }
     },
-    scene: [
-        StartupScene
-    ]
+    scene: StartupScene,
+    disableContextMenu: true,
 }
 
 var game = new Phaser.Game(config)
