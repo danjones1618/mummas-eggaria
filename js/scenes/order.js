@@ -1,4 +1,12 @@
 // order scene
+const OrderState = {COMPLETE: 1, COOKING: 2, PLATING: 3, NOT_STARTED: 4,}
+const EggType ={FRIED: 1, OMELETTE: 2, SCRAMBLED: 3,}
+const Toppings = {PEPPERS: 1,HAM: 2,CHEESE: 3,RED_ONION: 4,TOMATOES: 5,MUSHROOM: 6,}
+const Salads = {LETTUCE: 1,RED_ONION: 2,PEPPERS: 3,TOMATOES: 4,SLICED_BREAD: 5,KETCHUP: 6,}
+    //ALL: [EggType.FRIED, EggType.OMELETTE, EggType.SCRAMBLED]
+	//ALL: [Toppings.PEPPERS, Toppings.HAM, Toppings.CHEESE, Toppings.RED_ONION, Toppings.TOMATOES, Toppings.MUSHROOM]
+    //ALL: [Salads.LETTUCE, Salads.RED_ONION, Salads.PEPPERS, Salads.TOMATOES, Salads.SLICED_BREAD, Salads.KETCHUP]
+
 class OrderScene extends Phaser.Scene {
     constructor() {
         super({ key: "OrderScene" })
@@ -16,6 +24,8 @@ class OrderScene extends Phaser.Scene {
         console.log("order::init")
         this.load.image("main_background", "/res/scenes/main_scene.png")
         this.load.image("nav_arrow", "/res/props/arrow.png")
+        this.load.image("stove_off", "/res/props/hob_off.png")
+        this.load.image("pan", "/res/props/Pan.gif")
         //this.cameras.default
     }
 
@@ -30,7 +40,26 @@ class OrderScene extends Phaser.Scene {
 
         this.cameras.main.setBounds(0, 0, this.worldWidth, this.worldHeight)
 
+        this.createCookButtons()
         this.createNavButtons()
+    }
+
+    createCookButtons(){
+        var startX = 100
+        var startY = this.viewportHeight*2
+        // Create hob
+        var hobScale = 2
+        for (var x = startX; x <= startX + (32*3*hobScale); x+=(32*hobScale)) {
+            for (var y = startY + startX; y <= startY + startX + (32*3*hobScale); y+= (32*hobScale)){
+                this.add.sprite(x,y, "stove_off").setScale(2)
+                this.createPan(x,y)
+            }
+        }
+    }
+
+    createPan(x, y){
+        this.pans = 
+        this.add.sprite(x,y, "pan").setScale(2)
     }
 
     createNavButtons() {
@@ -93,28 +122,46 @@ class OrderScene extends Phaser.Scene {
     }
 
     switchToOrder() {
-        console.log("order::switchToOrder")
         this.cameras.main.setScroll(0, this.viewportHeight * 0)
     }
 
     switchToPrep() {
-        console.log("order::switchToPrep")
-        //this.cameras.default.setViewport(0, this.viewportHeight * 2, this.viewportWidth, this.viewportHeight)
         this.cameras.main.setScroll(0, this.viewportHeight * 1)
     }
 
     switchToCook() {
-        console.log("order::switchToCook")
         this.cameras.main.setScroll(0, this.viewportHeight * 2)
     }
 
     // called every frame
-    update(time, delta)
-    {
+    update(time, delta) {
         //this.cameras.default.scrollY = 0.05
     }
 
     createOrderSprites() {
         // create sprites for all the orders
+    }
+
+    getRandomElementFromArray(array) {
+        return array[Math.floor(Math.random() * array.length)]
+    }
+
+    // function to create a new order from a new customer
+    createNewOrder() {
+        // get a random type
+        type = getRandomElementFromArray(EggType)
+        toppings = []
+        salads = []
+        // add 1-3 random toppings
+        for (var i = 0, r = Math.floor(Math.random() * 3 + 1); i < r; i++) {
+            toppings.push(getRandomElementFromArray(Toppings))
+        }
+        // add 1-3 random salads
+        for (var i = 0, r = Math.floor(Math.random() * 3 + 1); i < r; i++) {
+            salads.push(getRandomElementFromArray(Salads))
+        }
+
+        order = new Order(type, toppings, salads)
+        return order
     }
 }
