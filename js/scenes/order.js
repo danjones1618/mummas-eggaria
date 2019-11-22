@@ -11,6 +11,8 @@ class OrderScene extends Phaser.Scene
         console.log("order::init")
         this.worldWidth = 640
         this.worldHeight = 480*3
+        this.viewportWidth = 640
+        this.viewportHeight = 480
     }
 
     preload()
@@ -41,7 +43,7 @@ class OrderScene extends Phaser.Scene
         this.navArrowScale = 2
         this.arrowsClicked = [false, false, false, false]
 
-        this.createNavArrow(0, 180, this.worldWidth - 40, 40, this.switchToPrep)
+        this.createNavArrow(0, 180, this.viewportWidth - 40, this.viewportHeight - 40, this.switchToPrep)
     }
 
     createNavArrow(index, rotation, x, y, f)
@@ -76,6 +78,8 @@ class OrderScene extends Phaser.Scene
     switchToOrder()
     {
         console.log("order::switchToOrder")
+        //this.cameras.default.setViewport(0, this.viewportHeight * 2, this.viewportWidth, this.viewportHeight)
+        this.cameras.default.scrollY = 500
     }
 
     switchToPrep()
