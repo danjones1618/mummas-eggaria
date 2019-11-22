@@ -16,7 +16,10 @@ var config =
         }
     },
     scene: [
-        StartupScene
+        StartupScene,
+        OrderScene,
+        CookingScene,
+        PlatingScene
     ]
 }
 
