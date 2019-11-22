@@ -62,7 +62,6 @@ class OrderScene extends Phaser.Scene {
     createPan(x, y){
         this.pans = []
         var p = this.add.sprite(x,y, "pan").setScale(this.hobSizeScale)
-        
     }
 
     createNavButtons() {
