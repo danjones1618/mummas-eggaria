@@ -113,10 +113,10 @@ class OrderScene extends Phaser.Scene {
 	
 	createSaladButtons(){
 		var plateRadius = 128
-		var startX = plateRadius + 100
+		var startX = plateRadius + 75
 		var startY = this.viewportHeight + plateRadius + 100
 		var saladXOffset = 100
-		var saladYOffset = 75
+		var saladYOffset = 90
 		this.add.image(startX, startY, "image_plate")
 		//this.add.image(saladOffset, )
 		const saladImages = [
@@ -128,10 +128,11 @@ class OrderScene extends Phaser.Scene {
 			"image_ketchup"
 		]
 		for (var i = 0; i < saladImages.length; i++){
-			this.add.image((plateRadius * 2) + 25 + (saladXOffset * ((i %2) + 1)),
-			this.viewportHeight + (saladYOffset * ((i % 3) + 1)),
-			saladImages[i])
-			.setScale(this.saladScale)
+			var salad = 
+				this.add.image((plateRadius * 2) + 25 + (saladXOffset * ((i %2) + 1)),
+				this.viewportHeight + (saladYOffset * ((i % 3) + 1)),
+				saladImages[i])
+				.setScale(this.saladScale)
 		}
 		
 		
