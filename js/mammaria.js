@@ -6,14 +6,18 @@ var config =
     parent: "content",
     width: 640,
     height: 480,
-    render: {
+    render:
+    {
         pixelArt: true,
         powerPreference: "high-performance"
     },
-    physics: {
+    physics:
+    {
         default: "arcade",
-        arcade: {
-            gravity: {
+        arcade:
+        {
+            gravity:
+            {
                 y: 0
             }
         }
