@@ -1,7 +1,7 @@
 // main game
 
 // set to true to skip startup scene
-const skipToGame = true
+const skipToGame = false
 
 var config =
 {
