@@ -5,7 +5,7 @@ const skipToGame = true
 
 var config =
 {
-    type: Phaser.AUTO,
+    type: Phaser.CANVAS,
     parent: "content",
     width: 640,
     height: 480,
