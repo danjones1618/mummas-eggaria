@@ -377,9 +377,13 @@ class GameScene extends Phaser.Scene {
           [Cursors.SCRAMBLED]:  0,
           [Cursors.OMLETTE]:    0,
         }
+        for (var i = 0; i < this.toDestroy.length; i++)
+            this.toDestroy[i].destroy()
+        this.toDestroy = []
     }
 
     addPlate(){
+        this.toDestroy = []
         let plateRadius = 128
         let startX = plateRadius + 75
         let startY = this.viewportHeight + plateRadius + 100
@@ -399,17 +403,19 @@ class GameScene extends Phaser.Scene {
                 this.viewportHeight + this.input.mousePointer.y,
                 image).setScale(this.buttonScale)
                 .setInteractive({ useHandCursor: false })
+            this.toDestroy.push(topping)
             topping.on("pointerup", () => {
                 if (this.getCursor() === Cursors.POINTER){
                     let k = topping.texture.key
-                    console.log(k)
                     this.setCursor(this.imageToCursor[k])
+                    this.toDestroy = this.toDestroy.filter((item) => {
+                        return item !== topping
+                    })
                     topping.destroy()
                 } else {
                     this.addTopping()
                 }
             })
-            console.log(topping)
             this.plateItems[this.getCursor()] += 1
             // Prevent adding multiple eggs
             this.setCursor(Cursors.POINTER)
