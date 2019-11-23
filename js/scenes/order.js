@@ -121,9 +121,11 @@ class Order {
 	}
 	
 	compareToPlate(plateItems){
+		let plateArray = Object.values(plateItems)
+		let orderArray = Object.values(this.plateItems)
 		let result = true
-		for (let i = 0; i < plateItems.length && result; i++){
-			if (plateItems[i] < this.plateItems[i]){
+		for (let i = 0; i < plateArray.length && result; i++){
+			if (plateArray[i] < orderArray[i]){
 				//assume customer is fine w/ extra
 				result = false
 			}
@@ -605,11 +607,11 @@ class OrderScene extends Phaser.Scene {
 
     onOrderCreated(order) {
 		console.log(order)
-        this.orders.push(order)
+        
 		let orderArray = Object.values(order.plateItems)
         // create the sprite group
         let group = this.add.group()
-		let startX = 75
+		let startX = 75 * this.orders.length
 		let spacingX = 75
 		let startY = this.viewportHeight - 150
 		let ingredientSpacing = 25
@@ -644,6 +646,14 @@ class OrderScene extends Phaser.Scene {
 			background.setScale(this.buttonScale)
 			group.destroy(true)
 		})
+		background.on("pointerup", ()=> {
+			if (order.compareToPlate(this.plateItems)){
+				console.log("yay")
+			} else {
+				console.log("nay")
+			}
+		})
+		this.orders.push(order)
     }
 
     getRandomElementFromDict(array) {
