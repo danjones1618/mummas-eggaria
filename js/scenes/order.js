@@ -102,6 +102,40 @@ class OrderScene extends Phaser.Scene {
 
         this.cameras.main.setBounds(0, 0, this.worldWidth, this.worldHeight)
 
+        this.anims.create({
+            key: 'pan_fried_flip',
+            frames: this.anims.generateFrameNames('pans', {
+                start: 0,
+                end: 17,
+                prefix: 'pans_',
+            }),
+            frameRate: 6,
+            repeat: -1,
+        })
+
+        this.anims.create({
+            //key: 'pan_fried_shake',
+            key: 'pan_egg_crack',
+            frames: this.anims.generateFrameNames('pans', {
+                start: 0,
+                end: 1,
+                prefix: 'pans_',
+            }),
+            frameRate: 6,
+            repeat: -1,
+        })
+
+        this.anims.create({
+            key: 'pan_eg_crack',
+            frames: this.anims.generateFrameNames('pans', {
+                start: 0,
+                end: 17,
+                prefix: 'pans_',
+            }),
+            frameRate: 6,
+            repeat: -1,
+        })
+
         this.createCookButtons()
 		this.createSaladButtons()
         this.createNavButtons()
@@ -149,7 +183,8 @@ class OrderScene extends Phaser.Scene {
     }
 
     createPan(x, y){
-        var p = this.add.sprite(x,y, "pans", "pans_2").setScale(this.hobSizeScale)
+        var p = this.add.sprite(x,y, "pans").setScale(this.hobSizeScale)
+        p.play("pan_egg_crack")
     }
 
     createNavButtons() {
