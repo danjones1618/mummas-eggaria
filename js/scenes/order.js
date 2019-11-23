@@ -168,6 +168,8 @@ class OrderScene extends Phaser.Scene {
 			"image_ketchup"
 		]
 		
+		this.saladStatuses = [false, false, false, false, false, false]
+		
 		for (let i = 0; i < saladImages.length; i++){
             let x = (plateRadius * 2) + 25 + (saladXOffset * ((i %2) + 1))
             let y = this.viewportHeight + (saladYOffset * ((i % 3) + 1))
@@ -181,6 +183,17 @@ class OrderScene extends Phaser.Scene {
                 salad.setScale(this.saladScale)
             })
         }
+	}
+	
+	updateSaladStatus(imageString){
+		for (let i = 0; i < this.saladImages.length; i++){
+			if (imageString == this.saladImages[i]){
+				this.saladStatuses[i] = true
+			} else {
+				this.saladStatuses[i] = false
+			}
+		}
+	
 	}
 
     createCookButtons(){
