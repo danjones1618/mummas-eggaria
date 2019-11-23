@@ -299,6 +299,7 @@ class GameScene extends Phaser.Scene {
         this.plateImages = {
             [Cursors.BREAD]:    "image_bread",
             [Cursors.CHEESE]:   "image_cheese",
+			[Cursors.EGG]:		"image_egg",
             [Cursors.HAM]:      "image_ham",
             [Cursors.KETCHUP]:  "image_ketchup_drop",
             [Cursors.LETTUCE]:  "image_lettuce",
