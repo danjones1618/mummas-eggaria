@@ -45,9 +45,9 @@ class Order {
           [Cursors.SCRAMBLED]:  0,
           [Cursors.OMLETTE]:    0,  
         }
-		eggToObject(eggType)
-		toppingsToObject(toppings)
-		saladsToObject(salads)
+		this.eggToObject(eggType)
+		this.toppingsToObject(toppings)
+		this.saladsToObject(salads)
 	}
 	
 	eggToObject(eggType){
@@ -95,7 +95,7 @@ class Order {
 	
 	saladsToObject(salads){
 		for (let i = 0; i < salads.length; i++){
-			switch (toppings[i]){
+			switch (salads[i]){
 				case Salads.PEPPERS:
 					this.plateItems[Cursors.PEPPERS] += 1
 					break
@@ -120,39 +120,15 @@ class Order {
 		}
 	}
 	
-	compareToDish(dish){
+	compareToPlate(plateItems){
 		let result = true
 		for (let i = 0; i < plateItems.length && result; i++){
-			if (dish.plateItems[i] < this.plateItems[i]){
+			if (plateItems[i] < this.plateItems[i]){
 				//assume customer is fine w/ extra
 				result = false
 			}
 		}
 		return result
-	}
-}
-
-class Dish {
-	constructor(){
-		this.plateItems = {
-          [Cursors.BREAD]:      0,    
-          [Cursors.CHEESE]:     0,   
-          [Cursors.EGG]:        0,      
-          [Cursors.HAM]:        0,      
-          [Cursors.KETCHUP]:    0,  
-          [Cursors.LETTUCE]:    0,  
-          [Cursors.MUSHROOMS]:  0,
-          [Cursors.PEPPERS]:    0,  
-          [Cursors.TOMATO]:     0,   
-          [Cursors.ONION]:      0,    
-          [Cursors.FRIED]:      0,    
-          [Cursors.SCRAMBLED]:  0,
-          [Cursors.OMLETTE]:    0,  
-        }
-	}
-	
-	addIngredient(cursorIndex){
-		this.plateItems[cursorIndex] += 1
 	}
 }
 
@@ -319,8 +295,32 @@ class OrderScene extends Phaser.Scene {
         this.addBins()
         
         this.initOrders()
+		this.createNewOrder()
+		//this.updateOrderButtons()
         this.setCursor(Cursors.POINTER)
     }
+	
+	/*
+	updateOrderButtons(){
+		let startX = 75
+		let spacingX = 75
+		let startY = this.viewportHeight - 150
+		for (let i = 0; i < this.initOrders.length; i++){
+			let order = this.add.image(
+				startX + (spacingX * i),
+				startY,
+				"image_order")
+			order.setInteractive({useHandCursor : true})
+				.setScale(this.buttonScale)
+			order.on("pointerover", () => {
+				order.setScale(this.buttonScale * 1.5)
+			})
+			order.on("pointerout", () => {
+				order.setScale(this.buttonScale)
+			})
+		}
+		
+	}*/
     
     createSaladButtons(){
         var plateRadius = 128
@@ -604,36 +604,74 @@ class OrderScene extends Phaser.Scene {
     }
 
     onOrderCreated(order) {
+		console.log(order)
         this.orders.push(order)
-
+		let orderArray = Object.values(order.plateItems)
         // create the sprite group
-        group = this.add.group()
-        background = this.add.image(
-            0, 0,
+        let group = this.add.group()
+		let startX = 75
+		let spacingX = 75
+		let startY = this.viewportHeight - 150
+		let ingredientSpacing = 25
+        let background = this.add.image(
+            startX + spacingX,
+			startY,
             "image_order"
-        )
+        ).setScale(this.buttonScale)
+		.setInteractive({userHandCursor : true})
+		//group.add(background)
+		background.on("pointerover", () => {
+			background.setScale(this.buttonScale * 2)
+			console.log("%d", orderArray.length)
+
+			group = this.add.group()
+			
+			for (let i = 0; i < orderArray.length; i++){
+				if (orderArray[i] != 0){
+					for (let j = 0; j < orderArray[i]; j++){
+						let ingredient = this.add.image(
+							startX + spacingX + (ingredientSpacing * (((i+j) %3))) - 25,
+							startY + (ingredientSpacing * ((i % 4) - 1)),
+							Object.values(this.plateImages)[i]
+						).setScale(1.5)
+						//console.log(this.plateImages[i])
+						group.add(ingredient)
+					}
+				}
+			}
+		})
+		background.on("pointerout", () => {
+			background.setScale(this.buttonScale)
+			group.destroy(true)
+		})
     }
 
-    getRandomElementFromArray(array) {
-        return array[Math.floor(Math.random() * array.length)]
+    getRandomElementFromDict(array) {
+		let object = Object.values(array)
+		var i = Math.floor(Math.random() * object.length)
+		//console.log(i)
+        return object[i]
     }
 
     // function to create a new order from a new customer
     createNewOrder() {
         // get a random type
-        type = getRandomElementFromArray(EggType)
-        toppings = []
-        salads = []
+        let type = this.getRandomElementFromDict(EggType)
+        let toppings = []
+        let salads = []
         // add 1-3 random toppings
         for (var i = 0, r = Math.floor(Math.random() * 3 + 1); i < r; i++) {
-            toppings.push(getRandomElementFromArray(Toppings))
+            toppings.push(this.getRandomElementFromDict(Toppings))
         }
         // add 1-3 random salads
         for (var i = 0, r = Math.floor(Math.random() * 3 + 1); i < r; i++) {
-            salads.push(getRandomElementFromArray(Salads))
+            salads.push(this.getRandomElementFromDict(Salads))
         }
-
-        order = new Order(type, toppings, salads)
+		console.log(type)
+		console.log(toppings)
+		console.log(salads)
+        let order = new Order(type, toppings, salads)
+		console.log(order)
         this.onOrderCreated(order)
     }
 
