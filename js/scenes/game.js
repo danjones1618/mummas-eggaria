@@ -698,7 +698,7 @@ class GameScene extends Phaser.Scene {
 			} else {
 				console.log("nay")
 			}
-		})        
+		})
 	    order.setTimer(this.time.delayedCall({
             delay: 20000 + Math.random()*5000,
             callback: order.destroy,
