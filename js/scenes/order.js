@@ -328,19 +328,22 @@ class OrderScene extends Phaser.Scene {
         var plateRadius = 128
         var startX = plateRadius + 75
         var startY = this.viewportHeight + plateRadius + 100
-        var saladXOffset = 100
-        var saladYOffset = 90
+        var saladXOffset = 70
+        var saladYOffset = 70
         this.saladImages = [
             "image_lettuce",
             "image_onion",
             "image_peppers",
             "image_tomato",
             "image_bread",
-            "image_ketchup"
+            "image_ketchup",
+			"image_ham",
+			"image_mushrooms",
+			"image_cheese"
         ]
         
         for (let i = 0; i < this.saladImages.length; i++){
-            let x = (plateRadius * 2) + 25 + (saladXOffset * ((i %2) + 1))
+            let x = (plateRadius * 2) + 25 + (saladXOffset * (Math.floor(i / 3) + 1))
             let y = this.viewportHeight + (saladYOffset * ((i % 3) + 1))
             this.createButtons(x, y, this.saladImages[i])
         }
@@ -427,6 +430,9 @@ class OrderScene extends Phaser.Scene {
             "image_egg":     Cursors.EGG,
             "image_whisk":   Cursors.WHISK,
             "image_spatula": Cursors.SPATULA,
+			"image_cheese":	 Cursors.CHEESE,
+			"image_mushrooms": Cursors.MUSHROOM,
+			"image_ham":	 Cursors.HAM,
         }
         for (let i = 0; i < this.buttons.length; i++){
             if (imageString == this.buttons[i].texture.key){
