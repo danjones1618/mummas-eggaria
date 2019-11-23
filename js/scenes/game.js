@@ -133,6 +133,14 @@ class Order {
 		}
 		return result
 	}
+	
+	setBackground(orderBackground){
+		this.orderBackground = orderBackground
+	}
+	
+	destroy(){
+		this.orderBackground.destroy()
+	}
 }
 
 class GameScene extends Phaser.Scene {
@@ -289,6 +297,21 @@ class GameScene extends Phaser.Scene {
             [Cursors.SCRAMBLED]: "image_egg_scrambled_plate",
             [Cursors.OMLETTE]:  "image_egg_omelette",
         }
+        this.imageToCursor = {
+            "image_lettuce": Cursors.LETTUCE,
+            "image_onion":   Cursors.ONION,
+            "image_peppers": Cursors.PEPPERS,
+            "image_tomato":  Cursors.TOMATO,
+            "image_bread":   Cursors.BREAD,
+            "image_ketchup": Cursors.KETCHUP,
+            "image_ketchup_drop": Cursors.KETCHUP,
+            "image_egg":     Cursors.EGG,
+            "image_whisk":   Cursors.WHISK,
+            "image_spatula": Cursors.SPATULA,
+			"image_cheese":	 Cursors.CHEESE,
+			"image_mushrooms": Cursors.MUSHROOM,
+			"image_ham":	 Cursors.HAM,
+        }
 
         this.buttons = []
 
@@ -364,17 +387,33 @@ class GameScene extends Phaser.Scene {
                         .setInteractive({ useHandCursor: false })
         this.resetPlateItems()
         plate.on("pointerup", () => {
-            let image = this.plateImages[this.getCursor()]
-            if (image !== undefined){
-                let topping = this.add.image(
-                    this.input.mousePointer.x,
-                    this.viewportHeight + this.input.mousePointer.y,
-                    image).setScale(this.buttonScale)
-                this.plateItems[this.getCursor()] += 1
-                // Prevent adding multiple eggs
-                this.setCursor(Cursors.POINTER)
-            }
+            this.addTopping() 
         })
+    }
+
+    addTopping(){
+        let image = this.plateImages[this.getCursor()]
+        if (image !== undefined){
+            let topping = this.add.image(
+                this.input.mousePointer.x,
+                this.viewportHeight + this.input.mousePointer.y,
+                image).setScale(this.buttonScale)
+                .setInteractive({ useHandCursor: false })
+            topping.on("pointerup", () => {
+                if (this.getCursor() === Cursors.POINTER){
+                    let k = topping.texture.key
+                    console.log(k)
+                    this.setCursor(this.imageToCursor[k])
+                    topping.destroy()
+                } else {
+                    this.addTopping()
+                }
+            })
+            console.log(topping)
+            this.plateItems[this.getCursor()] += 1
+            // Prevent adding multiple eggs
+            this.setCursor(Cursors.POINTER)
+        }
     }
 
     createButtons(x, y, image){
@@ -400,24 +439,11 @@ class GameScene extends Phaser.Scene {
     updateButtons(imageString, scale){
         if (this.getCursor() !== Cursors.POINTER)
             return
-        let imageToCursor = {
-            "image_lettuce": Cursors.LETTUCE,
-            "image_onion":   Cursors.ONION,
-            "image_peppers": Cursors.PEPPERS,
-            "image_tomato":  Cursors.TOMATO,
-            "image_bread":   Cursors.BREAD,
-            "image_ketchup": Cursors.KETCHUP,
-            "image_egg":     Cursors.EGG,
-            "image_whisk":   Cursors.WHISK,
-            "image_spatula": Cursors.SPATULA,
-			"image_cheese":	 Cursors.CHEESE,
-			"image_mushrooms": Cursors.MUSHROOM,
-			"image_ham":	 Cursors.HAM,
-        }
+        
         for (let i = 0; i < this.buttons.length; i++){
             if (imageString == this.buttons[i].texture.key){
                 this.buttons[i].setScale(scale * 1.25)
-                this.setCursor(imageToCursor[imageString])
+                this.setCursor(this.imageToCursor[imageString])
             } else {
                 this.buttons[i].setScale(scale)
             }
@@ -589,7 +615,6 @@ class GameScene extends Phaser.Scene {
     }
 
     onOrderCreated(order) {
-		console.log(order)
 		let ingredients = Object.values(order.plateItems)
         // create the sprite group
         let group = null
@@ -602,7 +627,7 @@ class GameScene extends Phaser.Scene {
             "image_order"
         ).setScale(this.orderDefaultScale)
         .setInteractive({userHandCursor : true})
-        
+        order.setBackground(orderBackground)
 		orderBackground.on("pointerover", () => {
 			orderBackground.setScale(this.orderHoverScale)
 
@@ -630,11 +655,13 @@ class GameScene extends Phaser.Scene {
 		orderBackground.on("pointerup", ()=> {
 			if (order.compareToPlate(this.plateItems)){
 				console.log("yay")
+				
 			} else {
 				console.log("nay")
 			}
 		})
 		this.orders.push(order)
+		order.destroy()
     }
 
     getRandomElementFromDict(array) {
@@ -657,11 +684,7 @@ class GameScene extends Phaser.Scene {
         for (let i = 0, r = Math.floor(Math.random() * 3 + 1); i < r; i++) {
             salads.push(this.getRandomElementFromDict(Salads))
         }
-		console.log(type)
-		console.log(toppings)
-		console.log(salads)
         let order = new Order(type, toppings, salads)
-		console.log(order)
         this.onOrderCreated(order)
     }
 
