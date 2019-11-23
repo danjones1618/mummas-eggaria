@@ -147,8 +147,10 @@ class GameScene extends Phaser.Scene {
         this.hobSizeScale = 3
         this.buttonScale = 3.0
         this.naletrowScale = 2
-        this.orderIngredientScale = 2.75
-        this.orderIngredientSpacing = 30
+        this.orderIngredientScale = 2.25
+        this.orderIngredientSpacing = 50
+        this.orderDefaultScale = 3
+        this.orderHoverScale = 6
     }
 
     preload() {
@@ -578,28 +580,29 @@ class GameScene extends Phaser.Scene {
     onOrderCreated(order) {
 		console.log(order)
         this.orders.push(order)
-		let orderArray = Object.values(order.plateItems)
+        let ingredients = Object.values(order.plateItems)
+        console.log(ingredients)
         // create the sprite group
-        let group = this.add.group()
-		let startX = 75
-		let spacingX = 75
+        let group = null
+		let startX = 50
+		let spacingX = 50
 		let startY = this.viewportHeight - 150
-        let background = this.add.image(
+        let orderBackground = this.add.image(
             startX + spacingX,
 			startY,
             "image_order"
-        ).setScale(this.buttonScale)
-		.setInteractive({userHandCursor : true})
-		//group.add(background)
-		background.on("pointerover", () => {
-			background.setScale(this.buttonScale * 2)
-			console.log("%d", orderArray.length)
+        ).setScale(this.orderDefaultScale)
+        .setInteractive({userHandCursor : true})
+        
+		orderBackground.on("pointerover", () => {
+			orderBackground.setScale(this.orderHoverScale)
 
 			group = this.add.group()
 			
-			for (let i = 0; i < orderArray.length; i++){
-				if (orderArray[i] != 0){
-					for (let j = 0; j < orderArray[i]; j++){
+			for (let i = 0; i < ingredients.length; i++){
+				if (ingredients[i] != 0){
+                    console.log("ingredient: %s", ingredients[i])
+					for (let j = 0; j < ingredients[i]; j++){
 						let ingredient = this.add.image(
 							startX + spacingX + (this.orderIngredientSpacing * (((i+j) %3))) - 25,
 							startY + (this.orderIngredientSpacing * ((i % 4) - 1)),
@@ -610,9 +613,10 @@ class GameScene extends Phaser.Scene {
 					}
 				}
 			}
-		})
-		background.on("pointerout", () => {
-			background.setScale(this.buttonScale)
+        })
+        
+		orderBackground.on("pointerout", () => {
+			orderBackground.setScale(this.orderDefaultScale)
 			group.destroy(true)
 		})
     }
