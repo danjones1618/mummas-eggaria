@@ -6,6 +6,20 @@ const Salads = {LETTUCE: 1,RED_ONION: 2,PEPPERS: 3,TOMATOES: 4,SLICED_BREAD: 5,K
     //ALL: [EggType.FRIED, EggType.OMELETTE, EggType.SCRAMBLED]
 	//ALL: [Toppings.PEPPERS, Toppings.HAM, Toppings.CHEESE, Toppings.RED_ONION, Toppings.TOMATOES, Toppings.MUSHROOM]
     //ALL: [Salads.LETTUCE, Salads.RED_ONION, Salads.PEPPERS, Salads.TOMATOES, Salads.SLICED_BREAD, Salads.KETCHUP]
+const Cursors = {
+    POINTER:    'auto',
+    SPATULA:    'url("/res/cursors/Spatula.gif"), pointer',
+    WHISK:      'url("/res/cursors/Whisk.gif"), pointer',
+    BREAD:      'url("/res/ingredients/Bread.gif"), pointer',
+    CHEESE:     'url("/res/ingredients/Cheese.gif"), pointer',
+    EGG:        'url("/res/ingredients/egg.png"), pointer',
+    HAM:        'url("/res/ingredients/Ham.gif"), pointer',
+    KETCHUP:    'url("/res/ingredients/Ketchup.gif"), pointer',
+    LETTUCE:    'url("/res/ingredients/LETTUCE.gif"), pointer',
+    MUSHROOMS:  'url("/res/ingredients/Mushrooms.gif"), pointer',
+    PEPPERS:    'url("/res/ingredients/Peppers.gif"), pointer',
+    TOMATO:     'url("/res/ingredients/Tomato_slice.gif"), pointer',
+}
 
 class OrderScene extends Phaser.Scene {
     constructor() {
@@ -117,11 +131,11 @@ class OrderScene extends Phaser.Scene {
         this.anims.create({key: 'pan_omlette_flip',frames:
             this.anims.generateFrameNames('pans', {
                 start: 18,end: 34,prefix: 'pans_',}),
-            frameRate: 6,repeat: -1,})
+            frameRate: 6,repeat: 0,})
         this.anims.create({key: 'pan_omlette_shake',frames:
             this.anims.generateFrameNames('pans', {
                 start: 18,end: 19,prefix: 'pans_',}),
-            frameRate: 1,repeat: -1,})
+            frameRate: 1,repeat: 15,})
         this.anims.create({key: 'pan_omlette_burnt',frames:
             this.anims.generateFrameNames('pans', {
                 start: 35,end: 35,prefix: 'pans_',}),
@@ -133,11 +147,11 @@ class OrderScene extends Phaser.Scene {
         this.anims.create({key: 'pan_scrambled_flip',frames:
             this.anims.generateFrameNames('pans', {
                 start: 53,end: 69,prefix: 'pans_',}),
-            frameRate: 6,repeat: -1,})
+            frameRate: 6,repeat: 0,})
         this.anims.create({key: 'pan_scrambled_shake',frames:
             this.anims.generateFrameNames('pans', {
                 start: 53,end: 54,prefix: 'pans_',}),
-            frameRate: 1,repeat: -1,})
+            frameRate: 1,repeat: 10,})
         this.anims.create({key: 'pan_scrambled_burnt',frames:
             this.anims.generateFrameNames('pans', {
                 start: 70,end: 70,prefix: 'pans_',}),
@@ -147,8 +161,6 @@ class OrderScene extends Phaser.Scene {
         this.createNavButtons()
 		
 		this.initOrders()
-        this.input.setDefaultCursor('url(/res/cursors/Whisk.gif), pointer')
-        console.log(document.getElementsByTagName("canvas")[0].style.cursor);
     }
 	
 	createSaladButtons(){
@@ -211,6 +223,7 @@ class OrderScene extends Phaser.Scene {
     panLoop(p, h){
         var type = "omlette"
         p.once("pointerup", () => {
+            this.setCursor(Cursors.SPATULA)
             h.setTexture("image_hob_on")
             p.play("pan_egg_crack")
             p.once("animationcomplete", () => {
@@ -225,6 +238,7 @@ class OrderScene extends Phaser.Scene {
                             p.anims.stop()
                             p.setFrame("pans_36")
                             h.setTexture("image_hob_off")
+                            this.setCursor(Cursors.POINTER)
                             this.panLoop(p)
                         })
                         p.once("animationcomplete", () => {
@@ -331,13 +345,11 @@ class OrderScene extends Phaser.Scene {
         //this.cameras.default.scrollY = 0.05
     }
 
-    initOrders()
-    {
+    initOrders() {
         this.orders = []
     }
 
-    onOrderCreated(order)
-    {
+    onOrderCreated(order) {
         this.orders.push(order)
 
         // create the sprite group
@@ -369,5 +381,18 @@ class OrderScene extends Phaser.Scene {
 
         order = new Order(type, toppings, salads)
         this.onOrderCreated(order)
+    }
+
+    setCursor(cursor){
+        this.input.setDefaultCursor(cursor)        
+    }
+
+    getCursor(){
+        for (var prop in Cursors) {
+            let c = document.getElementsByTagName("canvas")[0].style.cursor
+            console.log(prop, Cursors[prop], c)
+            if (Cursors[prop] === c)
+                return prop
+        }
     }
 }
