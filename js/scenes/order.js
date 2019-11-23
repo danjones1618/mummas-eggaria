@@ -20,6 +20,9 @@ const Cursors = {
     FRIED:      'url("/res/cursors/Egg_fried.gif"), pointer',
     SCRAMBLED:  'url("/res/cursors/Egg_scrambled_plate.png"), pointer',
     OMLETTE:    'url("/res/cursors/Egg_omlette.gif"), pointer',
+    BFRIED:     'url("/res/cursors/burnt_fried.png"), pointer',
+    BSCRAMBLED: 'url("/res/cursors/burnt_scrambled.png"), pointer',
+    BOMLETTE:   'url("/res/cursors/burnt_omlette.png"), pointer',
 }
 
 class OrderScene extends Phaser.Scene {
@@ -269,6 +272,8 @@ class OrderScene extends Phaser.Scene {
     }
     
     updateButtons(imageString, scale){
+        if (this.getCursor() !== Cursors.POINTER)
+            return
         let imageToCursor = {
             "image_lettuce": Cursors.LETTUCE,
             "image_onion":   Cursors.ONION,
@@ -317,6 +322,9 @@ class OrderScene extends Phaser.Scene {
             "fried":        [Cursors.FRIED],
             "scrambled":    [Cursors.SCRAMBLED],
             "omlette":      [Cursors.OMLETTE],
+            "bfried":       [Cursors.BFRIED],
+            "bscrambled":   [Cursors.BSCRAMBLED],
+            "bomlette":     [Cursors.BOMLETTE],
         }
         p.once("pointerup", () => {
             let type = cursorToEgg[this.getCursor()]
@@ -332,8 +340,11 @@ class OrderScene extends Phaser.Scene {
                         p.play("pan_" + type + "_flip")
                         p.once("animationcomplete", () => {
                             p.play("pan_" + type + "_shake")
-                            p.once("pointerup", () => {
+                            p.on("pointerup", () => {
+                                if (this.getCursor() !== Cursors.POINTER)
+                                    return
                                 p.removeAllListeners("animationcomplete")
+                                p.removeAllListeners("pointerup")
                                 p.anims.stop()
                                 p.setFrame("pans_36")
                                 h.setTexture("image_hob_off")
@@ -343,11 +354,13 @@ class OrderScene extends Phaser.Scene {
                             p.once("animationcomplete", () => {
                                 p.play("pan_" + type + "_burnt")
                                 p.removeAllListeners("pointerup")
-                                p.once("pointerup", () => {
-                                    console.log("Burnt boi")
+                                p.on("pointerup", () => {
+                                    if (this.getCursor() !== Cursors.POINTER)
+                                        return
                                     p.anims.stop()
                                     p.setFrame("pans_36")
                                     h.setTexture("image_hob_off")
+                                    this.setCursor(cursorNext["b" + type])
                                     this.panLoop(p, h)
                                 })
                             })
