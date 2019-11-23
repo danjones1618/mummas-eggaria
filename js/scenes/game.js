@@ -144,7 +144,7 @@ class Order {
         this.timer = timer
     }
 
-	pushToOrders(orders){
+	addSelfToOrders(orders){
 		this.orders = orders
 		orders.push(this)
 		this.index = orders.length - 1
@@ -696,7 +696,7 @@ class GameScene extends Phaser.Scene {
             callback: order.destroy(),
             callbackScope:this
         }))
-        order.pushToOrders(this.orders)
+        order.addSelfToOrders(this.orders)
     }
 
     getRandomElementFromDict(array) {
