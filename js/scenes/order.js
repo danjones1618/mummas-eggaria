@@ -4,7 +4,7 @@ const EggType ={FRIED: 1, OMELETTE: 2, SCRAMBLED: 3,}
 const Toppings = {PEPPERS: 1,HAM: 2,CHEESE: 3,RED_ONION: 4,TOMATOES: 5,MUSHROOM: 6,}
 const Salads = {LETTUCE: 1,RED_ONION: 2,PEPPERS: 3,TOMATOES: 4,SLICED_BREAD: 5,KETCHUP: 6,}
     //ALL: [EggType.FRIED, EggType.OMELETTE, EggType.SCRAMBLED]
-	//ALL: [Toppings.PEPPERS, Toppings.HAM, Toppings.CHEESE, Toppings.RED_ONION, Toppings.TOMATOES, Toppings.MUSHROOM]
+    //ALL: [Toppings.PEPPERS, Toppings.HAM, Toppings.CHEESE, Toppings.RED_ONION, Toppings.TOMATOES, Toppings.MUSHROOM]
     //ALL: [Salads.LETTUCE, Salads.RED_ONION, Salads.PEPPERS, Salads.TOMATOES, Salads.SLICED_BREAD, Salads.KETCHUP]
 const Cursors = {
     POINTER:    'auto',
@@ -38,7 +38,7 @@ class OrderScene extends Phaser.Scene {
         this.viewportHeight = 480
         this.hobScale = 3 * 32
         this.hobSizeScale = 3
-		this.buttonScale = 3.0
+        this.buttonScale = 3.0
         this.navArrowScale = 2
     }
 
@@ -107,7 +107,7 @@ class OrderScene extends Phaser.Scene {
         this.load.image("image_hob_off", "/res/props/hob_off.png")
         this.load.image("image_order", "/res/props/Order.gif")
         this.load.image("image_plate", "/res/props/plate.png")
-		this.load.image("image_ketchup_drop", "/res/ingredients/Ketchup_drop.gif")
+        this.load.image("image_ketchup_drop", "/res/ingredients/Ketchup_drop.gif")
         this.load.atlas('pans', '/res/props/pans.png', '/res/props/pans_atlas.json')
         //this.cameras.default
     }
@@ -183,47 +183,68 @@ class OrderScene extends Phaser.Scene {
         this.buttons = []
 
         this.createCookButtons()
-		this.createSaladButtons()
+        this.createSaladButtons()
         this.createNavButtons()
         this.addPlate()
-		
-		this.initOrders()
+        
+        this.initOrders()
     }
-	
-	createSaladButtons(){
-		var plateRadius = 128
-		var startX = plateRadius + 75
-		var startY = this.viewportHeight + plateRadius + 100
-		var saladXOffset = 100
-		var saladYOffset = 90
-		this.saladImages = [
-			"image_lettuce",
-			"image_onion",
-			"image_peppers",
-			"image_tomato",
-			"image_bread",
-			"image_ketchup"
-		]
-		
-		for (let i = 0; i < this.saladImages.length; i++){
+    
+    createSaladButtons(){
+        var plateRadius = 128
+        var startX = plateRadius + 75
+        var startY = this.viewportHeight + plateRadius + 100
+        var saladXOffset = 100
+        var saladYOffset = 90
+        this.saladImages = [
+            "image_lettuce",
+            "image_onion",
+            "image_peppers",
+            "image_tomato",
+            "image_bread",
+            "image_ketchup"
+        ]
+        
+        for (let i = 0; i < this.saladImages.length; i++){
             let x = (plateRadius * 2) + 25 + (saladXOffset * ((i %2) + 1))
             let y = this.viewportHeight + (saladYOffset * ((i % 3) + 1))
             this.createButtons(x, y, this.saladImages[i])
         }
     }
 
+    resetPlateItems(){
+        this.plateItems = {
+          [Cursors.BREAD]:      0,    
+          [Cursors.CHEESE]:     0,   
+          [Cursors.EGG]:        0,      
+          [Cursors.HAM]:        0,      
+          [Cursors.KETCHUP]:    0,  
+          [Cursors.LETTUCE]:    0,  
+          [Cursors.MUSHROOMS]:  0,
+          [Cursors.PEPPERS]:    0,  
+          [Cursors.TOMATO]:     0,   
+          [Cursors.ONION]:      0,    
+          [Cursors.FRIED]:      0,    
+          [Cursors.SCRAMBLED]:  0,
+          [Cursors.OMLETTE]:    0,  
+        }
+    }
+
     addPlate(){
         var plateRadius = 128
-		var startX = plateRadius + 75
-		var startY = this.viewportHeight + plateRadius + 100
-		let plate = this.add.image(startX, startY, "image_plate")
-						.setInteractive({ userHandCursor: true })
+        var startX = plateRadius + 75
+        var startY = this.viewportHeight + plateRadius + 100
+        let plate = this.add.image(startX, startY, "image_plate")
+                        .setInteractive({ userHandCursor: true })
+        this.resetPlateItems()
         plate.on("pointerup", () => {
             let topping = this.add.image(
                 this.input.mousePointer.x,
                 this.viewportHeight + this.input.mousePointer.y,
                 this.plateImages[this.getCursor()])
                 .setScale(this.buttonScale)
+            this.plateItems[this.getCursor()] += 1
+            console.log(this.plateItems)
         })
     }
 
@@ -240,28 +261,28 @@ class OrderScene extends Phaser.Scene {
         })
         this.buttons.push(b)
     }
-	
-	updateButtons(imageString, scale){
+    
+    updateButtons(imageString, scale){
         let imageToCursor = {
             "image_lettuce": Cursors.LETTUCE,
-			"image_onion":   Cursors.ONION,
-			"image_peppers": Cursors.PEPPERS,
-			"image_tomato":  Cursors.TOMATO,
-			"image_bread":   Cursors.BREAD,
-			"image_ketchup": Cursors.KETCHUP,
+            "image_onion":   Cursors.ONION,
+            "image_peppers": Cursors.PEPPERS,
+            "image_tomato":  Cursors.TOMATO,
+            "image_bread":   Cursors.BREAD,
+            "image_ketchup": Cursors.KETCHUP,
             "image_egg":     Cursors.EGG,
             "image_whisk":   Cursors.WHISK,
             "image_spatula": Cursors.SPATULA,
         }
-		for (let i = 0; i < this.buttons.length; i++){
-			if (imageString == this.buttons[i].texture.key){
-				this.buttons[i].setScale(scale * 1.25)
+        for (let i = 0; i < this.buttons.length; i++){
+            if (imageString == this.buttons[i].texture.key){
+                this.buttons[i].setScale(scale * 1.25)
                 this.setCursor(imageToCursor[imageString])
-			} else {
-				this.buttons[i].setScale(scale)
-			}
-		}
-	}
+            } else {
+                this.buttons[i].setScale(scale)
+            }
+        }
+    }
 
     createCookButtons(){
         var startX = 100
