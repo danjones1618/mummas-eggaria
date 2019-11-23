@@ -201,9 +201,14 @@ class OrderScene extends Phaser.Scene {
         }
 		plate.on("pointerdown", () => {
 			if (this.saladStatus != 0){
-				//let topping = this.add.image(this.input.pointer.x, this.input.activePointer.y, this.saladImages[this.saladStatus - 1])
+				let topping = this.add.image(
+					this.input.mousePointer.x,
+					this.viewportHeight + this.input.mousePointer.y,
+					this.saladImages[this.saladStatus - 1])
+					.setScale(this.saladScale)
+				console.log("%d, %d", this.input.mousePointer.x, this.input.mousePointer.y)
 			}
-			this.saladStatus = 0
+			//this.saladStatus = 0
 		})
 	}
 	
