@@ -144,10 +144,16 @@ class Order {
         this.timer = timer
     }
 
+	pushToOrders(orders){
+		this.orders = orders
+		orders.push(this)
+		this.index = orders.length - 1
+	}
 	destroy(){
         this.orderBackground.destroy()
         this.timer.destroy()
         console.log("destroying order")
+		this.orders.pop(this.index)
 	}
 }
 
@@ -647,7 +653,7 @@ class GameScene extends Phaser.Scene {
         order.setBackground(orderBackground)
 		orderBackground.on("pointerover", () => {
             orderBackground.setScale(this.orderHoverScale)
-            
+
             console.log(orderBackground)
 
             // work out dimensions
@@ -681,18 +687,16 @@ class GameScene extends Phaser.Scene {
 			if (order.compareToPlate(this.plateItems)){
 				console.log("yay")
 				order.destroy()
-
 			} else {
 				console.log("nay")
 			}
-		})
-        
+		})        
 	    order.setTimer(this.time.addEvent({
             delay: 20000 + Math.random()*5000, 
-            callback: order.destroy(), 
+            callback: order.destroy(),
             callbackScope:this
         }))
-        this.orders.push(order)
+        order.pushToOrders(this.orders)
     }
 
     getRandomElementFromDict(array) {
