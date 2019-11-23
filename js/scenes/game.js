@@ -133,6 +133,14 @@ class Order {
 		}
 		return result
 	}
+	
+	setBackground(orderBackground){
+		this.orderBackground = orderBackground
+	}
+	
+	destroy(){
+		this.orderBackground.destroy()
+	}
 }
 
 class GameScene extends Phaser.Scene {
@@ -602,7 +610,7 @@ class GameScene extends Phaser.Scene {
             "image_order"
         ).setScale(this.orderDefaultScale)
         .setInteractive({userHandCursor : true})
-        
+        order.setBackground(orderBackground)
 		orderBackground.on("pointerover", () => {
 			orderBackground.setScale(this.orderHoverScale)
 
@@ -630,11 +638,13 @@ class GameScene extends Phaser.Scene {
 		orderBackground.on("pointerup", ()=> {
 			if (order.compareToPlate(this.plateItems)){
 				console.log("yay")
+				
 			} else {
 				console.log("nay")
 			}
 		})
 		this.orders.push(order)
+		order.destroy()
     }
 
     getRandomElementFromDict(array) {
