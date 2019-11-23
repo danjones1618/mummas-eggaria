@@ -77,10 +77,8 @@ class OrderScene extends Phaser.Scene {
         this.load.image("image_hob_on", "/res/props/hob_on.png")
         this.load.image("image_hob_off", "/res/props/hob_off.png")
         this.load.image("image_order", "/res/props/Order.gif")
-        this.load.image("image_pan_omelette", "/res/props/Pan_omlette.gif")
-        this.load.image("image_pan_scrambled", "/res/props/Pan_scrambled.gif")
-        this.load.image("image_pan", "/res/props/Pan.gif")
         this.load.image("image_plate", "/res/props/plate.png")
+        this.load.atlas('pans', '/res/props/pans.png', '/res/props/pans_atlas.json')
         //this.cameras.default
     }
 
@@ -123,8 +121,7 @@ class OrderScene extends Phaser.Scene {
     }
 
     createPan(x, y){
-        this.pans = 
-        this.add.sprite(x,y, "image_pan").setScale(this.hobSizeScale)
+        var p = this.add.sprite(x,y, "pans", "pans_2").setScale(this.hobSizeScale)
     }
 
     createNavButtons() {
