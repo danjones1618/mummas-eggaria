@@ -325,6 +325,7 @@ class OrderScene extends Phaser.Scene {
             else{
                 h.setTexture("image_hob_on")
                 p.play("pan_egg_crack")
+                this.setCursor(Cursors.POINTER)
                 p.once("animationcomplete", () => {
                     p.play("pan_" + type + "_shake")
                     p.once("animationcomplete", () => {
