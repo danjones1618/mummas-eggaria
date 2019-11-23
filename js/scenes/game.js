@@ -132,9 +132,9 @@ class Order {
 	}
 }
 
-class OrderScene extends Phaser.Scene {
+class GameScene extends Phaser.Scene {
     constructor() {
-        super({ key: "OrderScene" })
+        super({ key: "GameScene" })
     }
 
     init() {

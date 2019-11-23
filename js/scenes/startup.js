@@ -63,7 +63,7 @@ class StartupScene extends Phaser.Scene
         */ 
         this.input.on('pointerup', () => {
             if(isPressed)
-                this.scene.start("OrderScene", this.state)
+                this.scene.start("GameScene", this.state)
             else {
                 isPressed = false;
                 spr.setTexture('defaultTexture');

@@ -23,7 +23,7 @@ var config =
             }
         }
     },
-    scene: [StartupScene, OrderScene], 
+    scene: [StartupScene, GameScene], 
     disableContextMenu: true
 }
 
