@@ -15,10 +15,11 @@ const Cursors = {
     EGG:        'url("/res/ingredients/egg.png"), pointer',
     HAM:        'url("/res/ingredients/Ham.gif"), pointer',
     KETCHUP:    'url("/res/ingredients/Ketchup.gif"), pointer',
-    LETTUCE:    'url("/res/ingredients/LETTUCE.gif"), pointer',
+    LETTUCE:    'url("/res/ingredients/Lettuce.gif"), pointer',
     MUSHROOMS:  'url("/res/ingredients/Mushrooms.gif"), pointer',
     PEPPERS:    'url("/res/ingredients/Peppers.gif"), pointer',
     TOMATO:     'url("/res/ingredients/Tomato_slice.gif"), pointer',
+    ONION:      'url("/res/ingredients/Red_onion.gif"), pointer',
 }
 
 class OrderScene extends Phaser.Scene {
@@ -157,9 +158,25 @@ class OrderScene extends Phaser.Scene {
             this.anims.generateFrameNames('pans', {
                 start: 70,end: 70,prefix: 'pans_',}),
             frameRate: 6,repeat: -1,})
+
+        this.plateImages = {
+            [Cursors.BREAD]:    "image_bread",
+            [Cursors.CHEESE]:   "image_cheese",
+            [Cursors.HAM]:      "image_ham",
+            [Cursors.KETCHUP]:  "image_ketchup_drop",
+            [Cursors.LETTUCE]:  "image_lettuce",
+            [Cursors.MUSHROOMS]:"image_mushrroms",
+            [Cursors.PEPPERS]:  "image_peppers",
+            [Cursors.TOMATO]:   "image_tomato",
+            [Cursors.ONION]:    "image_onion",
+        }
+
+        this.buttons = []
+
         this.createCookButtons()
 		this.createSaladButtons()
         this.createNavButtons()
+        this.addPlate()
 		
 		this.initOrders()
     }
@@ -170,8 +187,6 @@ class OrderScene extends Phaser.Scene {
 		var startY = this.viewportHeight + plateRadius + 100
 		var saladXOffset = 100
 		var saladYOffset = 90
-		let plate = this.add.image(startX, startY, "image_plate")
-						.setInteractive({ userHandCursor: true })
 		this.saladImages = [
 			"image_lettuce",
 			"image_onion",
@@ -181,56 +196,58 @@ class OrderScene extends Phaser.Scene {
 			"image_ketchup"
 		]
 		
-		this.saladButtons = []
-		this.saladStatus = 0
-		
 		for (let i = 0; i < this.saladImages.length; i++){
             let x = (plateRadius * 2) + 25 + (saladXOffset * ((i %2) + 1))
             let y = this.viewportHeight + (saladYOffset * ((i % 3) + 1))
-			let salad = this.add.image(x, y, this.saladImages[i])
-				.setScale(this.saladScale)
-				.setInteractive({ userHandCursor: true })
-			salad.on("pointerdown", () => {
-				//salad.setScale(this.saladScale * 1.25)
-				this.updateSaladButtons(salad.texture.key)
-			})
-            salad.on("pointerup", () => {
-                //salad.setScale(this.saladScale)
-				this.updateSaladButtons(salad.texture.key)
-            })
-			this.saladButtons.push(salad)
+            this.createButtons(x, y, this.saladImages[i], this.saladScale)
         }
-		plate.on("pointerdown", () => {
-			if (this.saladStatus == 6){
-				let topping = this.add.image(
-					this.input.mousePointer.x,
-					this.viewportHeight + this.input.mousePointer.y,
-					"image_ketchup_drop")
-					.setScale(this.saladScale)
-				console.log("%d, %d", this.input.mousePointer.x, this.input.mousePointer.y)
-			} else if (this.saladStatus != 0){
-				let topping = this.add.image(
-					this.input.mousePointer.x,
-					this.viewportHeight + this.input.mousePointer.y,
-					this.saladImages[this.saladStatus - 1])
-					.setScale(this.saladScale)
-				console.log("%d, %d", this.input.mousePointer.x, this.input.mousePointer.y)
-			}
-			//this.saladStatus = 0
-		})
-	}
+    }
+
+    addPlate(){
+        var plateRadius = 128
+		var startX = plateRadius + 75
+		var startY = this.viewportHeight + plateRadius + 100
+		let plate = this.add.image(startX, startY, "image_plate")
+						.setInteractive({ userHandCursor: true })
+        plate.on("pointerup", () => {
+            let topping = this.add.image(
+                this.input.mousePointer.x,
+                this.viewportHeight + this.input.mousePointer.y,
+                this.plateImages[this.getCursor()])
+                .setScale(this.saladScale)
+        })
+    }
+
+    createButtons(x, y, image, scale){
+        let b = this.add.image(x, y, image)
+            .setScale(scale)
+            .setInteractive({ userHandCursor: true })
+        b.on("pointerdown", () => {
+            this.updateButtons(image, scale)
+        })
+        b.on("pointerup", () => {
+            this.updateButtons(image, scale)
+        })
+        this.buttons.push(b)
+    }
 	
-	updateSaladButtons(imageString){
-		for (let i = 0; i < this.saladImages.length; i++){
-			if (imageString == this.saladImages[i]){
-				this.saladButtons[i].setScale(this.saladScale * 1.25)
-				this.saladStatus = i + 1
+	updateButtons(imageString, scale){
+        let imageToCursor = {
+            "image_lettuce": Cursors.LETTUCE,
+			"image_onion":   Cursors.ONION,
+			"image_peppers": Cursors.PEPPERS,
+			"image_tomato":  Cursors.TOMATO,
+			"image_bread":   Cursors.BREAD,
+			"image_ketchup": Cursors.KETCHUP,
+        }
+		for (let i = 0; i < this.buttons.length; i++){
+			if (imageString == this.buttons[i].texture.key){
+				this.buttons[i].setScale(scale * 1.25)
+                this.setCursor(imageToCursor[imageString])
 			} else {
-				this.saladButtons[i].setScale(this.saladScale)
+				this.buttons[i].setScale(scale)
 			}
-			console.log("checking %s", imageString)
 		}
-	
 	}
 
     createCookButtons(){
@@ -246,8 +263,13 @@ class OrderScene extends Phaser.Scene {
     }
 
     panLoop(p, h){
-        var type = "omlette"
+        let cursorToEgg = {
+            [Cursors.EGG]:     "fried",
+            [Cursors.WHISK]:   "scrambled",
+            [Cursors.SPATULA]: "omlette",
+        }
         p.once("pointerup", () => {
+            let type = cursorToEgg[this.getCursor()]
             h.setTexture("image_hob_on")
             p.play("pan_egg_crack")
             p.once("animationcomplete", () => {
@@ -413,9 +435,8 @@ class OrderScene extends Phaser.Scene {
     getCursor(){
         for (var prop in Cursors) {
             let c = document.getElementsByTagName("canvas")[0].style.cursor
-            console.log(prop, Cursors[prop], c)
             if (Cursors[prop] === c)
-                return prop
+                return Cursors[prop]
         }
     }
 }
