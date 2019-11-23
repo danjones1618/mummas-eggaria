@@ -129,6 +129,7 @@ class Order {
 		let orderArray = Object.values(this.plateItems)
 		let result = true
 		for (let i = 0; i < plateArray.length && result; i++){
+            console.log("%d vs %d", plateArray[i], orderArray[i])
 			if (plateArray[i] < orderArray[i]){
 				//assume customer is fine w/ extra
 				result = false
@@ -695,7 +696,8 @@ class GameScene extends Phaser.Scene {
 		orderBackground.on("pointerup", ()=> {
 			if (order.compareToPlate(this.plateItems)){
 				console.log("yay")
-				order.destroy()
+                order.destroy()
+                createNewOrder()
 			} else {
 				console.log("nay")
 			}
