@@ -108,6 +108,7 @@ class OrderScene extends Phaser.Scene {
         this.load.image("image_order", "/res/props/Order.gif")
         this.load.image("image_plate", "/res/props/plate.png")
         this.load.image("image_ketchup_drop", "/res/ingredients/Ketchup_drop.gif")
+        this.load.image("image_bin", "/res/props/bin.png")
         this.load.atlas('pans', '/res/props/pans.png', '/res/props/pans_atlas.json')
         //this.cameras.default
     }
@@ -186,8 +187,10 @@ class OrderScene extends Phaser.Scene {
         this.createSaladButtons()
         this.createNavButtons()
         this.addPlate()
+        this.addBins()
         
         this.initOrders()
+        this.setCursor(Cursors.POINTER)
     }
     
     createSaladButtons(){
@@ -210,6 +213,15 @@ class OrderScene extends Phaser.Scene {
             let y = this.viewportHeight + (saladYOffset * ((i % 3) + 1))
             this.createButtons(x, y, this.saladImages[i])
         }
+    }
+
+    addBins(){
+        let b1 = this.add.image(60, this.viewportHeight * 2 - 60,"image_bin")
+        b1.setInteractive({ useHandCursor: false }).setScale(this.buttonScale)
+        b1.on("pointerup", () => this.setCursor(Cursors.POINTER))
+        let b2 = this.add.image(60, this.viewportHeight * 3 - 60,"image_bin")
+        b2.setInteractive({ useHandCursor: false }).setScale(this.buttonScale)
+        b2.on("pointerup", () => this.setCursor(Cursors.POINTER))
     }
 
     resetPlateItems(){
@@ -255,7 +267,7 @@ class OrderScene extends Phaser.Scene {
         let scale = this.buttonScale
         let b = this.add.image(x, y, image)
             .setScale(scale)
-            .setInteractive({ useHandCursor: true })
+            .setInteractive({ useHandCursor: false })
         b.on("pointerdown", () => {
             this.updateButtons(image, scale)
         })
