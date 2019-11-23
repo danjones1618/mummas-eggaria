@@ -310,7 +310,7 @@ class GameScene extends Phaser.Scene {
             "image_whisk":   Cursors.WHISK,
             "image_spatula": Cursors.SPATULA,
 			"image_cheese":	 Cursors.CHEESE,
-			"image_mushrooms": Cursors.MUSHROOM,
+			"image_mushrooms": Cursors.MUSHROOMS,
 			"image_ham":	 Cursors.HAM,
         }
 
@@ -450,6 +450,7 @@ class GameScene extends Phaser.Scene {
         for (let i = 0; i < this.buttons.length; i++){
             if (imageString == this.buttons[i].texture.key){
                 this.buttons[i].setScale(scale * 1.25)
+                console.log(this.imageToCursor[imageString], imageString)
                 this.setCursor(this.imageToCursor[imageString])
             } else {
                 this.buttons[i].setScale(scale)
