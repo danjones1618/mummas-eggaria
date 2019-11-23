@@ -660,13 +660,13 @@ class GameScene extends Phaser.Scene {
 		orderBackground.on("pointerup", ()=> {
 			if (order.compareToPlate(this.plateItems)){
 				console.log("yay")
+				order.destroy()
 				
 			} else {
 				console.log("nay")
 			}
 		})
 		this.orders.push(order)
-		order.destroy()
     }
 
     getRandomElementFromDict(array) {
