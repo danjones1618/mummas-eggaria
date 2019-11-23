@@ -3,9 +3,6 @@ const OrderState = {COMPLETE: 1, COOKING: 2, PLATING: 3, NOT_STARTED: 4,}
 const EggType ={FRIED: 1, OMELETTE: 2, SCRAMBLED: 3,}
 const Toppings = {PEPPERS: 1,HAM: 2,CHEESE: 3,RED_ONION: 4,TOMATOES: 5,MUSHROOM: 6,}
 const Salads = {LETTUCE: 1,RED_ONION: 2,PEPPERS: 3,TOMATOES: 4,SLICED_BREAD: 5,KETCHUP: 6,}
-    //ALL: [EggType.FRIED, EggType.OMELETTE, EggType.SCRAMBLED]
-    //ALL: [Toppings.PEPPERS, Toppings.HAM, Toppings.CHEESE, Toppings.RED_ONION, Toppings.TOMATOES, Toppings.MUSHROOM]
-    //ALL: [Salads.LETTUCE, Salads.RED_ONION, Salads.PEPPERS, Salads.TOMATOES, Salads.SLICED_BREAD, Salads.KETCHUP]
 const Cursors = {
     POINTER:    'auto',
     SPATULA:    'url("/res/cursors/Spatula.gif"), pointer',
@@ -235,7 +232,7 @@ class OrderScene extends Phaser.Scene {
         var startX = plateRadius + 75
         var startY = this.viewportHeight + plateRadius + 100
         let plate = this.add.image(startX, startY, "image_plate")
-                        .setInteractive({ userHandCursor: true })
+                        .setInteractive({ useHandCursor: false })
         this.resetPlateItems()
         plate.on("pointerup", () => {
             let topping = this.add.image(
@@ -252,12 +249,18 @@ class OrderScene extends Phaser.Scene {
         let scale = this.buttonScale
         let b = this.add.image(x, y, image)
             .setScale(scale)
-            .setInteractive({ userHandCursor: true })
+            .setInteractive({ useHandCursor: true })
         b.on("pointerdown", () => {
             this.updateButtons(image, scale)
         })
         b.on("pointerup", () => {
             this.updateButtons(image, scale)
+        })
+        b.on("pointerover", () => {
+            b.setScale(scale * 1.25)
+        })
+        b.on("pointerout", () => {
+            b.setScale(scale)
         })
         this.buttons.push(b)
     }
@@ -349,7 +352,7 @@ class OrderScene extends Phaser.Scene {
 
     createPan(x, y, h){
         var p = this.add.sprite(x,y, "pans", "pans_36").setScale(this.hobSizeScale)
-        p.setInteractive({ userHandCursor: true })
+        p.setInteractive({ useHandCursor: false })
         p.on("pointerover", () => {
             p.setScale(this.hobSizeScale * 1.25)
         }).on("pointerout", () => {
@@ -389,7 +392,7 @@ class OrderScene extends Phaser.Scene {
 
     createNavArrow(index, rotation, x, y, f) {
         // top arrow
-        var arrow = this.add.image(
+        let arrow = this.add.image(
             x, y,
             "image_nav_arrow"
         )
@@ -397,21 +400,21 @@ class OrderScene extends Phaser.Scene {
         arrow.setInteractive({ useHandCursor: true })
         .setScale(this.navArrowScale)
         .setAngle(rotation)
-        .on("pointerdown", () => {
+        .on("pointerover", () => {
+            arrow.setScale(this.navArrowScale * 1.25)
+        }).on("pointerdown", () => {
             // clicked
             this.arrows.arrowsClicked[index] = true
-            arrow.setScale(this.navArrowScale * 1.1)
         }).on("pointerup", () => {
             if (this.arrows.arrowsClicked[index]) {
                 this.arrows.arrowsClicked[index] = false
-                arrow.setScale(this.navArrowScale)
                 this[f]()
             }
         }).on("onpointerout", () => {
             if (this.arrows.arrowsClicked[index]) {
                 this.arrows.arrowsClicked[index] = false
-                arrow.setScale(this.navArrowScale)
             }
+            arrow.setScale(this.navArrowScale)
         })
 
         return arrow
