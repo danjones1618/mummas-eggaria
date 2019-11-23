@@ -145,7 +145,8 @@ class Order {
     }
 
 	destroy(){
-		this.orderBackground.destroy()
+        this.orderBackground.destroy()
+        this.timer.destroy()
 	}
 }
 
