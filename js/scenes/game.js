@@ -1,7 +1,7 @@
 // order scene
 const OrderState = {COMPLETE: 1, COOKING: 2, PLATING: 3, NOT_STARTED: 4,}
 const EggType ={FRIED: 1, OMELETTE: 2, SCRAMBLED: 3,}
-const Toppings = {PEPPERS: 1,HAM: 2,CHEESE: 3,MUSHROOM: 6,}
+const Toppings = {HAM: 2,CHEESE: 3,MUSHROOM: 6,}
 const Salads = {LETTUCE: 1,RED_ONION: 2,PEPPERS: 3,TOMATOES: 4,SLICED_BREAD: 5,KETCHUP: 6,}
 const Cursors = {
     POINTER:    'auto',
@@ -73,10 +73,7 @@ class Order {
 	toppingsToObject(toppings){
 		for (let i = 0; i < toppings.length; i++){
 			switch (toppings[i]){
-				case Toppings.PEPPERS:
-					this.plateItems[Cursors.PEPPERS] += 1
-					break
-				case Toppings.HAM:
+                case Toppings.HAM:
 					this.plateItems[Cursors.HAM] += 1
 					break
 				case Toppings.CHEESE:
