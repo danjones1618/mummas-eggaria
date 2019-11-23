@@ -691,11 +691,12 @@ class GameScene extends Phaser.Scene {
 				console.log("nay")
 			}
 		})        
-	    order.setTimer(this.time.addEvent({
-            delay: 20000 + Math.random()*5000, 
-            callback: order.destroy(),
-            callbackScope:this
-        }))
+	    this.time.delayedCall(
+            100000, 
+            order.destroy(), 
+            [],
+            this
+        )
         order.pushToOrders(this.orders)
     }
 
