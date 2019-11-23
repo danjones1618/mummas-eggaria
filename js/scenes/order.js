@@ -82,7 +82,6 @@ class OrderScene extends Phaser.Scene {
         this.load.image("image_main_background", "/res/scenes/main_scene.png")
         this.load.image("image_nav_arrow", "/res/props/arrow.png")
         this.load.image("image_stove_off", "/res/props/hob_off.png")
-        this.load.image("image_pan", "/res/props/Pan.gif")
         this.load.image("image_spatula", "/res/cursors/Spatula.gif")
         this.load.image("image_whisk", "/res/cursors/Whisk.gif")
         this.load.image("image_spatula", "/res/cursors/Spatula.gif")
