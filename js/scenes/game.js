@@ -143,8 +143,14 @@ class Order {
 		this.orderBackground = orderBackground
 	}
 
+	pushToOrders(orders){
+		this.orders = orders
+		orders.push(this)
+		this.index = orders.length - 1
+	}
 	destroy(){
 		this.orderBackground.destroy()
+		this.orders.pop(this.index)
 	}
 }
 
@@ -666,12 +672,11 @@ class GameScene extends Phaser.Scene {
 			if (order.compareToPlate(this.plateItems)){
 				console.log("yay")
 				order.destroy()
-
 			} else {
 				console.log("nay")
 			}
 		})
-		this.orders.push(order)
+		order.pushToOrders(this.orders)
     }
 
     getRandomElementFromDict(array) {
