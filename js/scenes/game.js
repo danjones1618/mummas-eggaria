@@ -688,7 +688,10 @@ class GameScene extends Phaser.Scene {
 
 		orderBackground.on("pointerout", () => {
 			orderBackground.setScale(this.orderDefaultScale)
-			group.destroy(true)
+			if (group != null) {
+                group.destroy(true)
+                group = null
+            }
 		})
 		orderBackground.on("pointerup", ()=> {
 			if (order.compareToPlate(this.plateItems)){
@@ -698,9 +701,9 @@ class GameScene extends Phaser.Scene {
 				console.log("nay")
 			}
 		})        
-	    order.setTimer(this.time.addEvent({
-            delay: 20000 + Math.random()*5000, 
-            callback: order.destroy(),
+	    order.setTimer(this.time.delayedCall({
+            delay: 20000 + Math.random()*5000,
+            callback: order.destroy,
             callbackScope:this
         }))
         order.addSelfToOrders(this.orders)
