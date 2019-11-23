@@ -1,4 +1,5 @@
 # mummas-eggaria
-CSS Game Jam 2019
+CSS Bristol Game Jam 2019
+Theme: Eggs
 
 Music: www.bensound.com
