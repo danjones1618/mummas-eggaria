@@ -49,6 +49,9 @@ class Order {
 		this.toppingsToObject(toppings)
 		this.saladsToObject(salads)
         this.cursor = Cursors.POINTER
+        this.orders = null
+        this.orderBackground = null
+        this.timer = null
 	}
 
 	eggToObject(eggType){
@@ -136,11 +139,28 @@ class Order {
 
 	setBackground(orderBackground){
 		this.orderBackground = orderBackground
-	}
+    }
+    
+    setTimer(timer) {
+        this.timer = timer
+    }
 
+	addSelfToOrders(orders){
+		this.orders = orders
+		orders.push(this)
+		this.index = orders.length - 1
+	}
 	destroy(){
-        this.orderBackground.destroy()
+        if (this.orderBackground != null) {
+            this.orderBackground.destroy()
+        }
+        if (this.timer != null) {
+            this.timer.destroy()
+        }
         console.log("destroying order")
+		if (this.orders != null) {
+            this.orders.pop(this.index)
+        }
 	}
 }
 
@@ -641,8 +661,6 @@ class GameScene extends Phaser.Scene {
         order.setBackground(orderBackground)
 		orderBackground.on("pointerover", () => {
             orderBackground.setScale(this.orderHoverScale)
-            
-            console.log(orderBackground)
 
             // work out dimensions
             let ingredientsStartX = startX - ((orderBackground.width * this.orderHoverScale) / 2) + 5
@@ -669,24 +687,25 @@ class GameScene extends Phaser.Scene {
 
 		orderBackground.on("pointerout", () => {
 			orderBackground.setScale(this.orderDefaultScale)
-			group.destroy(true)
+			if (group != null) {
+                group.destroy(true)
+                group = null
+            }
 		})
 		orderBackground.on("pointerup", ()=> {
 			if (order.compareToPlate(this.plateItems)){
 				console.log("yay")
 				order.destroy()
-
 			} else {
 				console.log("nay")
 			}
 		})
-        this.orders.push(order)
-        
-	    this.time.addEvent({
-            delay: 10000 + Math.random()*5000, 
-            callback: order.destroy(), 
-            callbackScope:this
-        })
+	    order.setTimer(this.time.delayedCall({
+            delay: 20000 + Math.random()*5000,
+            callback: order.destroy,
+            callbackScope: this
+        }))
+        order.addSelfToOrders(this.orders)
     }
 
     getRandomElementFromDict(array) {
