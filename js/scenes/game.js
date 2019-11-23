@@ -1,7 +1,7 @@
 // order scene
 const OrderState = {COMPLETE: 1, COOKING: 2, PLATING: 3, NOT_STARTED: 4,}
 const EggType ={FRIED: 1, OMELETTE: 2, SCRAMBLED: 3,}
-const Toppings = {HAM: 2,CHEESE: 3,MUSHROOM: 6,}
+const Toppings = {HAM: 1,CHEESE: 2,MUSHROOM: 3,}
 const Salads = {LETTUCE: 1,RED_ONION: 2,PEPPERS: 3,TOMATOES: 4,SLICED_BREAD: 5,KETCHUP: 6,}
 const Cursors = {
     POINTER:    'auto',
