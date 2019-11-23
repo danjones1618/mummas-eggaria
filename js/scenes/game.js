@@ -49,6 +49,8 @@ class Order {
 		this.toppingsToObject(toppings)
 		this.saladsToObject(salads)
         this.cursor = Cursors.POINTER
+        this.orderBackground = null
+        this.timer = null
 	}
 
 	eggToObject(eggType){
@@ -136,7 +138,11 @@ class Order {
 
 	setBackground(orderBackground){
 		this.orderBackground = orderBackground
-	}
+    }
+    
+    setTimer(timer) {
+        this.timer = timer
+    }
 
 	destroy(){
 		this.orderBackground.destroy()
@@ -678,13 +684,13 @@ class GameScene extends Phaser.Scene {
 				console.log("nay")
 			}
 		})
-        this.orders.push(order)
         
-	    this.time.addEvent({
-            delay: 10000 + Math.random()*5000, 
+	    order.setTimer(this.time.addEvent({
+            delay: 20000 + Math.random()*5000, 
             callback: order.destroy(), 
             callbackScope:this
-        })
+        }))
+        this.orders.push(order)
     }
 
     getRandomElementFromDict(array) {
