@@ -31,25 +31,25 @@ class Order {
 		//this.toppings = toppings
 		//this.salads = salads
 		this.plateItems = {
-          [Cursors.BREAD]:      0,    
-          [Cursors.CHEESE]:     0,   
-          [Cursors.EGG]:        0,      
-          [Cursors.HAM]:        0,      
-          [Cursors.KETCHUP]:    0,  
-          [Cursors.LETTUCE]:    0,  
+          [Cursors.BREAD]:      0,
+          [Cursors.CHEESE]:     0,
+          [Cursors.EGG]:        0,
+          [Cursors.HAM]:        0,
+          [Cursors.KETCHUP]:    0,
+          [Cursors.LETTUCE]:    0,
           [Cursors.MUSHROOMS]:  0,
-          [Cursors.PEPPERS]:    0,  
-          [Cursors.TOMATO]:     0,   
-          [Cursors.ONION]:      0,    
-          [Cursors.FRIED]:      0,    
+          [Cursors.PEPPERS]:    0,
+          [Cursors.TOMATO]:     0,
+          [Cursors.ONION]:      0,
+          [Cursors.FRIED]:      0,
           [Cursors.SCRAMBLED]:  0,
-          [Cursors.OMLETTE]:    0,  
+          [Cursors.OMLETTE]:    0,
         }
 		this.eggToObject(eggType)
 		this.toppingsToObject(toppings)
 		this.saladsToObject(salads)
 	}
-	
+
 	eggToObject(eggType){
 		switch (eggType){
 			case EggType.FRIED:
@@ -65,7 +65,7 @@ class Order {
 				break
 		}
 	}
-	
+
 	toppingsToObject(toppings){
 		for (let i = 0; i < toppings.length; i++){
 			switch (toppings[i]){
@@ -92,7 +92,7 @@ class Order {
 			}
 		}
 	}
-	
+
 	saladsToObject(salads){
 		for (let i = 0; i < salads.length; i++){
 			switch (salads[i]){
@@ -119,7 +119,7 @@ class Order {
 			}
 		}
 	}
-	
+
 	compareToPlate(plateItems){
 		let plateArray = Object.values(plateItems)
 		let orderArray = Object.values(this.plateItems)
@@ -134,9 +134,9 @@ class Order {
 	}
 }
 
-class OrderScene extends Phaser.Scene {
+class GameScene extends Phaser.Scene {
     constructor() {
-        super({ key: "OrderScene" })
+        super({ key: "GameScene" })
     }
 
     init() {
@@ -148,21 +148,23 @@ class OrderScene extends Phaser.Scene {
         this.hobScale = 3 * 32
         this.hobSizeScale = 3
         this.buttonScale = 3.0
-        this.navArrowScale = 2
+        this.naletrowScale = 2
+        this.orderIngredientScale = 2.75
+        this.orderIngredientSpacing = 30
     }
 
     preload() {
         console.log("order::init")
 
         // create a progress bar
-        var width = 300
-        var height = 40
-        var margin = 5
+        let width = 300
+        let height = 40
+        let margin = 5
 
-        var startX = this.viewportWidth / 2 - width / 2
-        var startY = this.viewportHeight / 2 - height / 2
-        var progressBox = this.add.graphics()
-        var progressBar = this.add.graphics()
+        let startX = this.viewportWidth / 2 - width / 2
+        let startY = this.viewportHeight / 2 - height / 2
+        let progressBox = this.add.graphics()
+        let progressBar = this.add.graphics()
 
         progressBox.fillStyle(0x0000cc)
         progressBar.fillStyle(0x4db8ff)
@@ -218,13 +220,10 @@ class OrderScene extends Phaser.Scene {
         this.load.image("image_ketchup_drop", "/res/ingredients/Ketchup_drop.gif")
         this.load.image("image_bin", "/res/props/bin.png")
         this.load.atlas('pans', '/res/props/pans.png', '/res/props/pans_atlas.json')
-        //this.cameras.default
     }
 
     create() {
         console.log("order::init")
-        //this.physics.startSystem(Phaser.Physics.ARCADE)
-        //var backgroundImage = this.cache.getImage("main_background")
         this.res = {}
         this.res.background = this.add.sprite(
             0, 0, //x, y
@@ -272,7 +271,7 @@ class OrderScene extends Phaser.Scene {
         this.anims.create({key: 'pan_scrambled_burnt',frames:
             this.anims.generateFrameNames('pans', {
                 start: 70,end: 70,prefix: 'pans_',}),
-            frameRate: 6,repeat: -1,}) 
+            frameRate: 6,repeat: -1,})
         this.plateImages = {
             [Cursors.BREAD]:    "image_bread",
             [Cursors.CHEESE]:   "image_cheese",
@@ -295,35 +294,13 @@ class OrderScene extends Phaser.Scene {
         this.createNavButtons()
         this.addPlate()
         this.addBins()
-        
+
         this.initOrders()
 		this.createNewOrder()
 		//this.updateOrderButtons()
         this.setCursor(Cursors.POINTER)
     }
-	
-	/*
-	updateOrderButtons(){
-		let startX = 75
-		let spacingX = 75
-		let startY = this.viewportHeight - 150
-		for (let i = 0; i < this.initOrders.length; i++){
-			let order = this.add.image(
-				startX + (spacingX * i),
-				startY,
-				"image_order")
-			order.setInteractive({useHandCursor : true})
-				.setScale(this.buttonScale)
-			order.on("pointerover", () => {
-				order.setScale(this.buttonScale * 1.5)
-			})
-			order.on("pointerout", () => {
-				order.setScale(this.buttonScale)
-			})
-		}
-		
-	}*/
-    
+
     createSaladButtons(){
         var plateRadius = 128
         var startX = plateRadius + 75
@@ -341,7 +318,7 @@ class OrderScene extends Phaser.Scene {
 			"image_mushrooms",
 			"image_cheese"
         ]
-        
+
         for (let i = 0; i < this.saladImages.length; i++){
             let x = (plateRadius * 2) + 25 + (saladXOffset * (Math.floor(i / 3) + 1))
             let y = this.viewportHeight + (saladYOffset * ((i % 3) + 1))
@@ -360,26 +337,26 @@ class OrderScene extends Phaser.Scene {
 
     resetPlateItems(){
         this.plateItems = {
-          [Cursors.BREAD]:      0,    
-          [Cursors.CHEESE]:     0,   
-          [Cursors.EGG]:        0,      
-          [Cursors.HAM]:        0,      
-          [Cursors.KETCHUP]:    0,  
-          [Cursors.LETTUCE]:    0,  
+          [Cursors.BREAD]:      0,
+          [Cursors.CHEESE]:     0,
+          [Cursors.EGG]:        0,
+          [Cursors.HAM]:        0,
+          [Cursors.KETCHUP]:    0,
+          [Cursors.LETTUCE]:    0,
           [Cursors.MUSHROOMS]:  0,
-          [Cursors.PEPPERS]:    0,  
-          [Cursors.TOMATO]:     0,   
-          [Cursors.ONION]:      0,    
-          [Cursors.FRIED]:      0,    
+          [Cursors.PEPPERS]:    0,
+          [Cursors.TOMATO]:     0,
+          [Cursors.ONION]:      0,
+          [Cursors.FRIED]:      0,
           [Cursors.SCRAMBLED]:  0,
-          [Cursors.OMLETTE]:    0,  
+          [Cursors.OMLETTE]:    0,
         }
     }
 
     addPlate(){
-        var plateRadius = 128
-        var startX = plateRadius + 75
-        var startY = this.viewportHeight + plateRadius + 100
+        let plateRadius = 128
+        let startX = plateRadius + 75
+        let startY = this.viewportHeight + plateRadius + 100
         let plate = this.add.image(startX, startY, "image_plate")
                         .setInteractive({ useHandCursor: false })
         this.resetPlateItems()
@@ -416,7 +393,7 @@ class OrderScene extends Phaser.Scene {
         })
         this.buttons.push(b)
     }
-    
+
     updateButtons(imageString, scale){
         if (this.getCursor() !== Cursors.POINTER)
             return
@@ -445,8 +422,8 @@ class OrderScene extends Phaser.Scene {
     }
 
     createCookButtons(){
-        var startX = 100
-        var startY = this.viewportHeight*2
+        let startX = 100
+        let startY = this.viewportHeight*2
         // Create hob
         for (let x = 1; x <= 3; x++) {
             for (let y = 1; y <= 3; y++){
@@ -521,7 +498,7 @@ class OrderScene extends Phaser.Scene {
     }
 
     createPan(x, y, h){
-        var p = this.add.sprite(x,y, "pans", "pans_36").setScale(this.hobSizeScale)
+        let p = this.add.sprite(x,y, "pans", "pans_36").setScale(this.hobSizeScale)
         p.setInteractive({ useHandCursor: false })
         p.on("pointerover", () => {
             p.setScale(this.hobSizeScale * 1.25)
@@ -535,32 +512,32 @@ class OrderScene extends Phaser.Scene {
         this.arrows = {}
         this.arrows.arrowsClicked = [false, false, false, false]
 
-        this.createNavArrow(0, 180,
+        this.createNaletrow(0, 180,
             this.viewportWidth - 40,
             this.viewportHeight - 40,
             "switchToPrep"
         )
 
-        this.createNavArrow(1, 0,
+        this.createNaletrow(1, 0,
             this.viewportWidth - 40,
             this.viewportHeight + 40,
             "switchToOrder"
         )
 
-        this.createNavArrow(2, 180,
+        this.createNaletrow(2, 180,
             this.viewportWidth - 40,
             this.viewportHeight * 2 - 40,
             "switchToCook"
         )
 
-        this.createNavArrow(3, 0,
+        this.createNaletrow(3, 0,
             this.viewportWidth - 40,
             this.viewportHeight * 2 + 40,
             "switchToPrep"
         )
     }
 
-    createNavArrow(index, rotation, x, y, f) {
+    createNaletrow(index, rotation, x, y, f) {
         // top arrow
         let arrow = this.add.image(
             x, y,
@@ -568,10 +545,10 @@ class OrderScene extends Phaser.Scene {
         )
 
         arrow.setInteractive({ useHandCursor: true })
-        .setScale(this.navArrowScale)
+        .setScale(this.naletrowScale)
         .setAngle(rotation)
         .on("pointerover", () => {
-            arrow.setScale(this.navArrowScale * 1.25)
+            arrow.setScale(this.naletrowScale * 1.25)
         }).on("pointerdown", () => {
             // clicked
             this.arrows.arrowsClicked[index] = true
@@ -584,7 +561,7 @@ class OrderScene extends Phaser.Scene {
             if (this.arrows.arrowsClicked[index]) {
                 this.arrows.arrowsClicked[index] = false
             }
-            arrow.setScale(this.navArrowScale)
+            arrow.setScale(this.naletrowScale)
         })
 
         return arrow
@@ -602,25 +579,19 @@ class OrderScene extends Phaser.Scene {
         this.cameras.main.setScroll(0, this.viewportHeight * 2)
     }
 
-    // called every frame
-    update(time, delta) {
-        //this.cameras.default.scrollY = 0.05
-    }
-
     initOrders() {
         this.orders = []
     }
 
     onOrderCreated(order) {
 		console.log(order)
-        
+
 		let orderArray = Object.values(order.plateItems)
         // create the sprite group
         let group = this.add.group()
 		let startX = 75 * this.orders.length
 		let spacingX = 75
 		let startY = this.viewportHeight - 150
-		let ingredientSpacing = 25
         let background = this.add.image(
             startX + spacingX,
 			startY,
@@ -633,15 +604,15 @@ class OrderScene extends Phaser.Scene {
 			console.log("%d", orderArray.length)
 
 			group = this.add.group()
-			
+
 			for (let i = 0; i < orderArray.length; i++){
 				if (orderArray[i] != 0){
 					for (let j = 0; j < orderArray[i]; j++){
 						let ingredient = this.add.image(
-							startX + spacingX + (ingredientSpacing * (((i+j) %3))) - 25,
-							startY + (ingredientSpacing * ((i % 4) - 1)),
+							startX + spacingX + (this.orderIngredientSpacing * (((i+j) %3))) - 25,
+							startY + (this.orderIngredientSpacing * ((i % 4) - 1)),
 							Object.values(this.plateImages)[i]
-						).setScale(1.5)
+						).setScale(this.orderIngredientScale)
 						//console.log(this.plateImages[i])
 						group.add(ingredient)
 					}
@@ -664,8 +635,7 @@ class OrderScene extends Phaser.Scene {
 
     getRandomElementFromDict(array) {
 		let object = Object.values(array)
-		var i = Math.floor(Math.random() * object.length)
-		//console.log(i)
+		let i = Math.floor(Math.random() * object.length)
         return object[i]
     }
 
@@ -676,11 +646,11 @@ class OrderScene extends Phaser.Scene {
         let toppings = []
         let salads = []
         // add 1-3 random toppings
-        for (var i = 0, r = Math.floor(Math.random() * 3 + 1); i < r; i++) {
+        for (let i = 0, r = Math.floor(Math.random() * 3 + 1); i < r; i++) {
             toppings.push(this.getRandomElementFromDict(Toppings))
         }
         // add 1-3 random salads
-        for (var i = 0, r = Math.floor(Math.random() * 3 + 1); i < r; i++) {
+        for (let i = 0, r = Math.floor(Math.random() * 3 + 1); i < r; i++) {
             salads.push(this.getRandomElementFromDict(Salads))
         }
 		console.log(type)
@@ -692,11 +662,11 @@ class OrderScene extends Phaser.Scene {
     }
 
     setCursor(cursor){
-        this.input.setDefaultCursor(cursor)        
+        this.input.setDefaultCursor(cursor)
     }
 
     getCursor(){
-        for (var prop in Cursors) {
+        for (let prop in Cursors) {
             let c = document.getElementsByTagName("canvas")[0].style.cursor
             if (Cursors[prop] === c)
                 return Cursors[prop]

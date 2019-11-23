@@ -1,5 +1,8 @@
 // main game
 
+// set to true to skip startup scene
+const skipToGame = true
+
 var config =
 {
     type: Phaser.AUTO,
@@ -23,7 +26,7 @@ var config =
             }
         }
     },
-    scene: [StartupScene, OrderScene], 
+    scene: skipToGame ? GameScene : [StartupScene, GameScene], 
     disableContextMenu: true
 }
 
