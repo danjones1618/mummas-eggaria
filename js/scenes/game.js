@@ -624,7 +624,7 @@ class GameScene extends Phaser.Scene {
 			orderBackground.setScale(this.orderDefaultScale)
 			group.destroy(true)
 		})
-		background.on("pointerup", ()=> {
+		orderBackground.on("pointerup", ()=> {
 			if (order.compareToPlate(this.plateItems)){
 				console.log("yay")
 			} else {
