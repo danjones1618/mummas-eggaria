@@ -1,6 +1,10 @@
   body {
     background-color:rgb(94, 137, 174);
   }
+
+  .dark {
+    background-color: #333;
+  }
   
   h1 {
     color: white;
