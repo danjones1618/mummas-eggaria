@@ -157,8 +157,8 @@ class OrderScene extends Phaser.Scene {
 		var startY = this.viewportHeight + plateRadius + 100
 		var saladXOffset = 100
 		var saladYOffset = 90
-		this.add.image(startX, startY, "image_plate")
-		//this.add.image(saladOffset, )
+		let plate = this.add.image(startX, startY, "image_plate")
+						.setInteractive({ userHandCursor: true })
 		this.saladImages = [
 			"image_lettuce",
 			"image_onion",
@@ -169,6 +169,7 @@ class OrderScene extends Phaser.Scene {
 		]
 		
 		this.saladButtons = []
+		this.saladStatus = 0
 		
 		for (let i = 0; i < this.saladImages.length; i++){
             let x = (plateRadius * 2) + 25 + (saladXOffset * ((i %2) + 1))
@@ -178,20 +179,27 @@ class OrderScene extends Phaser.Scene {
 				.setInteractive({ userHandCursor: true })
 			salad.on("pointerdown", () => {
 				//salad.setScale(this.saladScale * 1.25)
-				this.updateSaladStatus(salad.texture.key)
+				this.updateSaladButtons(salad.texture.key)
 			})
             salad.on("pointerup", () => {
                 //salad.setScale(this.saladScale)
-				this.updateSaladStatus(salad.texture.key)
+				this.updateSaladButtons(salad.texture.key)
             })
 			this.saladButtons.push(salad)
         }
+		plate.on("pointerdown", () => {
+			if (this.saladStatus != 0){
+				//let topping = this.add.image(this.input.pointer.x, this.input.activePointer.y, this.saladImages[this.saladStatus - 1])
+			}
+			this.saladStatus = 0
+		})
 	}
 	
-	updateSaladStatus(imageString){
+	updateSaladButtons(imageString){
 		for (let i = 0; i < this.saladImages.length; i++){
 			if (imageString == this.saladImages[i]){
 				this.saladButtons[i].setScale(this.saladScale * 1.25)
+				this.saladStatus = i + 1
 			} else {
 				this.saladButtons[i].setScale(this.saladScale)
 			}
