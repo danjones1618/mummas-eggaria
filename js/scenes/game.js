@@ -49,14 +49,6 @@ class Order {
 		this.toppingsToObject(toppings)
 		this.saladsToObject(salads)
         this.cursor = Cursors.POINTER
-<<<<<<< HEAD
-=======
-        timedDestroy = this.time.addEvent({
-            delay: 10000 + Math.random()*5000,
-            callback: this.destroy(),
-            callbackScope:this
-        })
->>>>>>> 4c5e914c53d1ee86b30e7ab2fad398359a2796bf
 	}
 
 	eggToObject(eggType){
