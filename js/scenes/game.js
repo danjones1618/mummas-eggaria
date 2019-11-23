@@ -147,6 +147,7 @@ class Order {
 	destroy(){
         this.orderBackground.destroy()
         this.timer.destroy()
+        console.log("destroying order")
 	}
 }
 
