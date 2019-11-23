@@ -31,25 +31,25 @@ class Order {
 		//this.toppings = toppings
 		//this.salads = salads
 		this.plateItems = {
-          [Cursors.BREAD]:      0,    
-          [Cursors.CHEESE]:     0,   
-          [Cursors.EGG]:        0,      
-          [Cursors.HAM]:        0,      
-          [Cursors.KETCHUP]:    0,  
-          [Cursors.LETTUCE]:    0,  
+          [Cursors.BREAD]:      0,
+          [Cursors.CHEESE]:     0,
+          [Cursors.EGG]:        0,
+          [Cursors.HAM]:        0,
+          [Cursors.KETCHUP]:    0,
+          [Cursors.LETTUCE]:    0,
           [Cursors.MUSHROOMS]:  0,
-          [Cursors.PEPPERS]:    0,  
-          [Cursors.TOMATO]:     0,   
-          [Cursors.ONION]:      0,    
-          [Cursors.FRIED]:      0,    
+          [Cursors.PEPPERS]:    0,
+          [Cursors.TOMATO]:     0,
+          [Cursors.ONION]:      0,
+          [Cursors.FRIED]:      0,
           [Cursors.SCRAMBLED]:  0,
-          [Cursors.OMLETTE]:    0,  
+          [Cursors.OMLETTE]:    0,
         }
 		this.eggToObject(eggType)
 		this.toppingsToObject(toppings)
 		this.saladsToObject(salads)
 	}
-	
+
 	eggToObject(eggType){
 		switch (eggType){
 			case EggType.FRIED:
@@ -65,7 +65,7 @@ class Order {
 				break
 		}
 	}
-	
+
 	toppingsToObject(toppings){
 		for (let i = 0; i < toppings.length; i++){
 			switch (toppings[i]){
@@ -92,7 +92,7 @@ class Order {
 			}
 		}
 	}
-	
+
 	saladsToObject(salads){
 		for (let i = 0; i < salads.length; i++){
 			switch (salads[i]){
@@ -119,11 +119,13 @@ class Order {
 			}
 		}
 	}
-	
+
 	compareToPlate(plateItems){
+		let plateArray = Object.values(plateItems)
+		let orderArray = Object.values(this.plateItems)
 		let result = true
-		for (let i = 0; i < plateItems.length && result; i++){
-			if (plateItems[i] < this.plateItems[i]){
+		for (let i = 0; i < plateArray.length && result; i++){
+			if (plateArray[i] < orderArray[i]){
 				//assume customer is fine w/ extra
 				result = false
 			}
@@ -271,14 +273,14 @@ class GameScene extends Phaser.Scene {
         this.anims.create({key: 'pan_scrambled_burnt',frames:
             this.anims.generateFrameNames('pans', {
                 start: 70,end: 70,prefix: 'pans_',}),
-            frameRate: 6,repeat: -1,}) 
+            frameRate: 6,repeat: -1,})
         this.plateImages = {
             [Cursors.BREAD]:    "image_bread",
             [Cursors.CHEESE]:   "image_cheese",
             [Cursors.HAM]:      "image_ham",
             [Cursors.KETCHUP]:  "image_ketchup_drop",
             [Cursors.LETTUCE]:  "image_lettuce",
-            [Cursors.MUSHROOMS]:"image_mushrroms",
+            [Cursors.MUSHROOMS]:"image_mushrooms",
             [Cursors.PEPPERS]:  "image_peppers",
             [Cursors.TOMATO]:   "image_tomato",
             [Cursors.ONION]:    "image_onion",
@@ -294,30 +296,33 @@ class GameScene extends Phaser.Scene {
         this.createNavButtons()
         this.addPlate()
         this.addBins()
-        
+
         this.initOrders()
 		this.createNewOrder()
 		//this.updateOrderButtons()
         this.setCursor(Cursors.POINTER)
     }
-    
+
     createSaladButtons(){
-        let plateRadius = 128
-        let startX = plateRadius + 75
-        let startY = this.viewportHeight + plateRadius + 100
-        let saladXOffset = 100
-        let saladYOffset = 90
+        var plateRadius = 128
+        var startX = plateRadius + 75
+        var startY = this.viewportHeight + plateRadius + 100
+        var saladXOffset = 70
+        var saladYOffset = 70
         this.saladImages = [
             "image_lettuce",
             "image_onion",
             "image_peppers",
             "image_tomato",
             "image_bread",
-            "image_ketchup"
+            "image_ketchup",
+			"image_ham",
+			"image_mushrooms",
+			"image_cheese"
         ]
-        
+
         for (let i = 0; i < this.saladImages.length; i++){
-            let x = (plateRadius * 2) + 25 + (saladXOffset * ((i %2) + 1))
+            let x = (plateRadius * 2) + 25 + (saladXOffset * (Math.floor(i / 3) + 1))
             let y = this.viewportHeight + (saladYOffset * ((i % 3) + 1))
             this.createButtons(x, y, this.saladImages[i])
         }
@@ -334,19 +339,19 @@ class GameScene extends Phaser.Scene {
 
     resetPlateItems(){
         this.plateItems = {
-          [Cursors.BREAD]:      0,    
-          [Cursors.CHEESE]:     0,   
-          [Cursors.EGG]:        0,      
-          [Cursors.HAM]:        0,      
-          [Cursors.KETCHUP]:    0,  
-          [Cursors.LETTUCE]:    0,  
+          [Cursors.BREAD]:      0,
+          [Cursors.CHEESE]:     0,
+          [Cursors.EGG]:        0,
+          [Cursors.HAM]:        0,
+          [Cursors.KETCHUP]:    0,
+          [Cursors.LETTUCE]:    0,
           [Cursors.MUSHROOMS]:  0,
-          [Cursors.PEPPERS]:    0,  
-          [Cursors.TOMATO]:     0,   
-          [Cursors.ONION]:      0,    
-          [Cursors.FRIED]:      0,    
+          [Cursors.PEPPERS]:    0,
+          [Cursors.TOMATO]:     0,
+          [Cursors.ONION]:      0,
+          [Cursors.FRIED]:      0,
           [Cursors.SCRAMBLED]:  0,
-          [Cursors.OMLETTE]:    0,  
+          [Cursors.OMLETTE]:    0,
         }
     }
 
@@ -390,7 +395,7 @@ class GameScene extends Phaser.Scene {
         })
         this.buttons.push(b)
     }
-    
+
     updateButtons(imageString, scale){
         if (this.getCursor() !== Cursors.POINTER)
             return
@@ -404,6 +409,9 @@ class GameScene extends Phaser.Scene {
             "image_egg":     Cursors.EGG,
             "image_whisk":   Cursors.WHISK,
             "image_spatula": Cursors.SPATULA,
+			"image_cheese":	 Cursors.CHEESE,
+			"image_mushrooms": Cursors.MUSHROOM,
+			"image_ham":	 Cursors.HAM,
         }
         for (let i = 0; i < this.buttons.length; i++){
             if (imageString == this.buttons[i].texture.key){
@@ -579,13 +587,11 @@ class GameScene extends Phaser.Scene {
 
     onOrderCreated(order) {
 		console.log(order)
-        this.orders.push(order)
-        let ingredients = Object.values(order.plateItems)
-        console.log(ingredients)
+		let ingredients = Object.values(order.plateItems)
         // create the sprite group
         let group = null
-		let startX = 50
-		let spacingX = 50
+		let startX = 75 * this.orders.length
+		let spacingX = 75
 		let startY = this.viewportHeight - 150
         let orderBackground = this.add.image(
             startX + spacingX,
@@ -598,7 +604,6 @@ class GameScene extends Phaser.Scene {
 			orderBackground.setScale(this.orderHoverScale)
 
 			group = this.add.group()
-			
 			for (let i = 0; i < ingredients.length; i++){
 				if (ingredients[i] != 0){
                     console.log("ingredient: %s", ingredients[i])
@@ -619,6 +624,14 @@ class GameScene extends Phaser.Scene {
 			orderBackground.setScale(this.orderDefaultScale)
 			group.destroy(true)
 		})
+		background.on("pointerup", ()=> {
+			if (order.compareToPlate(this.plateItems)){
+				console.log("yay")
+			} else {
+				console.log("nay")
+			}
+		})
+		this.orders.push(order)
     }
 
     getRandomElementFromDict(array) {
@@ -650,7 +663,7 @@ class GameScene extends Phaser.Scene {
     }
 
     setCursor(cursor){
-        this.input.setDefaultCursor(cursor)        
+        this.input.setDefaultCursor(cursor)
     }
 
     getCursor(){
