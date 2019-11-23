@@ -661,8 +661,6 @@ class GameScene extends Phaser.Scene {
 		orderBackground.on("pointerover", () => {
             orderBackground.setScale(this.orderHoverScale)
 
-            console.log(orderBackground)
-
             // work out dimensions
             let ingredientsStartX = startX - ((orderBackground.width * this.orderHoverScale) / 2) + 5
             let ingredientsStartY = startY - ((orderBackground.height * this.orderHoverScale) / 2) + 5
@@ -704,7 +702,7 @@ class GameScene extends Phaser.Scene {
 	    order.setTimer(this.time.delayedCall({
             delay: 20000 + Math.random()*5000,
             callback: order.destroy,
-            callbackScope:this
+            callbackScope: this
         }))
         order.addSelfToOrders(this.orders)
     }
