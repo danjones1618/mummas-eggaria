@@ -102,40 +102,46 @@ class OrderScene extends Phaser.Scene {
 
         this.cameras.main.setBounds(0, 0, this.worldWidth, this.worldHeight)
 
-        this.anims.create({
-            key: 'pan_fried_flip',
-            frames: this.anims.generateFrameNames('pans', {
-                start: 0,
-                end: 17,
-                prefix: 'pans_',
-            }),
-            frameRate: 6,
-            repeat: -1,
-        })
-
-        this.anims.create({
-            //key: 'pan_fried_shake',
-            key: 'pan_egg_crack',
-            frames: this.anims.generateFrameNames('pans', {
-                start: 0,
-                end: 1,
-                prefix: 'pans_',
-            }),
-            frameRate: 6,
-            repeat: -1,
-        })
-
-        this.anims.create({
-            key: 'pan_eg_crack',
-            frames: this.anims.generateFrameNames('pans', {
-                start: 0,
-                end: 17,
-                prefix: 'pans_',
-            }),
-            frameRate: 6,
-            repeat: -1,
-        })
-
+        this.anims.create({key: 'pan_fried_flip',frames:
+            this.anims.generateFrameNames('pans', {
+                start: 0,end: 16,prefix: 'pans_',}),
+            frameRate: 6,repeat: 0,})
+        this.anims.create({key: 'pan_fried_shake',frames:
+            this.anims.generateFrameNames('pans', {
+                start: 0,end: 1,prefix: 'pans_',}),
+            frameRate: 1,repeat: 5,})
+        this.anims.create({key: 'pan_fried_burnt',frames:
+            this.anims.generateFrameNames('pans', {
+                start: 17,end: 17,prefix: 'pans_',}),
+            frameRate: 6,repeat: -1,})
+        this.anims.create({key: 'pan_omlette_flip',frames:
+            this.anims.generateFrameNames('pans', {
+                start: 18,end: 34,prefix: 'pans_',}),
+            frameRate: 6,repeat: -1,})
+        this.anims.create({key: 'pan_omlette_shake',frames:
+            this.anims.generateFrameNames('pans', {
+                start: 18,end: 19,prefix: 'pans_',}),
+            frameRate: 1,repeat: -1,})
+        this.anims.create({key: 'pan_omlette_burnt',frames:
+            this.anims.generateFrameNames('pans', {
+                start: 35,end: 35,prefix: 'pans_',}),
+            frameRate: 6,repeat: -1,})
+        this.anims.create({key: 'pan_egg_crack',frames:
+            this.anims.generateFrameNames('pans', {
+                start: 36,end: 52,prefix: 'pans_',}),
+            frameRate: 6,repeat: 0,})
+        this.anims.create({key: 'pan_scrambled_flip',frames:
+            this.anims.generateFrameNames('pans', {
+                start: 53,end: 69,prefix: 'pans_',}),
+            frameRate: 6,repeat: -1,})
+        this.anims.create({key: 'pan_scrambled_shake',frames:
+            this.anims.generateFrameNames('pans', {
+                start: 53,end: 54,prefix: 'pans_',}),
+            frameRate: 1,repeat: -1,})
+        this.anims.create({key: 'pan_scrambled_burnt',frames:
+            this.anims.generateFrameNames('pans', {
+                start: 70,end: 70,prefix: 'pans_',}),
+            frameRate: 6,repeat: -1,})
         this.createCookButtons()
 		this.createSaladButtons()
         this.createNavButtons()
@@ -182,9 +188,47 @@ class OrderScene extends Phaser.Scene {
         }
     }
 
+    panLoop(p, h){
+        p.once("pointerup", () => {
+            p.play("pan_egg_crack")
+            p.once("animationcomplete", () => {
+                p.play("pan_fried_shake")
+                p.once("animationcomplete", () => {
+                    p.play("pan_fried_flip")
+                    p.once("animationcomplete", () => {
+                        p.play("pan_fried_shake")
+                        p.once("pointerup", () => {
+                            console.log("cooked boi")
+                            p.removeAllListeners("animationcomplete")
+                            p.anims.stop()
+                            p.setFrame("pans_36")
+                            this.panLoop(p)
+                        })
+                        p.once("animationcomplete", () => {
+                            p.play("pan_fried_burnt")
+                            p.removeAllListeners("pointerup")
+                            p.once("pointerup", () => {
+                                console.log("Burnt boi")
+                                p.anims.stop()
+                                p.setFrame("pans_36")
+                                this.panLoop(p)
+                            })
+                        })
+                    })
+                })
+            })
+        })
+    }
+
     createPan(x, y){
-        var p = this.add.sprite(x,y, "pans").setScale(this.hobSizeScale)
-        p.play("pan_egg_crack")
+        var p = this.add.sprite(x,y, "pans", "pans_36").setScale(this.hobSizeScale)
+        p.setInteractive({ userHandCursor: true })
+        p.on("pointerover", () => {
+            p.setScale(this.hobSizeScale * 1.25)
+        }).on("pointerout", () => {
+            p.setScale(this.hobSizeScale)
+        })
+        this.panLoop(p, undefined)
     }
 
     createNavButtons() {
