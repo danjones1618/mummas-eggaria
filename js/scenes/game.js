@@ -430,6 +430,7 @@ class GameScene extends Phaser.Scene {
                 if (this.getCursor() === Cursors.POINTER){
                     let k = topping.texture.key
                     this.setCursor(this.imageToCursor[k])
+                    this.plateItems[this.getCursor()]--
                     this.toDestroy = this.toDestroy.filter((item) => {
                         return item !== topping
                     })
@@ -438,7 +439,7 @@ class GameScene extends Phaser.Scene {
                     this.addTopping()
                 }
             })
-            this.plateItems[this.getCursor()] += 1
+            this.plateItems[this.getCursor()]++ 
             // Prevent adding multiple eggs
             this.setCursor(Cursors.POINTER)
         }
