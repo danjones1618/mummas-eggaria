@@ -689,6 +689,7 @@ class GameScene extends Phaser.Scene {
 		orderBackground.on("pointerup", ()=> {
 			if (order.compareToPlate(this.plateItems)){
 				console.log("yay")
+                this.resetPlateItems()
                 if (group != null) {
                     group.destroy(true)
                     group = null
