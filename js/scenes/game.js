@@ -49,6 +49,11 @@ class Order {
 		this.toppingsToObject(toppings)
 		this.saladsToObject(salads)
         this.cursor = Cursors.POINTER
+        timedDestroy = this.time.addEvent({
+            delay: 10000 + Math.random()*5000,
+            callback: this.destroy(),
+            callbackScope:this
+        })
 	}
 
 	eggToObject(eggType){
@@ -133,11 +138,11 @@ class Order {
 		}
 		return result
 	}
-	
+
 	setBackground(orderBackground){
 		this.orderBackground = orderBackground
 	}
-	
+
 	destroy(){
 		this.orderBackground.destroy()
 	}
@@ -387,7 +392,7 @@ class GameScene extends Phaser.Scene {
                         .setInteractive({ useHandCursor: false })
         this.resetPlateItems()
         plate.on("pointerup", () => {
-            this.addTopping() 
+            this.addTopping()
         })
     }
 
@@ -439,7 +444,7 @@ class GameScene extends Phaser.Scene {
     updateButtons(imageString, scale){
         if (this.getCursor() !== Cursors.POINTER)
             return
-        
+
         for (let i = 0; i < this.buttons.length; i++){
             if (imageString == this.buttons[i].texture.key){
                 this.buttons[i].setScale(scale * 1.25)
@@ -631,8 +636,8 @@ class GameScene extends Phaser.Scene {
         order.setBackground(orderBackground)
 		orderBackground.on("pointerover", () => {
             orderBackground.setScale(this.orderHoverScale)
-            
-            
+
+
 
             group = this.add.group()
             let ingredientIndex = 0
@@ -652,7 +657,7 @@ class GameScene extends Phaser.Scene {
 				}
 			}
         })
-        
+
 		orderBackground.on("pointerout", () => {
 			orderBackground.setScale(this.orderDefaultScale)
 			group.destroy(true)
@@ -661,7 +666,7 @@ class GameScene extends Phaser.Scene {
 			if (order.compareToPlate(this.plateItems)){
 				console.log("yay")
 				order.destroy()
-				
+
 			} else {
 				console.log("nay")
 			}
