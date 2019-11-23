@@ -25,6 +25,137 @@ const Cursors = {
     BOMLETTE:   'url("/res/cursors/burnt_omlette.png"), pointer',
 }
 
+class Order {
+	constructor(eggType, toppings, salads){
+		//this.eggType = eggType
+		//this.toppings = toppings
+		//this.salads = salads
+		this.plateItems = {
+          [Cursors.BREAD]:      0,    
+          [Cursors.CHEESE]:     0,   
+          [Cursors.EGG]:        0,      
+          [Cursors.HAM]:        0,      
+          [Cursors.KETCHUP]:    0,  
+          [Cursors.LETTUCE]:    0,  
+          [Cursors.MUSHROOMS]:  0,
+          [Cursors.PEPPERS]:    0,  
+          [Cursors.TOMATO]:     0,   
+          [Cursors.ONION]:      0,    
+          [Cursors.FRIED]:      0,    
+          [Cursors.SCRAMBLED]:  0,
+          [Cursors.OMLETTE]:    0,  
+        }
+		eggToObject(eggType)
+		toppingsToObject(toppings)
+		saladsToObject(salads)
+	}
+	
+	eggToObject(eggType){
+		switch (eggType){
+			case EggType.FRIED:
+				this.plateItems[Cursors.FRIED] += 1
+				break
+			case EggType.SCRAMBLED:
+				this.plateItems[Cursors.SCRAMBLED] += 1
+				break
+			case EggType.OMELETTE:
+				this.plateItems[Cursors.OMLETTE] += 1
+				break
+			default:
+				break
+		}
+	}
+	
+	toppingsToObject(toppings){
+		for (let i = 0; i < toppings.length; i++){
+			switch (toppings[i]){
+				case Toppings.PEPPERS:
+					this.plateItems[Cursors.PEPPERS] += 1
+					break
+				case Toppings.HAM:
+					this.plateItems[Cursors.HAM] += 1
+					break
+				case Toppings.CHEESE:
+					this.plateItems[Cursors.CHEESE] += 1
+					break
+				case Toppings.RED_ONION:
+					this.plateItems[Cursors.RED_ONION] += 1
+					break
+				case Toppings.TOMATOES:
+					this.plateItems[Cursors.TOMATO] += 1
+					break
+				case Toppings.MUSHROOM:
+					this.plateItems[Cursors.MUSHROOMS] += 1
+					break
+				default:
+					break
+			}
+		}
+	}
+	
+	saladsToObject(salads){
+		for (let i = 0; i < salads.length; i++){
+			switch (toppings[i]){
+				case Salads.PEPPERS:
+					this.plateItems[Cursors.PEPPERS] += 1
+					break
+				case Salads.LETTUCE:
+					this.plateItems[Cursors.LETTUCE] += 1
+					break
+				case Salads.SLICED_BREAD:
+					this.plateItems[Cursors.BREAD] += 1
+					break
+				case Salads.RED_ONION:
+					this.plateItems[Cursors.RED_ONION] += 1
+					break
+				case Salads.TOMATOES:
+					this.plateItems[Cursors.TOMATO] += 1
+					break
+				case Salads.KETCHUP:
+					this.plateItems[Cursors.KETCHUP] += 1
+					break
+				default:
+					break
+			}
+		}
+	}
+	
+	compareToDish(dish){
+		let result = true
+		for (let i = 0; i < plateItems.length && result; i++){
+			if (dish.plateItems[i] < this.plateItems[i]){
+				//assume customer is fine w/ extra
+				result = false
+			}
+		}
+		return result
+	}
+}
+
+class Dish {
+	constructor(){
+		this.plateItems = {
+          [Cursors.BREAD]:      0,    
+          [Cursors.CHEESE]:     0,   
+          [Cursors.EGG]:        0,      
+          [Cursors.HAM]:        0,      
+          [Cursors.KETCHUP]:    0,  
+          [Cursors.LETTUCE]:    0,  
+          [Cursors.MUSHROOMS]:  0,
+          [Cursors.PEPPERS]:    0,  
+          [Cursors.TOMATO]:     0,   
+          [Cursors.ONION]:      0,    
+          [Cursors.FRIED]:      0,    
+          [Cursors.SCRAMBLED]:  0,
+          [Cursors.OMLETTE]:    0,  
+        }
+	}
+	
+	addIngredient(cursorIndex){
+		this.plateItems[cursorIndex] += 1
+	}
+}
+
 class OrderScene extends Phaser.Scene {
     constructor() {
         super({ key: "OrderScene" })
