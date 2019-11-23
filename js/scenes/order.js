@@ -35,7 +35,7 @@ class OrderScene extends Phaser.Scene {
         this.viewportHeight = 480
         this.hobScale = 3 * 32
         this.hobSizeScale = 3
-		this.saladScale = 3.0
+		this.buttonScale = 3.0
         this.navArrowScale = 2
     }
 
@@ -199,7 +199,7 @@ class OrderScene extends Phaser.Scene {
 		for (let i = 0; i < this.saladImages.length; i++){
             let x = (plateRadius * 2) + 25 + (saladXOffset * ((i %2) + 1))
             let y = this.viewportHeight + (saladYOffset * ((i % 3) + 1))
-            this.createButtons(x, y, this.saladImages[i], this.saladScale)
+            this.createButtons(x, y, this.saladImages[i])
         }
     }
 
@@ -214,11 +214,12 @@ class OrderScene extends Phaser.Scene {
                 this.input.mousePointer.x,
                 this.viewportHeight + this.input.mousePointer.y,
                 this.plateImages[this.getCursor()])
-                .setScale(this.saladScale)
+                .setScale(this.buttonScale)
         })
     }
 
-    createButtons(x, y, image, scale){
+    createButtons(x, y, image){
+        let scale = this.buttonScale
         let b = this.add.image(x, y, image)
             .setScale(scale)
             .setInteractive({ userHandCursor: true })
@@ -265,9 +266,10 @@ class OrderScene extends Phaser.Scene {
             }
         }
         let y = startY + (4 * this.hobScale)
-        this.createButtons(startX, y, "image_egg", 1)
-        this.createButtons(startX + 32, y, "image_whisk", 1)
-        this.createButtons(startX + 64, y, "image_spatula", 1)
+        let width = 32 * this.buttonScale
+        this.createButtons(startX + this.hobScale, y, "image_egg")
+        this.createButtons(startX + this.hobScale + width, y, "image_whisk")
+        this.createButtons(startX + this.hobScale + width * 2, y, "image_spatula")
     }
 
     panLoop(p, h){
