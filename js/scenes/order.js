@@ -100,6 +100,7 @@ class OrderScene extends Phaser.Scene {
         this.load.image("image_hob_off", "/res/props/hob_off.png")
         this.load.image("image_order", "/res/props/Order.gif")
         this.load.image("image_plate", "/res/props/plate.png")
+		this.load.image("image_ketchup_drop", "/res/ingredients/Ketchup_drop.gif")
         this.load.atlas('pans', '/res/props/pans.png', '/res/props/pans_atlas.json')
         //this.cameras.default
     }
@@ -200,7 +201,14 @@ class OrderScene extends Phaser.Scene {
 			this.saladButtons.push(salad)
         }
 		plate.on("pointerdown", () => {
-			if (this.saladStatus != 0){
+			if (this.saladStatus == 6){
+				let topping = this.add.image(
+					this.input.mousePointer.x,
+					this.viewportHeight + this.input.mousePointer.y,
+					"image_ketchup_drop")
+					.setScale(this.saladScale)
+				console.log("%d, %d", this.input.mousePointer.x, this.input.mousePointer.y)
+			} else if (this.saladStatus != 0){
 				let topping = this.add.image(
 					this.input.mousePointer.x,
 					this.viewportHeight + this.input.mousePointer.y,
