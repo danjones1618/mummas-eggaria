@@ -166,40 +166,19 @@ class OrderScene extends Phaser.Scene {
 			"image_ketchup"
 		]
 		
-		for (var i = 0; i < saladImages.length; i++){
-			var salad = 
-				this.add.image((plateRadius * 2) + 25 + (saladXOffset * ((i %2) + 1)),
-				this.viewportHeight + (saladYOffset * ((i % 3) + 1)),
-				saladImages[i])
+		for (let i = 0; i < saladImages.length; i++){
+            let x = (plateRadius * 2) + 25 + (saladXOffset * ((i %2) + 1))
+            let y = this.viewportHeight + (saladYOffset * ((i % 3) + 1))
+			let salad = this.add.image(x, y, saladImages[i])
 				.setScale(this.saladScale)
-				.setInteractive({useHandCursor: true})
-				.on("pointerup", () => {
+				.setInteractive({ userHandCursor: true })
+			salad.on("pointerover", () => {
 				salad.setScale(this.saladScale * 1.25)
 			})
-		/*	salad.on("pointerdown", () => {
-				if (salad.scale == this.saladScale){
-					salad.setScale(this.saladScale * 1.25)
-					console.log("enlarge %d", salad.scale)
-				} else {
-					salad.setScale(this.saladScale)
-					console.log("reduce %d", salad.scale)
-				}
-			})*/
-		}
-
-/*
-		this.add.image((plateRadius * 2) + 25 + (saladXOffset * ((0 %2) + 1)),
-			this.viewportHeight + (saladYOffset * ((0 % 3) + 1)),
-			"image_lettuce")
-			.setScale(this.saladScale)
-			.on("pointerdown", function () {
-				if (saladButtons[0].scale == saladScale){
-					saladButtons[0].setScale(saladScale * 1.25)
-				} else {
-					saladButtons[0].setScale(saladScale)
-				}
-			})*/
-		
+            salad.on("pointerout", () => {
+                salad.setScale(this.saladScale)
+            })
+        }
 	}
 
     createCookButtons(){
