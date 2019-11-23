@@ -139,7 +139,8 @@ class Order {
 	}
 
 	destroy(){
-		this.orderBackground.destroy()
+        this.orderBackground.destroy()
+        console.log("destroying order")
 	}
 }
 
