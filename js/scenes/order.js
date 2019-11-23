@@ -80,7 +80,7 @@ class OrderScene extends Phaser.Scene {
         this.load.image("image_nav_arrow", "/res/props/arrow.png")
         this.load.image("image_stove_off", "/res/props/hob_off.png")
         this.load.image("image_pan", "/res/props/Pan.gif")
-        this.load.image("image_spatula", "/res/props/Spatula.gif")
+        this.load.image("image_spatula", "/res/cursors/Spatula.gif")
         this.load.image("image_whisk", "/res/cursors/Whisk.gif")
         this.load.image("image_spatula", "/res/cursors/Spatula.gif")
         this.load.image("image_bread", "/res/ingredients/Bread.gif")
@@ -229,6 +229,7 @@ class OrderScene extends Phaser.Scene {
             this.updateButtons(image, scale)
         })
         this.buttons.push(b)
+        console.log(this.buttons)
     }
 	
 	updateButtons(imageString, scale){
@@ -239,6 +240,9 @@ class OrderScene extends Phaser.Scene {
 			"image_tomato":  Cursors.TOMATO,
 			"image_bread":   Cursors.BREAD,
 			"image_ketchup": Cursors.KETCHUP,
+            "image_egg":     Cursors.EGG,
+            "image_whisk":   Cursors.WHISK,
+            "image_spatula": Cursors.SPATULA,
         }
 		for (let i = 0; i < this.buttons.length; i++){
 			if (imageString == this.buttons[i].texture.key){
@@ -254,12 +258,16 @@ class OrderScene extends Phaser.Scene {
         var startX = 100
         var startY = this.viewportHeight*2
         // Create hob
-        for (var x = 1; x <= 3; x++) {
-            for (var y = 1; y <= 3; y++){
-                var h = this.add.image(startX + x * this.hobScale, startY + y * this.hobScale, "image_stove_off").setScale(this.hobSizeScale)
+        for (let x = 1; x <= 3; x++) {
+            for (let y = 1; y <= 3; y++){
+                let h = this.add.image(startX + x * this.hobScale, startY + y * this.hobScale, "image_stove_off").setScale(this.hobSizeScale)
                 this.createPan(startX + x * this.hobScale, startY + y * this.hobScale, h)
             }
         }
+        let y = startY + (4 * this.hobScale)
+        this.createButtons(startX, y, "image_egg", 1)
+        this.createButtons(startX + 32, y, "image_whisk", 1)
+        this.createButtons(startX + 64, y, "image_spatula", 1)
     }
 
     panLoop(p, h){
