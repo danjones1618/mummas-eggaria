@@ -514,32 +514,32 @@ class GameScene extends Phaser.Scene {
         this.arrows = {}
         this.arrows.arrowsClicked = [false, false, false, false]
 
-        this.createNaletrow(0, 180,
+        this.createNavArrow(0, 180,
             this.viewportWidth - 40,
             this.viewportHeight - 40,
             "switchToPrep"
         )
 
-        this.createNaletrow(1, 0,
+        this.createNavArrow(1, 0,
             this.viewportWidth - 40,
             this.viewportHeight + 40,
             "switchToOrder"
         )
 
-        this.createNaletrow(2, 180,
+        this.createNavArrow(2, 180,
             this.viewportWidth - 40,
             this.viewportHeight * 2 - 40,
             "switchToCook"
         )
 
-        this.createNaletrow(3, 0,
+        this.createNavArrow(3, 0,
             this.viewportWidth - 40,
             this.viewportHeight * 2 + 40,
             "switchToPrep"
         )
     }
 
-    createNaletrow(index, rotation, x, y, f) {
+    createNavArrow(index, rotation, x, y, f) {
         // top arrow
         let arrow = this.add.image(
             x, y,
