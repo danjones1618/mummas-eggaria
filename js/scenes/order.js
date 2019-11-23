@@ -223,7 +223,6 @@ class OrderScene extends Phaser.Scene {
     panLoop(p, h){
         var type = "omlette"
         p.once("pointerup", () => {
-            this.setCursor(Cursors.SPATULA)
             h.setTexture("image_hob_on")
             p.play("pan_egg_crack")
             p.once("animationcomplete", () => {
@@ -238,7 +237,6 @@ class OrderScene extends Phaser.Scene {
                             p.anims.stop()
                             p.setFrame("pans_36")
                             h.setTexture("image_hob_off")
-                            this.setCursor(Cursors.POINTER)
                             this.panLoop(p)
                         })
                         p.once("animationcomplete", () => {
