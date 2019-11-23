@@ -216,13 +216,10 @@ class GameScene extends Phaser.Scene {
         this.load.image("image_ketchup_drop", "/res/ingredients/Ketchup_drop.gif")
         this.load.image("image_bin", "/res/props/bin.png")
         this.load.atlas('pans', '/res/props/pans.png', '/res/props/pans_atlas.json')
-        //this.cameras.default
     }
 
     create() {
         console.log("order::init")
-        //this.physics.startSystem(Phaser.Physics.ARCADE)
-        //var backgroundImage = this.cache.getImage("main_background")
         this.res = {}
         this.res.background = this.add.sprite(
             0, 0, //x, y
@@ -299,28 +296,6 @@ class GameScene extends Phaser.Scene {
 		//this.updateOrderButtons()
         this.setCursor(Cursors.POINTER)
     }
-	
-	/*
-	updateOrderButtons(){
-		let startX = 75
-		let spacingX = 75
-		let startY = this.viewportHeight - 150
-		for (let i = 0; i < this.initOrders.length; i++){
-			let order = this.add.image(
-				startX + (spacingX * i),
-				startY,
-				"image_order")
-			order.setInteractive({useHandCursor : true})
-				.setScale(this.buttonScale)
-			order.on("pointerover", () => {
-				order.setScale(this.buttonScale * 1.5)
-			})
-			order.on("pointerout", () => {
-				order.setScale(this.buttonScale)
-			})
-		}
-		
-	}*/
     
     createSaladButtons(){
         var plateRadius = 128
@@ -594,11 +569,6 @@ class GameScene extends Phaser.Scene {
         this.cameras.main.setScroll(0, this.viewportHeight * 2)
     }
 
-    // called every frame
-    update(time, delta) {
-        //this.cameras.default.scrollY = 0.05
-    }
-
     initOrders() {
         this.orders = []
     }
@@ -649,7 +619,6 @@ class GameScene extends Phaser.Scene {
     getRandomElementFromDict(array) {
 		let object = Object.values(array)
 		var i = Math.floor(Math.random() * object.length)
-		//console.log(i)
         return object[i]
     }
 
