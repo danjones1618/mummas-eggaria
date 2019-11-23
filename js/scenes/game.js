@@ -49,11 +49,6 @@ class Order {
 		this.toppingsToObject(toppings)
 		this.saladsToObject(salads)
         this.cursor = Cursors.POINTER
-        timedDestroy = this.time.addEvent({
-            delay: 10000 + Math.random()*5000,
-            callback: this.destroy(),
-            callbackScope:this
-        })
 	}
 
 	eggToObject(eggType){
@@ -151,6 +146,7 @@ class Order {
 	destroy(){
 		this.orderBackground.destroy()
 		this.orders.pop(this.index)
+    console.log("Destroying order")
 	}
 }
 
@@ -169,7 +165,7 @@ class GameScene extends Phaser.Scene {
         this.hobSizeScale = 3
         this.buttonScale = 3.0
         this.navArrowScale = 2
-        this.orderIngredientScale = 1.5
+        this.orderIngredientScale = 2
         this.orderIngredientSpacing = 25
         this.orderDefaultScale = 3
         this.orderHoverScale = 6
@@ -388,9 +384,13 @@ class GameScene extends Phaser.Scene {
           [Cursors.SCRAMBLED]:  0,
           [Cursors.OMLETTE]:    0,
         }
+        for (var i = 0; i < this.toDestroy.length; i++)
+            this.toDestroy[i].destroy()
+        this.toDestroy = []
     }
 
     addPlate(){
+        this.toDestroy = []
         let plateRadius = 128
         let startX = plateRadius + 75
         let startY = this.viewportHeight + plateRadius + 100
@@ -410,17 +410,19 @@ class GameScene extends Phaser.Scene {
                 this.viewportHeight + this.input.mousePointer.y,
                 image).setScale(this.buttonScale)
                 .setInteractive({ useHandCursor: false })
+            this.toDestroy.push(topping)
             topping.on("pointerup", () => {
                 if (this.getCursor() === Cursors.POINTER){
                     let k = topping.texture.key
-                    console.log(k)
                     this.setCursor(this.imageToCursor[k])
+                    this.toDestroy = this.toDestroy.filter((item) => {
+                        return item !== topping
+                    })
                     topping.destroy()
                 } else {
                     this.addTopping()
                 }
             })
-            console.log(topping)
             this.plateItems[this.getCursor()] += 1
             // Prevent adding multiple eggs
             this.setCursor(Cursors.POINTER)
@@ -637,13 +639,19 @@ class GameScene extends Phaser.Scene {
             startX,
 			startY,
             "image_order"
-        ).setScale(this.orderDefaultScale).setOrigin(0.5, 0.5)
+        ).setScale(this.orderDefaultScale)
+        //.setOrigin(0.5, 0.5)
         .setInteractive({userHandCursor : true})
+
         order.setBackground(orderBackground)
 		orderBackground.on("pointerover", () => {
             orderBackground.setScale(this.orderHoverScale)
 
+            console.log(orderBackground)
 
+            // work out dimensions
+            let ingredientsStartX = startX - ((orderBackground.width * this.orderHoverScale) / 2) + 5
+            let ingredientsStartY = startY - ((orderBackground.height * this.orderHoverScale) / 2) + 5
 
             group = this.add.group()
             let ingredientIndex = 0
@@ -652,8 +660,8 @@ class GameScene extends Phaser.Scene {
                     console.log("ingredient: %s", ingredients[i])
 					for (let j = 0; j < ingredients[i]; j++){
 						let ingredient = this.add.image(
-							startX + (this.orderIngredientSpacing * (j % 3)),
-							startY + (this.orderIngredientSpacing * (ingredientIndex + Math.floor(j / 3))),
+							ingredientsStartX + (this.orderIngredientSpacing * (j % 3)),
+							ingredientsStartY + (this.orderIngredientSpacing * (ingredientIndex + Math.floor(j / 3))),
 							Object.values(this.plateImages)[i]
                         ).setScale(this.orderIngredientScale)
                         ingredientIndex++
@@ -676,7 +684,15 @@ class GameScene extends Phaser.Scene {
 				console.log("nay")
 			}
 		})
+
 		order.pushToOrders(this.orders)
+
+
+	    this.time.addEvent({
+            delay: 10000 + Math.random()*5000,
+            callback: order.destroy(),
+            callbackScope:this
+        })
     }
 
     getRandomElementFromDict(array) {
