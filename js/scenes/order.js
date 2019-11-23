@@ -147,6 +147,8 @@ class OrderScene extends Phaser.Scene {
         this.createNavButtons()
 		
 		this.initOrders()
+        this.input.setDefaultCursor('url(/res/cursors/Whisk.gif), pointer')
+        console.log(document.getElementsByTagName("canvas")[0].style.cursor);
     }
 	
 	createSaladButtons(){
