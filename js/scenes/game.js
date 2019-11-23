@@ -663,8 +663,8 @@ class GameScene extends Phaser.Scene {
             orderBackground.setScale(this.orderHoverScale)
 
             // work out dimensions
-            let ingredientsStartX = startX - ((orderBackground.width * this.orderHoverScale) / 2) + 5
-            let ingredientsStartY = startY - ((orderBackground.height * this.orderHoverScale) / 2) + 5
+            let ingredientsStartX = startX - 10
+            let ingredientsStartY = startY - 10
 
             group = this.add.group()
             let ingredientIndex = 0
