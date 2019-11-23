@@ -159,7 +159,7 @@ class OrderScene extends Phaser.Scene {
 		var saladYOffset = 90
 		this.add.image(startX, startY, "image_plate")
 		//this.add.image(saladOffset, )
-		const saladImages = [
+		this.saladImages = [
 			"image_lettuce",
 			"image_onion",
 			"image_peppers",
@@ -168,30 +168,34 @@ class OrderScene extends Phaser.Scene {
 			"image_ketchup"
 		]
 		
-		this.saladStatuses = [false, false, false, false, false, false]
+		this.saladButtons = []
 		
-		for (let i = 0; i < saladImages.length; i++){
+		for (let i = 0; i < this.saladImages.length; i++){
             let x = (plateRadius * 2) + 25 + (saladXOffset * ((i %2) + 1))
             let y = this.viewportHeight + (saladYOffset * ((i % 3) + 1))
-			let salad = this.add.image(x, y, saladImages[i])
+			let salad = this.add.image(x, y, this.saladImages[i])
 				.setScale(this.saladScale)
 				.setInteractive({ userHandCursor: true })
-			salad.on("pointerover", () => {
-				salad.setScale(this.saladScale * 1.25)
+			salad.on("pointerdown", () => {
+				//salad.setScale(this.saladScale * 1.25)
+				this.updateSaladStatus(salad.texture.key)
 			})
-            salad.on("pointerout", () => {
-                salad.setScale(this.saladScale)
+            salad.on("pointerup", () => {
+                //salad.setScale(this.saladScale)
+				this.updateSaladStatus(salad.texture.key)
             })
+			this.saladButtons.push(salad)
         }
 	}
 	
 	updateSaladStatus(imageString){
 		for (let i = 0; i < this.saladImages.length; i++){
 			if (imageString == this.saladImages[i]){
-				this.saladStatuses[i] = true
+				this.saladButtons[i].setScale(this.saladScale * 1.25)
 			} else {
-				this.saladStatuses[i] = false
+				this.saladButtons[i].setScale(this.saladScale)
 			}
+			console.log("checking %s", imageString)
 		}
 	
 	}
