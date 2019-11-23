@@ -49,6 +49,11 @@ class Order {
 		this.toppingsToObject(toppings)
 		this.saladsToObject(salads)
         this.cursor = Cursors.POINTER
+        timedDestroy = this.time.addEvent({
+            delay: 10000 + Math.random()*5000, 
+            callback: this.destroy(), 
+            callbackScope:this
+        })
 	}
 
 	eggToObject(eggType){
@@ -661,7 +666,7 @@ class GameScene extends Phaser.Scene {
 			}
 		})
 		this.orders.push(order)
-		order.destroy()
+		//order.destroy()
     }
 
     getRandomElementFromDict(array) {
