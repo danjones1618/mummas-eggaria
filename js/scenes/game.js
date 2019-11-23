@@ -133,11 +133,11 @@ class Order {
 		}
 		return result
 	}
-	
+
 	setBackground(orderBackground){
 		this.orderBackground = orderBackground
 	}
-	
+
 	destroy(){
 		this.orderBackground.destroy()
 	}
@@ -377,9 +377,13 @@ class GameScene extends Phaser.Scene {
           [Cursors.SCRAMBLED]:  0,
           [Cursors.OMLETTE]:    0,
         }
+        for (var i = 0; i < this.toDestroy.length; i++)
+            this.toDestroy[i].destroy()
+        this.toDestroy = []
     }
 
     addPlate(){
+        this.toDestroy = []
         let plateRadius = 128
         let startX = plateRadius + 75
         let startY = this.viewportHeight + plateRadius + 100
@@ -387,7 +391,7 @@ class GameScene extends Phaser.Scene {
                         .setInteractive({ useHandCursor: false })
         this.resetPlateItems()
         plate.on("pointerup", () => {
-            this.addTopping() 
+            this.addTopping()
         })
     }
 
@@ -399,17 +403,19 @@ class GameScene extends Phaser.Scene {
                 this.viewportHeight + this.input.mousePointer.y,
                 image).setScale(this.buttonScale)
                 .setInteractive({ useHandCursor: false })
+            this.toDestroy.push(topping)
             topping.on("pointerup", () => {
                 if (this.getCursor() === Cursors.POINTER){
                     let k = topping.texture.key
-                    console.log(k)
                     this.setCursor(this.imageToCursor[k])
+                    this.toDestroy = this.toDestroy.filter((item) => {
+                        return item !== topping
+                    })
                     topping.destroy()
                 } else {
                     this.addTopping()
                 }
             })
-            console.log(topping)
             this.plateItems[this.getCursor()] += 1
             // Prevent adding multiple eggs
             this.setCursor(Cursors.POINTER)
@@ -439,7 +445,7 @@ class GameScene extends Phaser.Scene {
     updateButtons(imageString, scale){
         if (this.getCursor() !== Cursors.POINTER)
             return
-        
+
         for (let i = 0; i < this.buttons.length; i++){
             if (imageString == this.buttons[i].texture.key){
                 this.buttons[i].setScale(scale * 1.25)
@@ -658,7 +664,7 @@ class GameScene extends Phaser.Scene {
 				}
 			}
         })
-        
+
 		orderBackground.on("pointerout", () => {
 			orderBackground.setScale(this.orderDefaultScale)
 			group.destroy(true)
@@ -666,12 +672,19 @@ class GameScene extends Phaser.Scene {
 		orderBackground.on("pointerup", ()=> {
 			if (order.compareToPlate(this.plateItems)){
 				console.log("yay")
-				
+				order.destroy()
+
 			} else {
 				console.log("nay")
 			}
 		})
-		this.orders.push(order)
+        this.orders.push(order)
+        
+	    this.time.addEvent({
+            delay: 10000 + Math.random()*5000, 
+            callback: order.destroy(), 
+            callbackScope:this
+        })
     }
 
     getRandomElementFromDict(array) {
