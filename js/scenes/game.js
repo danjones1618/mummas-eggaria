@@ -649,7 +649,7 @@ class GameScene extends Phaser.Scene {
         // create the sprite group
         let group = null
 		let startX = Phaser.Math.Between(50, 400)
-        let startY = Phaser.Math.Between(200, 350)
+        let startY = Phaser.Math.Between(250, 350)
         console.log("placing order at %dx%d", startX, startY)
         let orderBackground = this.add.image(
             startX,
