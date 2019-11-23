@@ -278,7 +278,7 @@ class GameScene extends Phaser.Scene {
             [Cursors.HAM]:      "image_ham",
             [Cursors.KETCHUP]:  "image_ketchup_drop",
             [Cursors.LETTUCE]:  "image_lettuce",
-            [Cursors.MUSHROOMS]:"image_mushrroms",
+            [Cursors.MUSHROOMS]:"image_mushrooms",
             [Cursors.PEPPERS]:  "image_peppers",
             [Cursors.TOMATO]:   "image_tomato",
             [Cursors.ONION]:    "image_onion",
