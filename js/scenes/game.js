@@ -146,21 +146,23 @@ class GameScene extends Phaser.Scene {
         this.hobScale = 3 * 32
         this.hobSizeScale = 3
         this.buttonScale = 3.0
-        this.navArrowScale = 2
+        this.naletrowScale = 2
+        this.orderIngredientScale = 2.75
+        this.orderIngredientSpacing = 30
     }
 
     preload() {
         console.log("order::init")
 
         // create a progress bar
-        var width = 300
-        var height = 40
-        var margin = 5
+        let width = 300
+        let height = 40
+        let margin = 5
 
-        var startX = this.viewportWidth / 2 - width / 2
-        var startY = this.viewportHeight / 2 - height / 2
-        var progressBox = this.add.graphics()
-        var progressBar = this.add.graphics()
+        let startX = this.viewportWidth / 2 - width / 2
+        let startY = this.viewportHeight / 2 - height / 2
+        let progressBox = this.add.graphics()
+        let progressBar = this.add.graphics()
 
         progressBox.fillStyle(0x0000cc)
         progressBar.fillStyle(0x4db8ff)
@@ -298,11 +300,11 @@ class GameScene extends Phaser.Scene {
     }
     
     createSaladButtons(){
-        var plateRadius = 128
-        var startX = plateRadius + 75
-        var startY = this.viewportHeight + plateRadius + 100
-        var saladXOffset = 100
-        var saladYOffset = 90
+        let plateRadius = 128
+        let startX = plateRadius + 75
+        let startY = this.viewportHeight + plateRadius + 100
+        let saladXOffset = 100
+        let saladYOffset = 90
         this.saladImages = [
             "image_lettuce",
             "image_onion",
@@ -347,9 +349,9 @@ class GameScene extends Phaser.Scene {
     }
 
     addPlate(){
-        var plateRadius = 128
-        var startX = plateRadius + 75
-        var startY = this.viewportHeight + plateRadius + 100
+        let plateRadius = 128
+        let startX = plateRadius + 75
+        let startY = this.viewportHeight + plateRadius + 100
         let plate = this.add.image(startX, startY, "image_plate")
                         .setInteractive({ useHandCursor: false })
         this.resetPlateItems()
@@ -412,8 +414,8 @@ class GameScene extends Phaser.Scene {
     }
 
     createCookButtons(){
-        var startX = 100
-        var startY = this.viewportHeight*2
+        let startX = 100
+        let startY = this.viewportHeight*2
         // Create hob
         for (let x = 1; x <= 3; x++) {
             for (let y = 1; y <= 3; y++){
@@ -488,7 +490,7 @@ class GameScene extends Phaser.Scene {
     }
 
     createPan(x, y, h){
-        var p = this.add.sprite(x,y, "pans", "pans_36").setScale(this.hobSizeScale)
+        let p = this.add.sprite(x,y, "pans", "pans_36").setScale(this.hobSizeScale)
         p.setInteractive({ useHandCursor: false })
         p.on("pointerover", () => {
             p.setScale(this.hobSizeScale * 1.25)
@@ -502,32 +504,32 @@ class GameScene extends Phaser.Scene {
         this.arrows = {}
         this.arrows.arrowsClicked = [false, false, false, false]
 
-        this.createNavArrow(0, 180,
+        this.createNaletrow(0, 180,
             this.viewportWidth - 40,
             this.viewportHeight - 40,
             "switchToPrep"
         )
 
-        this.createNavArrow(1, 0,
+        this.createNaletrow(1, 0,
             this.viewportWidth - 40,
             this.viewportHeight + 40,
             "switchToOrder"
         )
 
-        this.createNavArrow(2, 180,
+        this.createNaletrow(2, 180,
             this.viewportWidth - 40,
             this.viewportHeight * 2 - 40,
             "switchToCook"
         )
 
-        this.createNavArrow(3, 0,
+        this.createNaletrow(3, 0,
             this.viewportWidth - 40,
             this.viewportHeight * 2 + 40,
             "switchToPrep"
         )
     }
 
-    createNavArrow(index, rotation, x, y, f) {
+    createNaletrow(index, rotation, x, y, f) {
         // top arrow
         let arrow = this.add.image(
             x, y,
@@ -535,10 +537,10 @@ class GameScene extends Phaser.Scene {
         )
 
         arrow.setInteractive({ useHandCursor: true })
-        .setScale(this.navArrowScale)
+        .setScale(this.naletrowScale)
         .setAngle(rotation)
         .on("pointerover", () => {
-            arrow.setScale(this.navArrowScale * 1.25)
+            arrow.setScale(this.naletrowScale * 1.25)
         }).on("pointerdown", () => {
             // clicked
             this.arrows.arrowsClicked[index] = true
@@ -551,7 +553,7 @@ class GameScene extends Phaser.Scene {
             if (this.arrows.arrowsClicked[index]) {
                 this.arrows.arrowsClicked[index] = false
             }
-            arrow.setScale(this.navArrowScale)
+            arrow.setScale(this.naletrowScale)
         })
 
         return arrow
@@ -582,7 +584,6 @@ class GameScene extends Phaser.Scene {
 		let startX = 75
 		let spacingX = 75
 		let startY = this.viewportHeight - 150
-		let ingredientSpacing = 25
         let background = this.add.image(
             startX + spacingX,
 			startY,
@@ -600,10 +601,10 @@ class GameScene extends Phaser.Scene {
 				if (orderArray[i] != 0){
 					for (let j = 0; j < orderArray[i]; j++){
 						let ingredient = this.add.image(
-							startX + spacingX + (ingredientSpacing * (((i+j) %3))) - 25,
-							startY + (ingredientSpacing * ((i % 4) - 1)),
+							startX + spacingX + (this.orderIngredientSpacing * (((i+j) %3))) - 25,
+							startY + (this.orderIngredientSpacing * ((i % 4) - 1)),
 							Object.values(this.plateImages)[i]
-						).setScale(1.5)
+						).setScale(this.orderIngredientScale)
 						//console.log(this.plateImages[i])
 						group.add(ingredient)
 					}
@@ -618,7 +619,7 @@ class GameScene extends Phaser.Scene {
 
     getRandomElementFromDict(array) {
 		let object = Object.values(array)
-		var i = Math.floor(Math.random() * object.length)
+		let i = Math.floor(Math.random() * object.length)
         return object[i]
     }
 
@@ -629,11 +630,11 @@ class GameScene extends Phaser.Scene {
         let toppings = []
         let salads = []
         // add 1-3 random toppings
-        for (var i = 0, r = Math.floor(Math.random() * 3 + 1); i < r; i++) {
+        for (let i = 0, r = Math.floor(Math.random() * 3 + 1); i < r; i++) {
             toppings.push(this.getRandomElementFromDict(Toppings))
         }
         // add 1-3 random salads
-        for (var i = 0, r = Math.floor(Math.random() * 3 + 1); i < r; i++) {
+        for (let i = 0, r = Math.floor(Math.random() * 3 + 1); i < r; i++) {
             salads.push(this.getRandomElementFromDict(Salads))
         }
 		console.log(type)
@@ -649,7 +650,7 @@ class GameScene extends Phaser.Scene {
     }
 
     getCursor(){
-        for (var prop in Cursors) {
+        for (let prop in Cursors) {
             let c = document.getElementsByTagName("canvas")[0].style.cursor
             if (Cursors[prop] === c)
                 return Cursors[prop]
