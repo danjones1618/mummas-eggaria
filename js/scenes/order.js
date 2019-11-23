@@ -182,35 +182,39 @@ class OrderScene extends Phaser.Scene {
         // Create hob
         for (var x = 1; x <= 3; x++) {
             for (var y = 1; y <= 3; y++){
-                this.add.image(startX + x * this.hobScale, startY + y * this.hobScale, "image_stove_off").setScale(this.hobSizeScale)
-                this.createPan(startX + x * this.hobScale, startY + y * this.hobScale)
+                var h = this.add.image(startX + x * this.hobScale, startY + y * this.hobScale, "image_stove_off").setScale(this.hobSizeScale)
+                this.createPan(startX + x * this.hobScale, startY + y * this.hobScale, h)
             }
         }
     }
 
     panLoop(p, h){
+        var type = "omlette"
         p.once("pointerup", () => {
+            h.setTexture("image_hob_on")
             p.play("pan_egg_crack")
             p.once("animationcomplete", () => {
-                p.play("pan_fried_shake")
+                p.play("pan_" + type + "_shake")
                 p.once("animationcomplete", () => {
-                    p.play("pan_fried_flip")
+                    p.play("pan_" + type + "_flip")
                     p.once("animationcomplete", () => {
-                        p.play("pan_fried_shake")
+                        p.play("pan_" + type + "_shake")
                         p.once("pointerup", () => {
                             console.log("cooked boi")
                             p.removeAllListeners("animationcomplete")
                             p.anims.stop()
                             p.setFrame("pans_36")
+                            h.setTexture("image_hob_off")
                             this.panLoop(p)
                         })
                         p.once("animationcomplete", () => {
-                            p.play("pan_fried_burnt")
+                            p.play("pan_" + type + "_burnt")
                             p.removeAllListeners("pointerup")
                             p.once("pointerup", () => {
                                 console.log("Burnt boi")
                                 p.anims.stop()
                                 p.setFrame("pans_36")
+                                h.setTexture("image_hob_off")
                                 this.panLoop(p)
                             })
                         })
@@ -220,7 +224,7 @@ class OrderScene extends Phaser.Scene {
         })
     }
 
-    createPan(x, y){
+    createPan(x, y, h){
         var p = this.add.sprite(x,y, "pans", "pans_36").setScale(this.hobSizeScale)
         p.setInteractive({ userHandCursor: true })
         p.on("pointerover", () => {
@@ -228,7 +232,7 @@ class OrderScene extends Phaser.Scene {
         }).on("pointerout", () => {
             p.setScale(this.hobSizeScale)
         })
-        this.panLoop(p, undefined)
+        this.panLoop(p, h)
     }
 
     createNavButtons() {
