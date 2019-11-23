@@ -694,7 +694,7 @@ class GameScene extends Phaser.Scene {
                     group = null
                 }
                 order.destroy()
-                createNewOrder()
+                this.createNewOrder()
 			} else {
 				console.log("nay")
 			}
