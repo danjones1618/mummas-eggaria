@@ -49,6 +49,7 @@ class Order {
 		this.toppingsToObject(toppings)
 		this.saladsToObject(salads)
         this.cursor = Cursors.POINTER
+        this.orders = null
         this.orderBackground = null
         this.timer = null
 	}
@@ -144,16 +145,22 @@ class Order {
         this.timer = timer
     }
 
-	pushToOrders(orders){
+	addSelfToOrders(orders){
 		this.orders = orders
 		orders.push(this)
 		this.index = orders.length - 1
 	}
 	destroy(){
-        this.orderBackground.destroy()
-        this.timer.destroy()
+        if (this.orderBackground != null) {
+            this.orderBackground.destroy()
+        }
+        if (this.timer != null) {
+            this.timer.destroy()
+        }
         console.log("destroying order")
-		this.orders.pop(this.index)
+		if (this.orders != null) {
+            this.orders.pop(this.index)
+        }
 	}
 }
 
