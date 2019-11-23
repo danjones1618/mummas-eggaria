@@ -150,8 +150,8 @@ class GameScene extends Phaser.Scene {
         this.hobSizeScale = 3
         this.buttonScale = 3.0
         this.navArrowScale = 2
-        this.orderIngredientScale = 2.25
-        this.orderIngredientSpacing = 50
+        this.orderIngredientScale = 1.5
+        this.orderIngredientSpacing = 25
         this.orderDefaultScale = 3
         this.orderHoverScale = 6
     }
@@ -555,7 +555,7 @@ class GameScene extends Phaser.Scene {
         }).on("pointerdown", () => {
             // clicked
             this.arrows.arrowsClicked[index] = true
-            arrow.setScale(this.navArrowScale)
+            arrow.setScale(this.navArrowScale * 0.9)
         }).on("pointerup", () => {
             if (this.arrows.arrowsClicked[index]) {
                 this.arrows.arrowsClicked[index] = false
@@ -588,34 +588,38 @@ class GameScene extends Phaser.Scene {
         this.orders = []
     }
 
-    onOrderCreated(order) {
+    addNewOrder(order) {
 		console.log(order)
 		let ingredients = Object.values(order.plateItems)
         // create the sprite group
         let group = null
-		let startX = 75 * this.orders.length
-		let spacingX = 75
-		let startY = this.viewportHeight - 150
+		let startX = Phaser.Math.Between(50, 400)
+        let startY = Phaser.Math.Between(200, 350)
+        console.log("placing order at %dx%d", startX, startY)
         let orderBackground = this.add.image(
-            startX + spacingX,
+            startX,
 			startY,
             "image_order"
-        ).setScale(this.orderDefaultScale)
+        ).setScale(this.orderDefaultScale).setOrigin(0.5, 0.5)
         .setInteractive({userHandCursor : true})
         
 		orderBackground.on("pointerover", () => {
-			orderBackground.setScale(this.orderHoverScale)
+            orderBackground.setScale(this.orderHoverScale)
+            
+            
 
-			group = this.add.group()
+            group = this.add.group()
+            let ingredientIndex = 0
 			for (let i = 0; i < ingredients.length; i++){
 				if (ingredients[i] != 0){
                     console.log("ingredient: %s", ingredients[i])
 					for (let j = 0; j < ingredients[i]; j++){
 						let ingredient = this.add.image(
-							startX + spacingX + (this.orderIngredientSpacing * (((i+j) %3))) - 25,
-							startY + (this.orderIngredientSpacing * ((i % 4) - 1)),
+							startX + (this.orderIngredientSpacing * (j % 3)),
+							startY + (this.orderIngredientSpacing * (ingredientIndex + Math.floor(j / 3))),
 							Object.values(this.plateImages)[i]
-						).setScale(this.orderIngredientScale)
+                        ).setScale(this.orderIngredientScale)
+                        ingredientIndex++
 						//console.log(this.plateImages[i])
 						group.add(ingredient)
 					}
@@ -662,7 +666,7 @@ class GameScene extends Phaser.Scene {
 		console.log(salads)
         let order = new Order(type, toppings, salads)
 		console.log(order)
-        this.onOrderCreated(order)
+        this.addNewOrder(order)
     }
 
     setCursor(cursor){
