@@ -317,36 +317,40 @@ class OrderScene extends Phaser.Scene {
         }
         p.once("pointerup", () => {
             let type = cursorToEgg[this.getCursor()]
-            h.setTexture("image_hob_on")
-            p.play("pan_egg_crack")
-            p.once("animationcomplete", () => {
-                p.play("pan_" + type + "_shake")
+            if (type === undefined)
+                this.panLoop(p, h)
+            else{
+                h.setTexture("image_hob_on")
+                p.play("pan_egg_crack")
                 p.once("animationcomplete", () => {
-                    p.play("pan_" + type + "_flip")
+                    p.play("pan_" + type + "_shake")
                     p.once("animationcomplete", () => {
-                        p.play("pan_" + type + "_shake")
-                        p.once("pointerup", () => {
-                            p.removeAllListeners("animationcomplete")
-                            p.anims.stop()
-                            p.setFrame("pans_36")
-                            h.setTexture("image_hob_off")
-                            this.setCursor(cursorNext[type])
-                            this.panLoop(p, h)
-                        })
+                        p.play("pan_" + type + "_flip")
                         p.once("animationcomplete", () => {
-                            p.play("pan_" + type + "_burnt")
-                            p.removeAllListeners("pointerup")
+                            p.play("pan_" + type + "_shake")
                             p.once("pointerup", () => {
-                                console.log("Burnt boi")
+                                p.removeAllListeners("animationcomplete")
                                 p.anims.stop()
                                 p.setFrame("pans_36")
                                 h.setTexture("image_hob_off")
+                                this.setCursor(cursorNext[type])
                                 this.panLoop(p, h)
+                            })
+                            p.once("animationcomplete", () => {
+                                p.play("pan_" + type + "_burnt")
+                                p.removeAllListeners("pointerup")
+                                p.once("pointerup", () => {
+                                    console.log("Burnt boi")
+                                    p.anims.stop()
+                                    p.setFrame("pans_36")
+                                    h.setTexture("image_hob_off")
+                                    this.panLoop(p, h)
+                                })
                             })
                         })
                     })
                 })
-            })
+            }
         })
     }
 
