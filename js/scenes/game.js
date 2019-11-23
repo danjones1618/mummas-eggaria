@@ -1,7 +1,7 @@
 // order scene
 const OrderState = {COMPLETE: 1, COOKING: 2, PLATING: 3, NOT_STARTED: 4,}
 const EggType ={FRIED: 1, OMELETTE: 2, SCRAMBLED: 3,}
-const Toppings = {PEPPERS: 1,HAM: 2,CHEESE: 3,RED_ONION: 4,TOMATOES: 5,MUSHROOM: 6,}
+const Toppings = {PEPPERS: 1,HAM: 2,CHEESE: 3,MUSHROOM: 6,}
 const Salads = {LETTUCE: 1,RED_ONION: 2,PEPPERS: 3,TOMATOES: 4,SLICED_BREAD: 5,KETCHUP: 6,}
 const Cursors = {
     POINTER:    'auto',
@@ -81,12 +81,6 @@ class Order {
 					break
 				case Toppings.CHEESE:
 					this.plateItems[Cursors.CHEESE] += 1
-					break
-				case Toppings.RED_ONION:
-					this.plateItems[Cursors.RED_ONION] += 1
-					break
-				case Toppings.TOMATOES:
-					this.plateItems[Cursors.TOMATO] += 1
 					break
 				case Toppings.MUSHROOM:
 					this.plateItems[Cursors.MUSHROOMS] += 1
@@ -725,11 +719,15 @@ class GameScene extends Phaser.Scene {
         let salads = []
         // add 1-3 random toppings
         for (let i = 0, r = Math.floor(Math.random() * 3 + 1); i < r; i++) {
-            toppings.push(this.getRandomElementFromDict(Toppings))
+            let e = this.getRandomElementFromDict(Toppings)
+            console.log("Adding topping: %s", e)
+            toppings.push(e)
         }
         // add 1-3 random salads
         for (let i = 0, r = Math.floor(Math.random() * 3 + 1); i < r; i++) {
-            salads.push(this.getRandomElementFromDict(Salads))
+            let e = this.getRandomElementFromDict(Salads)
+            console.log("Adding salad: %s", e)
+            salads.push(e)
         }
         let order = new Order(type, toppings, salads)
 		console.log(order)
