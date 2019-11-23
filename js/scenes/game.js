@@ -148,7 +148,7 @@ class GameScene extends Phaser.Scene {
         this.hobScale = 3 * 32
         this.hobSizeScale = 3
         this.buttonScale = 3.0
-        this.naletrowScale = 2
+        this.navArrowScale = 2
         this.orderIngredientScale = 2.25
         this.orderIngredientSpacing = 50
         this.orderDefaultScale = 3
@@ -547,23 +547,25 @@ class GameScene extends Phaser.Scene {
         )
 
         arrow.setInteractive({ useHandCursor: true })
-        .setScale(this.naletrowScale)
+        .setScale(this.navArrowScale)
         .setAngle(rotation)
         .on("pointerover", () => {
-            arrow.setScale(this.naletrowScale * 1.25)
+            arrow.setScale(this.navArrowScale * 1.1)
         }).on("pointerdown", () => {
             // clicked
             this.arrows.arrowsClicked[index] = true
+            arrow.setScale(this.navArrowScale)
         }).on("pointerup", () => {
             if (this.arrows.arrowsClicked[index]) {
                 this.arrows.arrowsClicked[index] = false
                 this[f]()
             }
+            arrow.setScale(this.navArrowScale * 1.1)
         }).on("onpointerout", () => {
             if (this.arrows.arrowsClicked[index]) {
                 this.arrows.arrowsClicked[index] = false
             }
-            arrow.setScale(this.naletrowScale)
+            arrow.setScale(this.navArrowScale)
         })
 
         return arrow
