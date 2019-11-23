@@ -20,6 +20,9 @@ const Cursors = {
     PEPPERS:    'url("/res/ingredients/Peppers.gif"), pointer',
     TOMATO:     'url("/res/ingredients/Tomato_slice.gif"), pointer',
     ONION:      'url("/res/ingredients/Red_onion.gif"), pointer',
+    FRIED:      'url("/res/cursors/Egg_fried.gif"), pointer',
+    SCRAMBLED:  'url("/res/cursors/Egg_scrambled_plate.png"), pointer',
+    OMLETTE:    'url("/res/cursors/Egg_omlette.gif"), pointer',
 }
 
 class OrderScene extends Phaser.Scene {
@@ -93,10 +96,13 @@ class OrderScene extends Phaser.Scene {
         this.load.image("image_peppers", "/res/ingredients/Peppers.gif")
         this.load.image("image_onion", "/res/ingredients/Red_onion.gif")
         this.load.image("image_tomato", "/res/ingredients/Tomato_slice.gif")
-        this.load.image("image_egg_fried", "/res/props/Egg_fried.gif")
-        this.load.image("image_egg_omelette", "/res/props/Egg_omlette.gif")
+        //this.load.image("image_egg_fried", "/res/props/Egg_fried.gif")
+        //this.load.image("image_egg_omelette", "/res/props/Egg_omlette.gif")
         this.load.image("image_egg_scrambled_piece", "/res/props/Egg_scrambled_piece.gif")
-        this.load.image("image_egg_scrambled_plate", "/res/props/Egg_scrambled_plate.gif")
+        //this.load.image("image_egg_scrambled_plate", "/res/props/Egg_scrambled_plate.gif")
+        this.load.image("image_egg_fried", "/res/cursors/Egg_fried.gif")
+        this.load.image("image_egg_omelette", "/res/cursors/Egg_omlette.gif")
+        this.load.image("image_egg_scrambled_plate", "/res/cursors/Egg_scrambled_plate.png")
         this.load.image("image_hob_on", "/res/props/hob_on.png")
         this.load.image("image_hob_off", "/res/props/hob_off.png")
         this.load.image("image_order", "/res/props/Order.gif")
@@ -169,6 +175,9 @@ class OrderScene extends Phaser.Scene {
             [Cursors.PEPPERS]:  "image_peppers",
             [Cursors.TOMATO]:   "image_tomato",
             [Cursors.ONION]:    "image_onion",
+            [Cursors.FRIED]:    "image_egg_fried",
+            [Cursors.SCRAMBLED]: "image_egg_scrambled_plate",
+            [Cursors.OMLETTE]:  "image_egg_omelette",
         }
 
         this.buttons = []
@@ -230,7 +239,6 @@ class OrderScene extends Phaser.Scene {
             this.updateButtons(image, scale)
         })
         this.buttons.push(b)
-        console.log(this.buttons)
     }
 	
 	updateButtons(imageString, scale){
@@ -278,6 +286,11 @@ class OrderScene extends Phaser.Scene {
             [Cursors.WHISK]:   "scrambled",
             [Cursors.SPATULA]: "omlette",
         }
+        let cursorNext = {
+            "fried":        [Cursors.FRIED],
+            "scrambled":    [Cursors.SCRAMBLED],
+            "omlette":      [Cursors.OMLETTE],
+        }
         p.once("pointerup", () => {
             let type = cursorToEgg[this.getCursor()]
             h.setTexture("image_hob_on")
@@ -289,12 +302,12 @@ class OrderScene extends Phaser.Scene {
                     p.once("animationcomplete", () => {
                         p.play("pan_" + type + "_shake")
                         p.once("pointerup", () => {
-                            console.log("cooked boi")
                             p.removeAllListeners("animationcomplete")
                             p.anims.stop()
                             p.setFrame("pans_36")
                             h.setTexture("image_hob_off")
-                            this.panLoop(p)
+                            this.setCursor(cursorNext[type])
+                            this.panLoop(p, h)
                         })
                         p.once("animationcomplete", () => {
                             p.play("pan_" + type + "_burnt")
@@ -304,7 +317,7 @@ class OrderScene extends Phaser.Scene {
                                 p.anims.stop()
                                 p.setFrame("pans_36")
                                 h.setTexture("image_hob_off")
-                                this.panLoop(p)
+                                this.panLoop(p, h)
                             })
                         })
                     })
