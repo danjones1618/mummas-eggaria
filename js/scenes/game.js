@@ -48,6 +48,7 @@ class Order {
 		this.eggToObject(eggType)
 		this.toppingsToObject(toppings)
 		this.saladsToObject(salads)
+        this.cursor = Cursors.POINTER
 	}
 
 	eggToObject(eggType){
@@ -663,14 +664,16 @@ class GameScene extends Phaser.Scene {
     }
 
     setCursor(cursor){
+        this.cursor = cursor
         this.input.setDefaultCursor(cursor)
     }
 
     getCursor(){
-        for (let prop in Cursors) {
+        return this.cursor
+        /*for (let prop in Cursors) {
             let c = document.getElementsByTagName("canvas")[0].style.cursor
             if (Cursors[prop] === c)
                 return Cursors[prop]
-        }
+        }*/
     }
 }
