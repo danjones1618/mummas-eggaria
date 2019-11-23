@@ -235,13 +235,16 @@ class OrderScene extends Phaser.Scene {
                         .setInteractive({ useHandCursor: false })
         this.resetPlateItems()
         plate.on("pointerup", () => {
-            let topping = this.add.image(
-                this.input.mousePointer.x,
-                this.viewportHeight + this.input.mousePointer.y,
-                this.plateImages[this.getCursor()])
-                .setScale(this.buttonScale)
-            this.plateItems[this.getCursor()] += 1
-            console.log(this.plateItems)
+            let image = this.plateImages[this.getCursor()]
+            if (image !== undefined){
+                let topping = this.add.image(
+                    this.input.mousePointer.x,
+                    this.viewportHeight + this.input.mousePointer.y,
+                    image).setScale(this.buttonScale)
+                this.plateItems[this.getCursor()] += 1
+                // Prevent adding multiple eggs
+                this.setCursor(Cursors.POINTER)
+            }
         })
     }
 
