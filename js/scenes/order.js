@@ -164,8 +164,7 @@ class OrderScene extends Phaser.Scene {
         this.anims.create({key: 'pan_scrambled_burnt',frames:
             this.anims.generateFrameNames('pans', {
                 start: 70,end: 70,prefix: 'pans_',}),
-            frameRate: 6,repeat: -1,})
-
+            frameRate: 6,repeat: -1,}) 
         this.plateImages = {
             [Cursors.BREAD]:    "image_bread",
             [Cursors.CHEESE]:   "image_cheese",
