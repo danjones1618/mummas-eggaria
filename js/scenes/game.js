@@ -5,24 +5,24 @@ const Toppings = {HAM: 1,CHEESE: 2,MUSHROOM: 3,}
 const Salads = {LETTUCE: 1,RED_ONION: 2,PEPPERS: 3,TOMATOES: 4,SLICED_BREAD: 5,KETCHUP: 6,}
 const Cursors = {
     POINTER:    'auto',
-    SPATULA:    'url("/res/cursors/Spatula.gif"), pointer',
-    WHISK:      'url("/res/cursors/Whisk.gif"), pointer',
-    BREAD:      'url("/res/ingredients/Bread.gif"), pointer',
-    CHEESE:     'url("/res/ingredients/Cheese.gif"), pointer',
-    EGG:        'url("/res/ingredients/egg.png"), pointer',
-    HAM:        'url("/res/ingredients/Ham.gif"), pointer',
-    KETCHUP:    'url("/res/ingredients/Ketchup.gif"), pointer',
-    LETTUCE:    'url("/res/ingredients/Lettuce.gif"), pointer',
-    MUSHROOMS:  'url("/res/ingredients/Mushrooms.gif"), pointer',
-    PEPPERS:    'url("/res/ingredients/Peppers.gif"), pointer',
-    TOMATO:     'url("/res/ingredients/Tomato_slice.gif"), pointer',
-    ONION:      'url("/res/ingredients/Red_onion.gif"), pointer',
-    FRIED:      'url("/res/cursors/Egg_fried.gif"), pointer',
-    SCRAMBLED:  'url("/res/cursors/Egg_scrambled_plate.png"), pointer',
-    OMLETTE:    'url("/res/cursors/Egg_omlette.gif"), pointer',
-    BFRIED:     'url("/res/cursors/burnt_fried.png"), pointer',
-    BSCRAMBLED: 'url("/res/cursors/burnt_scrambled.png"), pointer',
-    BOMLETTE:   'url("/res/cursors/burnt_omlette.png"), pointer',
+    SPATULA:    'url("res/cursors/Spatula.gif"), pointer',
+    WHISK:      'url("res/cursors/Whisk.gif"), pointer',
+    BREAD:      'url("res/ingredients/Bread.gif"), pointer',
+    CHEESE:     'url("res/ingredients/Cheese.gif"), pointer',
+    EGG:        'url("res/ingredients/egg.png"), pointer',
+    HAM:        'url("res/ingredients/Ham.gif"), pointer',
+    KETCHUP:    'url("res/ingredients/Ketchup.gif"), pointer',
+    LETTUCE:    'url("res/ingredients/Lettuce.gif"), pointer',
+    MUSHROOMS:  'url("res/ingredients/Mushrooms.gif"), pointer',
+    PEPPERS:    'url("res/ingredients/Peppers.gif"), pointer',
+    TOMATO:     'url("res/ingredients/Tomato_slice.gif"), pointer',
+    ONION:      'url("res/ingredients/Red_onion.gif"), pointer',
+    FRIED:      'url("res/cursors/Egg_fried.gif"), pointer',
+    SCRAMBLED:  'url("res/cursors/Egg_scrambled_plate.png"), pointer',
+    OMLETTE:    'url("res/cursors/Egg_omlette.gif"), pointer',
+    BFRIED:     'url("res/cursors/burnt_fried.png"), pointer',
+    BSCRAMBLED: 'url("res/cursors/burnt_scrambled.png"), pointer',
+    BOMLETTE:   'url("res/cursors/burnt_omlette.png"), pointer',
 }
 
 class Order {
@@ -214,36 +214,36 @@ class GameScene extends Phaser.Scene {
             console.log("loading::complete")
         })
 
-        this.load.image("image_main_background", "/res/scenes/main_scene.png")
-        this.load.image("image_nav_arrow", "/res/props/arrow.png")
-        this.load.image("image_stove_off", "/res/props/hob_off.png")
-        this.load.image("image_spatula", "/res/cursors/Spatula.gif")
-        this.load.image("image_whisk", "/res/cursors/Whisk.gif")
-        this.load.image("image_spatula", "/res/cursors/Spatula.gif")
-        this.load.image("image_bread", "/res/ingredients/Bread.gif")
-        this.load.image("image_cheese", "/res/ingredients/Cheese.gif")
-        this.load.image("image_egg", "/res/ingredients/egg.png")
-        this.load.image("image_ham", "/res/ingredients/Ham.gif")
-        this.load.image("image_ketchup", "/res/ingredients/Ketchup.gif")
-        this.load.image("image_lettuce", "/res/ingredients/Lettuce.gif")
-        this.load.image("image_mushrooms", "/res/ingredients/Mushrooms.gif")
-        this.load.image("image_peppers", "/res/ingredients/Peppers.gif")
-        this.load.image("image_onion", "/res/ingredients/Red_onion.gif")
-        this.load.image("image_tomato", "/res/ingredients/Tomato_slice.gif")
-        //this.load.image("image_egg_fried", "/res/props/Egg_fried.gif")
-        //this.load.image("image_egg_omelette", "/res/props/Egg_omlette.gif")
-        this.load.image("image_egg_scrambled_piece", "/res/props/Egg_scrambled_piece.gif")
-        //this.load.image("image_egg_scrambled_plate", "/res/props/Egg_scrambled_plate.gif")
-        this.load.image("image_egg_fried", "/res/cursors/Egg_fried.gif")
-        this.load.image("image_egg_omelette", "/res/cursors/Egg_omlette.gif")
-        this.load.image("image_egg_scrambled_plate", "/res/cursors/Egg_scrambled_plate.png")
-        this.load.image("image_hob_on", "/res/props/hob_on.png")
-        this.load.image("image_hob_off", "/res/props/hob_off.png")
-        this.load.image("image_order", "/res/props/Order.gif")
-        this.load.image("image_plate", "/res/props/plate.png")
-        this.load.image("image_ketchup_drop", "/res/ingredients/Ketchup_drop.gif")
-        this.load.image("image_bin", "/res/props/bin.png")
-        this.load.atlas('pans', '/res/props/pans.png', '/res/props/pans_atlas.json')
+        this.load.image("image_main_background", "res/scenes/main_scene.png")
+        this.load.image("image_nav_arrow", "res/props/arrow.png")
+        this.load.image("image_stove_off", "res/props/hob_off.png")
+        this.load.image("image_spatula", "res/cursors/Spatula.gif")
+        this.load.image("image_whisk", "res/cursors/Whisk.gif")
+        this.load.image("image_spatula", "res/cursors/Spatula.gif")
+        this.load.image("image_bread", "res/ingredients/Bread.gif")
+        this.load.image("image_cheese", "res/ingredients/Cheese.gif")
+        this.load.image("image_egg", "res/ingredients/egg.png")
+        this.load.image("image_ham", "res/ingredients/Ham.gif")
+        this.load.image("image_ketchup", "res/ingredients/Ketchup.gif")
+        this.load.image("image_lettuce", "res/ingredients/Lettuce.gif")
+        this.load.image("image_mushrooms", "res/ingredients/Mushrooms.gif")
+        this.load.image("image_peppers", "res/ingredients/Peppers.gif")
+        this.load.image("image_onion", "res/ingredients/Red_onion.gif")
+        this.load.image("image_tomato", "res/ingredients/Tomato_slice.gif")
+        //this.load.image("image_egg_fried", "res/props/Egg_fried.gif")
+        //this.load.image("image_egg_omelette", "res/props/Egg_omlette.gif")
+        this.load.image("image_egg_scrambled_piece", "res/props/Egg_scrambled_piece.gif")
+        //this.load.image("image_egg_scrambled_plate", "res/props/Egg_scrambled_plate.gif")
+        this.load.image("image_egg_fried", "res/cursors/Egg_fried.gif")
+        this.load.image("image_egg_omelette", "res/cursors/Egg_omlette.gif")
+        this.load.image("image_egg_scrambled_plate", "res/cursors/Egg_scrambled_plate.png")
+        this.load.image("image_hob_on", "res/props/hob_on.png")
+        this.load.image("image_hob_off", "res/props/hob_off.png")
+        this.load.image("image_order", "res/props/Order.gif")
+        this.load.image("image_plate", "res/props/plate.png")
+        this.load.image("image_ketchup_drop", "res/ingredients/Ketchup_drop.gif")
+        this.load.image("image_bin", "res/props/bin.png")
+        this.load.atlas('pans', 'res/props/pans.png', 'res/props/pans_atlas.json')
     }
 
     create() {

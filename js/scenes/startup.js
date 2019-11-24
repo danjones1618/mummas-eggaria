@@ -8,12 +8,12 @@ class StartupScene extends Phaser.Scene
 
     preload()
     {
-        //this.load.image("startup-logo", "/res/")
-        this.load.image("defaultTexture", "/res/startup/Play_button.gif")
-        this.load.image("pressedTexture", "/res/startup/Play_button_pressed.gif")
-        this.load.image("splash", "/res/website/Mummas_eggaria.png")
-        this.load.image("dark", "/res/startup/Dark_button.gif")
-        this.load.image("darkPressed", "/res/startup/dark_button_pressed.gif")
+        //this.load.image("startup-logo", "res/")
+        this.load.image("defaultTexture", "res/startup/Play_button.gif")
+        this.load.image("pressedTexture", "res/startup/Play_button_pressed.gif")
+        this.load.image("splash", "res/website/Mummas_eggaria.png")
+        this.load.image("dark", "res/startup/Dark_button.gif")
+        this.load.image("darkPressed", "res/startup/dark_button_pressed.gif")
     }
 
     init()
