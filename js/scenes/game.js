@@ -535,6 +535,7 @@ class GameScene extends Phaser.Scene {
                                     if (this.getCursor() !== Cursors.POINTER)
                                         return
                                     p.anims.stop()
+                                    p.removeAllListeners("pointerup")
                                     p.setFrame("pans_36")
                                     h.setTexture("image_hob_off")
                                     this.setCursor(cursorNext["b" + type])
@@ -672,7 +673,6 @@ class GameScene extends Phaser.Scene {
 							Object.values(this.plateImages)[i]
                         ).setScale(this.orderIngredientScale)
                         ingredientIndex++
-						//console.log(this.plateImages[i])
 						group.add(ingredient)
 					}
 				}
