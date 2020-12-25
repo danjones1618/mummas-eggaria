@@ -1,6 +1,8 @@
 # Mummas Eggaria
 A game made in 24 hours for the [CSS Bristol 2019 Game Jam](https://cssbristol.co.uk/events/2019_11_22_Explore_week_game_jam/) on the theme of **eggs**
 
+Play it [here](https://eggaria.danjones.dev)
+
 Made with love by
 - [Bogdan Dumitrescu](https://github.com/bogdumi)
 - [Daniel Jones](https://github.com/danjones1618)
